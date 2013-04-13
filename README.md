@@ -17,4 +17,5 @@ The **complete analysis** of this example can be found [here](https://github.com
 **NOTE**: Right now, SEA uses REIL code as input, to analyze a path. Unfortunately, REIL can be **only** generated from an executable file using [BinNavi](http://www.zynamics.com/binnavi.html) which runs in the top of [IDA-Pro](https://www.hex-rays.com/products/ida/index.shtml) (two proprietary and expensive programs)
 Hopefully, this will change soon when SEA supports open frameworks for binary analysis like Bincoa or BAP.
 
-Documentation, examples and more can be found in the [wiki](https://github.com/neuromancer/SEA/wiki). Collaboration and feedback is greatly appreciated!.
+Documentation, examples and more can be found in the [wiki](https://github.com/neuromancer/SEA/wiki). 
+Discusson for support or collaboration is available in #sea-tool @ irc.freenode.net
