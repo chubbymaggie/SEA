@@ -1,14 +1,18 @@
 ### Description
 
-"Symbolic Exploit Assistant" ( **SEA** ) is a small tool designed to assist the discovery and construction of exploits in binary programs. SEA is open source (GPL3) and is developed in colaboration between the research institutes [CIFASIS](http://www.cifasis-conicet.gov.ar/) (Rosario, Argentina) and [VERIMAG](http://www-verimag.imag.fr) (Grenoble, France) in an effort to improve security in binary programs.
+"Symbolic Exploit Assistant" ( **SEA** ) is a small tool designed to assist the discovery and construction of exploits in binary programs. SEA is free software (GPL3) and includes a minimal toolkit (BSD) to quickly develop binary analisys tools in Python.
+
+This project is developed in colaboration between the research institutes [CIFASIS](http://www.cifasis-conicet.gov.ar/) (Rosario, Argentina) and [VERIMAG](http://www-verimag.imag.fr) (Grenoble, France) in an effort to improve security in binary programs.
 
 
 ### Features
 
+* Fully symbolic analysis
 * Assisted exploitation of stack overflow
 * Assisted exploitation of dangling pointers
-* Detection of unfeasible paths
+* Detection of unfeasible paths.
 * Detection of heap overflow, memory leaks and use-after-free.
+* Intra-procedual support (partial)
 
 ### Quick Start
 
