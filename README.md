@@ -23,7 +23,7 @@ Another interesting example to test detection of memory use is:
 
     ./SEA.py tests/reil/uaf_1.reil
 
-An **explained analysis** of it is [here](https://github.com/neuromancer/SEA/wiki/Use-after-free-(1)).
+An **explained analysis** of it is [here](https://github.com/neuromancer/SEA/wiki/Use-after-free-1).
 
 ### There is always a catch..
 
