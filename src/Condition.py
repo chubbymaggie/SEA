@@ -22,8 +22,10 @@ sys.path.append("z3py/build/")
 
 import z3
 
-from Instruction import *
-from Operand import *
+from core import *
+
+#from Instruction import *
+#from Operand import *
 from MemVars import Memvars
 
 def mkArray(name):

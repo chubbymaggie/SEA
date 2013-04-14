@@ -17,22 +17,24 @@
     Copyright 2013 by neuromancer
 """
 
-from Trace       import REIL_Trace
+from core        import *
+
+#from Trace       import REIL_Trace
 from Inputs      import parse_inputs
 from Memory      import MemAccessREIL
 from Parameters  import FuncParametersREIL
 from Callstack   import CallstackREIL
 from Allocation  import Allocation
 
-from Instruction import *
-from Reil        import parse_reil
-from Operand     import *
+#from Instruction import *
+#from Reil        import parse_reil
+#from Operand     import *
 
 
 def mkTrace(trace_filename, first, last, raw_inputs):
     
     print "Loading trace.."
-    reil_code = REIL_Trace(trace_filename, first, last)
+    reil_code = REIL_Path(trace_filename, first, last)
     
     Inputs = parse_inputs(raw_inputs)
     
@@ -60,11 +62,11 @@ def mkTrace(trace_filename, first, last, raw_inputs):
     
     print "Detecting memory accesses and function parameters.."
   
-    for (end,ins_str) in enumerate(reil_code):
-      pins = parse_reil(ins_str)
-      ins = Instruction(pins,None)
+    for (end,pins) in enumerate(reil_code):
+      #pins = parse_reil(ins_str)
+      ins = REILInstruction(pins,None)
       
-      Callstack.nextInstruction(ins_str)
+      Callstack.nextInstruction(pins)
       
       if ins.instruction in ["stm", "ldm"]: 
         MemAccess.detectMemAccess(reil_code[start:end+1], Callstack, Inputs, end)

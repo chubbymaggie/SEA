@@ -19,11 +19,13 @@
 
 from SSA import SSA
 
-from Instruction import *
+from core import *
+
+#from Instruction import *
 from Function    import *
 from Condition   import *
-from Reil        import parse_reil
-from Operand     import *
+#from Reil        import parse_reil
+#from Operand     import *
 from SMT         import SMT, Solution
 from Typing      import *#detectType, mkVal, addAditionalConditions
 
@@ -82,7 +84,7 @@ def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = F
   
   ssa.getMap(mvars, set(), set())
 
-  for ins_str in inss:
+  for pins in inss:
     #print inss.current, "->", ins_str.strip("\n")
     #print ins_str.strip("\n")
     #for v in mvars:
@@ -90,8 +92,8 @@ def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = F
     #
     #print ""
     #
-    pins = parse_reil(ins_str)
-    ins = Instruction(pins, memory.getAccess(counter), mem_regs = False)
+    #pins = parse_reil(ins_str)
+    ins = REILInstruction(pins, memory.getAccess(counter), mem_regs = False)
   
     ins_write_vars = set(ins.getWriteVarOperands())
     ins_read_vars = set(ins.getReadVarOperands())
@@ -121,7 +123,7 @@ def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = F
     # we update the counter 
     counter = counter - 1    
     # we update the current call for next instruction
-    callstack.prevInstruction(ins_str) 
+    callstack.prevInstruction(pins) 
   
   if val_type == None:
     val_type = "imm"
@@ -185,13 +187,13 @@ def getPathConditions(trace):
   # we start without free variables
   fvars = set()
 
-  for ins_str in inss:
+  for pins in inss:
     #print ins_str.strip("\n")
     #for v in mvars:
     #  print v,
     #   
-    pins = parse_reil(ins_str)
-    ins = Instruction(pins, memory.getAccess(counter), mem_regs = False)  
+    #pins = parse_reil(ins_str)
+    ins = REILInstruction(pins, memory.getAccess(counter), mem_regs = False)  
   
     ins_write_vars = set(ins.getWriteVarOperands())
     ins_read_vars = set(ins.getReadVarOperands())
@@ -242,7 +244,7 @@ def getPathConditions(trace):
     # we update the counter 
     counter = counter - 1    
     # we update the current call for next instruction
-    callstack.prevInstruction(ins_str) 
+    callstack.prevInstruction(pins) 
   
   #for v in mvars:
   #  print v

@@ -17,9 +17,12 @@
     Copyright 2013 by neuromancer
 """
 
-from Instruction import *
-from Reil        import parse_reil
-from Operand     import *
+
+from core        import *
+
+#from Instruction import *
+#from Reil        import parse_reil
+#from Operand     import *
 from Common      import getTypedValueFromCode
   
 class MemAccess:
@@ -52,8 +55,8 @@ class MemAccessREIL(MemAccess):
 
   def detectMemAccess(self, reil_code, callstack, inputs, counter):
     
-    pins = parse_reil(reil_code[-1])
-    ins = Instruction(pins,None)
+    pins = reil_code[-1]
+    ins = REILInstruction(pins,None)
   
     assert(ins.instruction in ["stm", "ldm"])
     addr_op = ins.getMemReg()

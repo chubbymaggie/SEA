@@ -22,9 +22,9 @@
 import sys
 import argparse
 
-from Prelude            import mkTrace
-from Common             import getPathConditions
-from JumpConditions     import getJumpConditions
+from src.Prelude            import mkTrace
+from src.Common             import getPathConditions
+from src.JumpConditions     import getJumpConditions
 
 parser = argparse.ArgumentParser(description='Symbolic Exploit Assistant.')
 parser.add_argument('trace_filename', metavar='trace', type=str,
