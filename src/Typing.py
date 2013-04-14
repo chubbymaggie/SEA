@@ -16,8 +16,8 @@
 
     Copyright 2013 by neuromancer
 """
-
-from Operand     import *
+from core import *
+#from Operand     import *
 from Condition   import *
 
 def getInitialConditionsCall(callstack):

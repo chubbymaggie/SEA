@@ -16,8 +16,9 @@
 
     Copyright 2013 by neuromancer
 """
+from core import *
 
-from Operand import *
+#from Operand import *
 
 class Function:
   """An abstract function class"""

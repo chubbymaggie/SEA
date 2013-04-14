@@ -19,10 +19,12 @@
 
 import SSA
 
-from Instruction import *
+from core import *
+
+#from Instruction import *
 from Condition   import *
 from SMT         import SMT
-from Reil        import parse_reil
+#from Reil        import parse_reil
 
 def getPathConditions(trace, filename): 
 

@@ -17,8 +17,10 @@
     Copyright 2013 by neuromancer
 """
 
-from Condition   import *
-from Operand     import *
+from core import *
+
+#from Condition   import *
+#from Operand     import *
 
 def parse_inputs(inputs):
   
