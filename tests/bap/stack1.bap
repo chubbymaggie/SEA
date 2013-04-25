@@ -1,0 +1,146 @@
+addr 0x8048494 @asm "push   %ebp"
+label pc_0x8048494
+T_t:u32 = R_EBP:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t:u32
+addr 0x8048495 @asm "mov    %esp,%ebp"
+label pc_0x8048495
+R_EBP:u32 = R_ESP:u32
+addr 0x8048497 @asm "and    $0xfffffff0,%esp"
+label pc_0x8048497
+R_ESP:u32 = R_ESP:u32 & 0xfffffff0:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x804849a @asm "sub    $0x70,%esp"
+label pc_0x804849a
+T_t_79:u32 = R_ESP:u32
+R_ESP:u32 = R_ESP:u32 - 0x70:u32
+R_CF:bool = T_t_79:u32 < 0x70:u32
+R_OF:bool = high:bool((T_t_79:u32 ^ 0x70:u32) & (T_t_79:u32 ^ R_ESP:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_ESP:u32 ^ T_t_79:u32 ^ 0x70:u32))
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x804849d @asm "mov    %gs:0x14,%eax"
+label pc_0x804849d
+R_EAX:u32 = mem:?u32[R_GS_BASE:u32 + 0x14:u32, e_little]:u32
+addr 0x80484a3 @asm "mov    %eax,0x6c(%esp)"
+label pc_0x80484a3
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x6c:u32, e_little]:u32 = R_EAX:u32
+addr 0x80484a7 @asm "xor    %eax,%eax"
+label pc_0x80484a7
+R_EAX:u32 = 0:u32
+R_AF:bool = unknown "AF is undefined after xor":bool
+R_ZF:bool = true
+R_PF:bool = true
+R_OF:bool = false
+R_CF:bool = false
+R_SF:bool = false
+addr 0x80484a9 @asm "mov    $0x80485d0,%eax"
+label pc_0x80484a9
+R_EAX:u32 = 0x80485d0:u32
+addr 0x80484ae @asm "lea    0x18(%esp),%edx"
+label pc_0x80484ae
+R_EDX:u32 = R_ESP:u32 + 0x18:u32
+addr 0x80484b2 @asm "mov    %edx,0x8(%esp)"
+label pc_0x80484b2
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = R_EDX:u32
+addr 0x80484b6 @asm "lea    0x1c(%esp),%edx"
+label pc_0x80484b6
+R_EDX:u32 = R_ESP:u32 + 0x1c:u32
+addr 0x80484ba @asm "mov    %edx,0x4(%esp)"
+label pc_0x80484ba
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EDX:u32
+addr 0x80484be @asm "mov    %eax,(%esp)"
+label pc_0x80484be
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80484c1 @asm "call   0x08048380"
+label pc_0x80484c1
+T_target:u32 = 0x8048380:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80484c6:u32
+jmp 0x8048380:u32 @str "call"
+addr 0x80484c6 @asm "lea    0x1c(%esp),%eax"
+label pc_0x80484c6
+R_EAX:u32 = R_ESP:u32 + 0x1c:u32
+addr 0x80484ca @asm "mov    %eax,(%esp)"
+label pc_0x80484ca
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80484cd @asm "call   0x08048390"
+label pc_0x80484cd
+T_target_81:u32 = 0x8048390:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80484d2:u32
+jmp 0x8048390:u32 @str "call"
+addr 0x80484d2 @asm "mov    0x18(%esp),%eax"
+label pc_0x80484d2
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x18:u32, e_little]:u32
+addr 0x80484d6 @asm "cmp    $0x41424344,%eax"
+label pc_0x80484d6
+T_t_82:u32 = R_EAX:u32 - 0x41424344:u32
+R_CF:bool = R_EAX:u32 < 0x41424344:u32
+R_OF:bool =
+  high:bool((R_EAX:u32 ^ 0x41424344:u32) & (R_EAX:u32 ^ T_t_82:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (T_t_82:u32 ^ R_EAX:u32 ^ 0x41424344:u32))
+R_PF:bool =
+  ~low:bool(T_t_82:u32 >> 7:u32 ^ T_t_82:u32 >> 6:u32 ^ T_t_82:u32 >> 5:u32 ^
+            T_t_82:u32 >> 4:u32 ^ T_t_82:u32 >> 3:u32 ^ T_t_82:u32 >> 2:u32 ^
+            T_t_82:u32 >> 1:u32 ^ T_t_82:u32)
+R_SF:bool = high:bool(T_t_82:u32)
+R_ZF:bool = 0:u32 == T_t_82:u32
+addr 0x80484db @asm "jne    0x080484e9"
+label pc_0x80484db
+cjmp ~R_ZF:bool, 0x80484e9:u32, "nocjmp0"
+label nocjmp0
+addr 0x80484dd @asm "movl   $0x80485e8,(%esp)"
+label pc_0x80484dd
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80485e8:u32
+addr 0x80484e4 @asm "call   0x080483b0"
+label pc_0x80484e4
+T_target_83:u32 = 0x80483b0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80484e9:u32
+jmp 0x80483b0:u32 @str "call"
+addr 0x80484e9 @asm "mov    0x6c(%esp),%edx"
+label pc_0x80484e9
+R_EDX:u32 = mem:?u32[R_ESP:u32 + 0x6c:u32, e_little]:u32
+addr 0x80484ed @asm "xor    %gs:0x14,%edx"
+label pc_0x80484ed
+R_EDX:u32 = R_EDX:u32 ^ mem:?u32[R_GS_BASE:u32 + 0x14:u32, e_little]:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after xor":bool
+R_PF:bool =
+  ~low:bool(R_EDX:u32 >> 7:u32 ^ R_EDX:u32 >> 6:u32 ^ R_EDX:u32 >> 5:u32 ^
+            R_EDX:u32 >> 4:u32 ^ R_EDX:u32 >> 3:u32 ^ R_EDX:u32 >> 2:u32 ^
+            R_EDX:u32 >> 1:u32 ^ R_EDX:u32)
+R_SF:bool = high:bool(R_EDX:u32)
+R_ZF:bool = 0:u32 == R_EDX:u32
+addr 0x80484f4 @asm "je     0x080484fb"
+label pc_0x80484f4
+cjmp R_ZF:bool, 0x80484fb:u32, "nocjmp1"
+label nocjmp1
+addr 0x80484f6 @asm "call   0x080483a0"
+label pc_0x80484f6
+T_target_84:u32 = 0x80483a0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80484fb:u32
+jmp 0x80483a0:u32 @str "call"
+addr 0x80484fb @asm "leave  "
+label pc_0x80484fb
+R_ESP:u32 = R_EBP:u32
+R_EBP:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+
+

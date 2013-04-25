@@ -1,0 +1,3933 @@
+addr 0x8049463 @asm "push   %ebp"
+label pc_0x8049463
+T_t:u32 = R_EBP:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t:u32
+addr 0x8049464 @asm "mov    %esp,%ebp"
+label pc_0x8049464
+R_EBP:u32 = R_ESP:u32
+addr 0x8049466 @asm "and    $0xfffffff0,%esp"
+label pc_0x8049466
+R_ESP:u32 = R_ESP:u32 & 0xfffffff0:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x8049469 @asm "sub    $0x70,%esp"
+label pc_0x8049469
+T_t_79:u32 = R_ESP:u32
+R_ESP:u32 = R_ESP:u32 - 0x70:u32
+R_CF:bool = T_t_79:u32 < 0x70:u32
+R_OF:bool = high:bool((T_t_79:u32 ^ 0x70:u32) & (T_t_79:u32 ^ R_ESP:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_ESP:u32 ^ T_t_79:u32 ^ 0x70:u32))
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x804946c @asm "mov    0xc(%ebp),%eax"
+label pc_0x804946c
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32
+addr 0x804946f @asm "mov    %eax,0x2c(%esp)"
+label pc_0x804946f
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x2c:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049473 @asm "mov    %gs:0x14,%eax"
+label pc_0x8049473
+R_EAX:u32 = mem:?u32[R_GS_BASE:u32 + 0x14:u32, e_little]:u32
+addr 0x8049479 @asm "mov    %eax,0x6c(%esp)"
+label pc_0x8049479
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x6c:u32, e_little]:u32 = R_EAX:u32
+addr 0x804947d @asm "xor    %eax,%eax"
+label pc_0x804947d
+R_EAX:u32 = 0:u32
+R_AF:bool = unknown "AF is undefined after xor":bool
+R_ZF:bool = true
+R_PF:bool = true
+R_OF:bool = false
+R_CF:bool = false
+R_SF:bool = false
+addr 0x804947f @asm "cmpl   $0x3,0x8(%ebp)"
+label pc_0x804947f
+T_t_80:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 - 3:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 < 3:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 ^ 3:u32) &
+            (mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 ^ T_t_80:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_80:u32 ^ mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 ^ 3:u32))
+R_PF:bool =
+  ~low:bool(T_t_80:u32 >> 7:u32 ^ T_t_80:u32 >> 6:u32 ^ T_t_80:u32 >> 5:u32 ^
+            T_t_80:u32 >> 4:u32 ^ T_t_80:u32 >> 3:u32 ^ T_t_80:u32 >> 2:u32 ^
+            T_t_80:u32 >> 1:u32 ^ T_t_80:u32)
+R_SF:bool = high:bool(T_t_80:u32)
+R_ZF:bool = 0:u32 == T_t_80:u32
+addr 0x8049483 @asm "je     0x080494b1"
+label pc_0x8049483
+cjmp R_ZF:bool, 0x80494b1:u32, "nocjmp0"
+label nocjmp0
+addr 0x8049485 @asm "mov    0x2c(%esp),%eax"
+label pc_0x8049485
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x2c:u32, e_little]:u32
+addr 0x8049489 @asm "mov    (%eax),%ecx"
+label pc_0x8049489
+R_ECX:u32 = mem:?u32[R_EAX:u32, e_little]:u32
+addr 0x804948b @asm "mov    $0x8049982,%edx"
+label pc_0x804948b
+R_EDX:u32 = 0x8049982:u32
+addr 0x8049490 @asm "mov    0x804b0a0,%eax"
+label pc_0x8049490
+R_EAX:u32 = mem:?u32[0x804b0a0:u32, e_little]:u32
+addr 0x8049495 @asm "mov    %ecx,0x8(%esp)"
+label pc_0x8049495
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = R_ECX:u32
+addr 0x8049499 @asm "mov    %edx,0x4(%esp)"
+label pc_0x8049499
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EDX:u32
+addr 0x804949d @asm "mov    %eax,(%esp)"
+label pc_0x804949d
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80494a0 @asm "call   0x080488f0"
+label pc_0x80494a0
+T_target:u32 = 0x80488f0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80494a5:u32
+jmp 0x80488f0:u32 @str "call"
+addr 0x80494a5 @asm "movl   $0xffffffff,(%esp)"
+label pc_0x80494a5
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = -1:u32
+addr 0x80494ac @asm "call   0x08048890"
+label pc_0x80494ac
+T_target_82:u32 = 0x8048890:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80494b1:u32
+jmp 0x8048890:u32 @str "call"
+addr 0x80494b1 @asm "mov    0x2c(%esp),%eax"
+label pc_0x80494b1
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x2c:u32, e_little]:u32
+addr 0x80494b5 @asm "add    $0x4,%eax"
+label pc_0x80494b5
+T_t1:u32 = R_EAX:u32
+T_t2:u32 = 4:u32
+R_EAX:u32 = R_EAX:u32 + T_t2:u32
+R_CF:bool = R_EAX:u32 < T_t1:u32
+R_OF:bool = high:bool((T_t1:u32 ^ ~T_t2:u32) & (T_t1:u32 ^ R_EAX:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t1:u32 ^ T_t2:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x80494b8 @asm "mov    (%eax),%eax"
+label pc_0x80494b8
+R_EAX:u32 = mem:?u32[R_EAX:u32, e_little]:u32
+addr 0x80494ba @asm "mov    %eax,(%esp)"
+label pc_0x80494ba
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80494bd @asm "call   0x08048990"
+label pc_0x80494bd
+T_target_85:u32 = 0x8048990:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80494c2:u32
+jmp 0x8048990:u32 @str "call"
+addr 0x80494c2 @asm "mov    %eax,0x38(%esp)"
+label pc_0x80494c2
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x38:u32, e_little]:u32 = R_EAX:u32
+addr 0x80494c6 @asm "mov    0x2c(%esp),%eax"
+label pc_0x80494c6
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x2c:u32, e_little]:u32
+addr 0x80494ca @asm "mov    0x8(%eax),%eax"
+label pc_0x80494ca
+R_EAX:u32 = mem:?u32[R_EAX:u32 + 8:u32, e_little]:u32
+addr 0x80494cd @asm "mov    %eax,0x3c(%esp)"
+label pc_0x80494cd
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x3c:u32, e_little]:u32 = R_EAX:u32
+addr 0x80494d1 @asm "cmpl   $0x0,0x38(%esp)"
+label pc_0x80494d1
+T_t_86:u32 = mem:?u32[R_ESP:u32 + 0x38:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_ESP:u32 + 0x38:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_ESP:u32 + 0x38:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_ESP:u32 + 0x38:u32, e_little]:u32 ^ T_t_86:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_86:u32 ^ mem:?u32[R_ESP:u32 + 0x38:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_86:u32 >> 7:u32 ^ T_t_86:u32 >> 6:u32 ^ T_t_86:u32 >> 5:u32 ^
+            T_t_86:u32 >> 4:u32 ^ T_t_86:u32 >> 3:u32 ^ T_t_86:u32 >> 2:u32 ^
+            T_t_86:u32 >> 1:u32 ^ T_t_86:u32)
+R_SF:bool = high:bool(T_t_86:u32)
+R_ZF:bool = 0:u32 == T_t_86:u32
+addr 0x80494d6 @asm "jne    0x08049507"
+label pc_0x80494d6
+cjmp ~R_ZF:bool, 0x8049507:u32, "nocjmp1"
+label nocjmp1
+addr 0x80494d8 @asm "mov    0x2c(%esp),%eax"
+label pc_0x80494d8
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x2c:u32, e_little]:u32
+addr 0x80494dc @asm "add    $0x4,%eax"
+label pc_0x80494dc
+T_t1_87:u32 = R_EAX:u32
+T_t2_88:u32 = 4:u32
+R_EAX:u32 = R_EAX:u32 + T_t2_88:u32
+R_CF:bool = R_EAX:u32 < T_t1_87:u32
+R_OF:bool =
+  high:bool((T_t1_87:u32 ^ ~T_t2_88:u32) & (T_t1_87:u32 ^ R_EAX:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t1_87:u32 ^ T_t2_88:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x80494df @asm "mov    (%eax),%ecx"
+label pc_0x80494df
+R_ECX:u32 = mem:?u32[R_EAX:u32, e_little]:u32
+addr 0x80494e1 @asm "mov    $0x8049996,%edx"
+label pc_0x80494e1
+R_EDX:u32 = 0x8049996:u32
+addr 0x80494e6 @asm "mov    0x804b0a0,%eax"
+label pc_0x80494e6
+R_EAX:u32 = mem:?u32[0x804b0a0:u32, e_little]:u32
+addr 0x80494eb @asm "mov    %ecx,0x8(%esp)"
+label pc_0x80494eb
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = R_ECX:u32
+addr 0x80494ef @asm "mov    %edx,0x4(%esp)"
+label pc_0x80494ef
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EDX:u32
+addr 0x80494f3 @asm "mov    %eax,(%esp)"
+label pc_0x80494f3
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80494f6 @asm "call   0x080488f0"
+label pc_0x80494f6
+T_target_89:u32 = 0x80488f0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80494fb:u32
+jmp 0x80488f0:u32 @str "call"
+addr 0x80494fb @asm "movl   $0xffffffff,(%esp)"
+label pc_0x80494fb
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = -1:u32
+addr 0x8049502 @asm "call   0x08048890"
+label pc_0x8049502
+T_target_90:u32 = 0x8048890:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049507:u32
+jmp 0x8048890:u32 @str "call"
+addr 0x8049507 @asm "movw   $0x2,0x4c(%esp)"
+label pc_0x8049507
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x4c:u32, e_little]:u16 = 2:u16
+addr 0x804950e @asm "movl   $0x0,0x50(%esp)"
+label pc_0x804950e
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x50:u32, e_little]:u32 = 0:u32
+addr 0x8049516 @asm "mov    0x38(%esp),%eax"
+label pc_0x8049516
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x38:u32, e_little]:u32
+addr 0x804951a @asm "movzwl %ax,%eax"
+label pc_0x804951a
+R_EAX:u32 = pad:u32(low:u16(R_EAX:u32))
+addr 0x804951d @asm "mov    %eax,(%esp)"
+label pc_0x804951d
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049520 @asm "call   0x08048810"
+label pc_0x8049520
+T_target_91:u32 = 0x8048810:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049525:u32
+jmp 0x8048810:u32 @str "call"
+addr 0x8049525 @asm "mov    %ax,0x4e(%esp)"
+label pc_0x8049525
+mem:?u32 =
+  mem:?u32 with [R_ESP:u32 + 0x4e:u32, e_little]:u16 = low:u16(R_EAX:u32)
+addr 0x804952a @asm "movl   $0x0,0x8(%esp)"
+label pc_0x804952a
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0:u32
+addr 0x8049532 @asm "movl   $0x1,0x4(%esp)"
+label pc_0x8049532
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 1:u32
+addr 0x804953a @asm "movl   $0x2,(%esp)"
+label pc_0x804953a
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 2:u32
+addr 0x8049541 @asm "call   0x080489a0"
+label pc_0x8049541
+T_target_92:u32 = 0x80489a0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049546:u32
+jmp 0x80489a0:u32 @str "call"
+addr 0x8049546 @asm "mov    %eax,0x40(%esp)"
+label pc_0x8049546
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x40:u32, e_little]:u32 = R_EAX:u32
+addr 0x804954a @asm "cmpl   $0x0,0x40(%esp)"
+label pc_0x804954a
+T_t_93:u32 = mem:?u32[R_ESP:u32 + 0x40:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_ESP:u32 + 0x40:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_ESP:u32 + 0x40:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_ESP:u32 + 0x40:u32, e_little]:u32 ^ T_t_93:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_93:u32 ^ mem:?u32[R_ESP:u32 + 0x40:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_93:u32 >> 7:u32 ^ T_t_93:u32 >> 6:u32 ^ T_t_93:u32 >> 5:u32 ^
+            T_t_93:u32 >> 4:u32 ^ T_t_93:u32 >> 3:u32 ^ T_t_93:u32 >> 2:u32 ^
+            T_t_93:u32 >> 1:u32 ^ T_t_93:u32)
+R_SF:bool = high:bool(T_t_93:u32)
+R_ZF:bool = 0:u32 == T_t_93:u32
+addr 0x804954f @asm "jns    0x08049569"
+label pc_0x804954f
+cjmp ~R_SF:bool, 0x8049569:u32, "nocjmp2"
+label nocjmp2
+addr 0x8049551 @asm "movl   $0x80499ab,(%esp)"
+label pc_0x8049551
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80499ab:u32
+addr 0x8049558 @asm "call   0x08048830"
+label pc_0x8049558
+T_target_94:u32 = 0x8048830:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804955d:u32
+jmp 0x8048830:u32 @str "call"
+addr 0x804955d @asm "movl   $0xffffffff,(%esp)"
+label pc_0x804955d
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = -1:u32
+addr 0x8049564 @asm "call   0x08048890"
+label pc_0x8049564
+T_target_95:u32 = 0x8048890:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049569:u32
+jmp 0x8048890:u32 @str "call"
+addr 0x8049569 @asm "movl   $0x1,0x30(%esp)"
+label pc_0x8049569
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x30:u32, e_little]:u32 = 1:u32
+addr 0x8049571 @asm "movl   $0x4,0x10(%esp)"
+label pc_0x8049571
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x10:u32, e_little]:u32 = 4:u32
+addr 0x8049579 @asm "lea    0x30(%esp),%eax"
+label pc_0x8049579
+R_EAX:u32 = R_ESP:u32 + 0x30:u32
+addr 0x804957d @asm "mov    %eax,0xc(%esp)"
+label pc_0x804957d
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049581 @asm "movl   $0x2,0x8(%esp)"
+label pc_0x8049581
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 2:u32
+addr 0x8049589 @asm "movl   $0x1,0x4(%esp)"
+label pc_0x8049589
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 1:u32
+addr 0x8049591 @asm "mov    0x40(%esp),%eax"
+label pc_0x8049591
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x40:u32, e_little]:u32
+addr 0x8049595 @asm "mov    %eax,(%esp)"
+label pc_0x8049595
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049598 @asm "call   0x08048790"
+label pc_0x8049598
+T_target_96:u32 = 0x8048790:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804959d:u32
+jmp 0x8048790:u32 @str "call"
+addr 0x804959d @asm "test   %eax,%eax"
+label pc_0x804959d
+T_t_97:u32 = R_EAX:u32 & R_EAX:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(T_t_97:u32 >> 7:u32 ^ T_t_97:u32 >> 6:u32 ^ T_t_97:u32 >> 5:u32 ^
+            T_t_97:u32 >> 4:u32 ^ T_t_97:u32 >> 3:u32 ^ T_t_97:u32 >> 2:u32 ^
+            T_t_97:u32 >> 1:u32 ^ T_t_97:u32)
+R_SF:bool = high:bool(T_t_97:u32)
+R_ZF:bool = 0:u32 == T_t_97:u32
+addr 0x804959f @asm "jns    0x080495b9"
+label pc_0x804959f
+cjmp ~R_SF:bool, 0x80495b9:u32, "nocjmp3"
+label nocjmp3
+addr 0x80495a1 @asm "movl   $0x80499b2,(%esp)"
+label pc_0x80495a1
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80499b2:u32
+addr 0x80495a8 @asm "call   0x08048830"
+label pc_0x80495a8
+T_target_98:u32 = 0x8048830:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80495ad:u32
+jmp 0x8048830:u32 @str "call"
+addr 0x80495ad @asm "movl   $0xffffffff,(%esp)"
+label pc_0x80495ad
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = -1:u32
+addr 0x80495b4 @asm "call   0x08048890"
+label pc_0x80495b4
+T_target_99:u32 = 0x8048890:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80495b9:u32
+jmp 0x8048890:u32 @str "call"
+addr 0x80495b9 @asm "lea    0x4c(%esp),%eax"
+label pc_0x80495b9
+R_EAX:u32 = R_ESP:u32 + 0x4c:u32
+addr 0x80495bd @asm "movl   $0x10,0x8(%esp)"
+label pc_0x80495bd
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0x10:u32
+addr 0x80495c5 @asm "mov    %eax,0x4(%esp)"
+label pc_0x80495c5
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x80495c9 @asm "mov    0x40(%esp),%eax"
+label pc_0x80495c9
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x40:u32, e_little]:u32
+addr 0x80495cd @asm "mov    %eax,(%esp)"
+label pc_0x80495cd
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80495d0 @asm "call   0x08048900"
+label pc_0x80495d0
+T_target_100:u32 = 0x8048900:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80495d5:u32
+jmp 0x8048900:u32 @str "call"
+addr 0x80495d5 @asm "test   %eax,%eax"
+label pc_0x80495d5
+T_t_101:u32 = R_EAX:u32 & R_EAX:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(T_t_101:u32 >> 7:u32 ^ T_t_101:u32 >> 6:u32 ^
+            T_t_101:u32 >> 5:u32 ^ T_t_101:u32 >> 4:u32 ^
+            T_t_101:u32 >> 3:u32 ^ T_t_101:u32 >> 2:u32 ^
+            T_t_101:u32 >> 1:u32 ^ T_t_101:u32)
+R_SF:bool = high:bool(T_t_101:u32)
+R_ZF:bool = 0:u32 == T_t_101:u32
+addr 0x80495d7 @asm "jns    0x080495f1"
+label pc_0x80495d7
+cjmp ~R_SF:bool, 0x80495f1:u32, "nocjmp4"
+label nocjmp4
+addr 0x80495d9 @asm "movl   $0x80499ca,(%esp)"
+label pc_0x80495d9
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80499ca:u32
+addr 0x80495e0 @asm "call   0x08048830"
+label pc_0x80495e0
+T_target_102:u32 = 0x8048830:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80495e5:u32
+jmp 0x8048830:u32 @str "call"
+addr 0x80495e5 @asm "movl   $0xffffffff,(%esp)"
+label pc_0x80495e5
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = -1:u32
+addr 0x80495ec @asm "call   0x08048890"
+label pc_0x80495ec
+T_target_103:u32 = 0x8048890:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80495f1:u32
+jmp 0x8048890:u32 @str "call"
+addr 0x80495f1 @asm "movl   $0x5,0x4(%esp)"
+label pc_0x80495f1
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 5:u32
+addr 0x80495f9 @asm "mov    0x40(%esp),%eax"
+label pc_0x80495f9
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x40:u32, e_little]:u32
+addr 0x80495fd @asm "mov    %eax,(%esp)"
+label pc_0x80495fd
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049600 @asm "call   0x08048960"
+label pc_0x8049600
+T_target_104:u32 = 0x8048960:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049605:u32
+jmp 0x8048960:u32 @str "call"
+addr 0x8049605 @asm "movl   $0x1,0x4(%esp)"
+label pc_0x8049605
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 1:u32
+addr 0x804960d @asm "movl   $0x11,(%esp)"
+label pc_0x804960d
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x11:u32
+addr 0x8049614 @asm "call   0x080487f0"
+label pc_0x8049614
+T_target_105:u32 = 0x80487f0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049619:u32
+jmp 0x80487f0:u32 @str "call"
+addr 0x8049619 @asm "movl   $0x1,0x4(%esp)"
+label pc_0x8049619
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 1:u32
+addr 0x8049621 @asm "movl   $0xd,(%esp)"
+label pc_0x8049621
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0xd:u32
+addr 0x8049628 @asm "call   0x080487f0"
+label pc_0x8049628
+T_target_106:u32 = 0x80487f0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804962d:u32
+jmp 0x80487f0:u32 @str "call"
+addr 0x804962d @asm "jmp    0x08049630"
+label pc_0x804962d
+jmp 0x8049630:u32
+addr 0x8049630 @asm "movl   $0x10,0x34(%esp)"
+label pc_0x8049630
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x34:u32, e_little]:u32 = 0x10:u32
+addr 0x8049638 @asm "lea    0x34(%esp),%edx"
+label pc_0x8049638
+R_EDX:u32 = R_ESP:u32 + 0x34:u32
+addr 0x804963c @asm "lea    0x5c(%esp),%eax"
+label pc_0x804963c
+R_EAX:u32 = R_ESP:u32 + 0x5c:u32
+addr 0x8049640 @asm "mov    %edx,0x8(%esp)"
+label pc_0x8049640
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = R_EDX:u32
+addr 0x8049644 @asm "mov    %eax,0x4(%esp)"
+label pc_0x8049644
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049648 @asm "mov    0x40(%esp),%eax"
+label pc_0x8049648
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x40:u32, e_little]:u32
+addr 0x804964c @asm "mov    %eax,(%esp)"
+label pc_0x804964c
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x804964f @asm "call   0x08048840"
+label pc_0x804964f
+T_target_107:u32 = 0x8048840:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049654:u32
+jmp 0x8048840:u32 @str "call"
+addr 0x8049654 @asm "mov    %eax,0x44(%esp)"
+label pc_0x8049654
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x44:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049658 @asm "cmpl   $0x0,0x44(%esp)"
+label pc_0x8049658
+T_t_108:u32 = mem:?u32[R_ESP:u32 + 0x44:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_ESP:u32 + 0x44:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_ESP:u32 + 0x44:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_ESP:u32 + 0x44:u32, e_little]:u32 ^ T_t_108:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_108:u32 ^ mem:?u32[R_ESP:u32 + 0x44:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_108:u32 >> 7:u32 ^ T_t_108:u32 >> 6:u32 ^
+            T_t_108:u32 >> 5:u32 ^ T_t_108:u32 >> 4:u32 ^
+            T_t_108:u32 >> 3:u32 ^ T_t_108:u32 >> 2:u32 ^
+            T_t_108:u32 >> 1:u32 ^ T_t_108:u32)
+R_SF:bool = high:bool(T_t_108:u32)
+R_ZF:bool = 0:u32 == T_t_108:u32
+addr 0x804965d @asm "jns    0x0804966d"
+label pc_0x804965d
+cjmp ~R_SF:bool, 0x804966d:u32, "nocjmp5"
+label nocjmp5
+addr 0x804965f @asm "movl   $0x80499cf,(%esp)"
+label pc_0x804965f
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80499cf:u32
+addr 0x8049666 @asm "call   0x08048830"
+label pc_0x8049666
+T_target_109:u32 = 0x8048830:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804966b:u32
+jmp 0x8048830:u32 @str "call"
+addr 0x804966b @asm "jmp    0x080496cd"
+label pc_0x804966b
+jmp 0x80496cd:u32
+addr 0x80496cd @asm "jmp    0x0804962f"
+label pc_0x80496cd
+jmp 0x804962f:u32
+addr 0x804962f @asm "nop"
+label pc_0x804962f
+jmp 0x8049630:u32 @str "rdisasm"
+addr 0x8048830 @asm "jmp    *0x804b028"
+label pc_0x8048830
+jmp mem:?u32[0x804b028:u32, e_little]:u32
+addr 0x804966d @asm "movl   $0x0,0x48(%esp)"
+label pc_0x804966d
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x48:u32, e_little]:u32 = 0:u32
+addr 0x8049675 @asm "cmpl   $0x0,0x48(%esp)"
+label pc_0x8049675
+T_t_110:u32 = mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 ^ T_t_110:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_110:u32 ^ mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_110:u32 >> 7:u32 ^ T_t_110:u32 >> 6:u32 ^
+            T_t_110:u32 >> 5:u32 ^ T_t_110:u32 >> 4:u32 ^
+            T_t_110:u32 >> 3:u32 ^ T_t_110:u32 >> 2:u32 ^
+            T_t_110:u32 >> 1:u32 ^ T_t_110:u32)
+R_SF:bool = high:bool(T_t_110:u32)
+R_ZF:bool = 0:u32 == T_t_110:u32
+addr 0x804967a @asm "jns    0x08049696"
+label pc_0x804967a
+cjmp ~R_SF:bool, 0x8049696:u32, "nocjmp6"
+label nocjmp6
+addr 0x804967c @asm "movl   $0x80499d6,(%esp)"
+label pc_0x804967c
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80499d6:u32
+addr 0x8049683 @asm "call   0x08048830"
+label pc_0x8049683
+T_target_111:u32 = 0x8048830:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049688:u32
+jmp 0x8048830:u32 @str "call"
+addr 0x8049688 @asm "mov    0x44(%esp),%eax"
+label pc_0x8049688
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x44:u32, e_little]:u32
+addr 0x804968c @asm "mov    %eax,(%esp)"
+label pc_0x804968c
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x804968f @asm "call   0x080489c0"
+label pc_0x804968f
+T_target_112:u32 = 0x80489c0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049694:u32
+jmp 0x80489c0:u32 @str "call"
+addr 0x8049694 @asm "jmp    0x080496cd"
+label pc_0x8049694
+jmp 0x80496cd:u32
+addr 0x80489c0 @asm "jmp    *0x804b08c"
+label pc_0x80489c0
+jmp mem:?u32[0x804b08c:u32, e_little]:u32
+addr 0x8049696 @asm "cmpl   $0x0,0x48(%esp)"
+label pc_0x8049696
+T_t_113:u32 = mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 ^ T_t_113:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_113:u32 ^ mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_113:u32 >> 7:u32 ^ T_t_113:u32 >> 6:u32 ^
+            T_t_113:u32 >> 5:u32 ^ T_t_113:u32 >> 4:u32 ^
+            T_t_113:u32 >> 3:u32 ^ T_t_113:u32 >> 2:u32 ^
+            T_t_113:u32 >> 1:u32 ^ T_t_113:u32)
+R_SF:bool = high:bool(T_t_113:u32)
+R_ZF:bool = 0:u32 == T_t_113:u32
+addr 0x804969b @asm "jne    0x080496b1"
+label pc_0x804969b
+cjmp ~R_ZF:bool, 0x80496b1:u32, "nocjmp7"
+label nocjmp7
+addr 0x804969d @asm "mov    0x44(%esp),%eax"
+label pc_0x804969d
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x44:u32, e_little]:u32
+addr 0x80496a1 @asm "mov    %eax,0x4(%esp)"
+label pc_0x80496a1
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x80496a5 @asm "mov    0x3c(%esp),%eax"
+label pc_0x80496a5
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x3c:u32, e_little]:u32
+addr 0x80496a9 @asm "mov    %eax,(%esp)"
+label pc_0x80496a9
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80496ac @asm "call   0x08048fbe"
+label pc_0x80496ac
+T_target_114:u32 = 0x8048fbe:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80496b1:u32
+jmp 0x8048fbe:u32 @str "call"
+addr 0x80496b1 @asm "cmpl   $0x0,0x48(%esp)"
+label pc_0x80496b1
+T_t_115:u32 = mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 ^ T_t_115:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_115:u32 ^ mem:?u32[R_ESP:u32 + 0x48:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_115:u32 >> 7:u32 ^ T_t_115:u32 >> 6:u32 ^
+            T_t_115:u32 >> 5:u32 ^ T_t_115:u32 >> 4:u32 ^
+            T_t_115:u32 >> 3:u32 ^ T_t_115:u32 >> 2:u32 ^
+            T_t_115:u32 >> 1:u32 ^ T_t_115:u32)
+R_SF:bool = high:bool(T_t_115:u32)
+R_ZF:bool = 0:u32 == T_t_115:u32
+addr 0x80496b6 @asm "jle    0x0804962f"
+label pc_0x80496b6
+cjmp R_ZF:bool | R_SF:bool ^ R_OF:bool, 0x804962f:u32, "nocjmp8"
+label nocjmp8
+addr 0x80496bc @asm "mov    0x44(%esp),%eax"
+label pc_0x80496bc
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x44:u32, e_little]:u32
+addr 0x80496c0 @asm "mov    %eax,(%esp)"
+label pc_0x80496c0
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80496c3 @asm "call   0x080489c0"
+label pc_0x80496c3
+T_target_116:u32 = 0x80489c0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80496c8:u32
+jmp 0x80489c0:u32 @str "call"
+addr 0x80496c8 @asm "jmp    0x0804962f"
+label pc_0x80496c8
+jmp 0x804962f:u32
+addr 0x8048fbe @asm "push   %ebp"
+label pc_0x8048fbe
+T_t_117:u32 = R_EBP:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t_117:u32
+addr 0x8048fbf @asm "mov    %esp,%ebp"
+label pc_0x8048fbf
+R_EBP:u32 = R_ESP:u32
+addr 0x8048fc1 @asm "push   %edi"
+label pc_0x8048fc1
+T_t_118:u32 = R_EDI:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t_118:u32
+addr 0x8048fc2 @asm "push   %ebx"
+label pc_0x8048fc2
+T_t_119:u32 = R_EBX:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t_119:u32
+addr 0x8048fc3 @asm "sub    $0x9b0,%esp"
+label pc_0x8048fc3
+T_t_120:u32 = R_ESP:u32
+R_ESP:u32 = R_ESP:u32 - 0x9b0:u32
+R_CF:bool = T_t_120:u32 < 0x9b0:u32
+R_OF:bool = high:bool((T_t_120:u32 ^ 0x9b0:u32) & (T_t_120:u32 ^ R_ESP:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_ESP:u32 ^ T_t_120:u32 ^ 0x9b0:u32))
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x8048fc9 @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048fc9
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048fcc @asm "mov    %eax,-0x98c(%ebp)"
+label pc_0x8048fcc
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffff674:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048fd2 @asm "mov    %gs:0x14,%eax"
+label pc_0x8048fd2
+R_EAX:u32 = mem:?u32[R_GS_BASE:u32 + 0x14:u32, e_little]:u32
+addr 0x8048fd8 @asm "mov    %eax,-0xc(%ebp)"
+label pc_0x8048fd8
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffff4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048fdb @asm "xor    %eax,%eax"
+label pc_0x8048fdb
+R_EAX:u32 = 0:u32
+R_AF:bool = unknown "AF is undefined after xor":bool
+R_ZF:bool = true
+R_PF:bool = true
+R_OF:bool = false
+R_CF:bool = false
+R_SF:bool = false
+addr 0x8048fdd @asm "movl   $0x80498e8,0x4(%esp)"
+label pc_0x8048fdd
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0x80498e8:u32
+addr 0x8048fe5 @asm "mov    0xc(%ebp),%eax"
+label pc_0x8048fe5
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32
+addr 0x8048fe8 @asm "mov    %eax,(%esp)"
+label pc_0x8048fe8
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048feb @asm "call   0x080488b0"
+label pc_0x8048feb
+T_target_121:u32 = 0x80488b0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048ff0:u32
+jmp 0x80488b0:u32 @str "call"
+addr 0x8048ff0 @asm "mov    %eax,-0x924(%ebp)"
+label pc_0x8048ff0
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048ff6 @asm "mov    -0x924(%ebp),%eax"
+label pc_0x8048ff6
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x8048ffc @asm "mov    %eax,0x804b0c0"
+label pc_0x8048ffc
+mem:?u32 = mem:?u32 with [0x804b0c0:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049001 @asm "lea    -0x10c(%ebp),%eax"
+label pc_0x8049001
+R_EAX:u32 = R_EBP:u32 + 0xfffffef4:u32
+addr 0x8049007 @asm "mov    %eax,(%esp)"
+label pc_0x8049007
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x804900a @asm "call   0x08048bd8"
+label pc_0x804900a
+T_target_122:u32 = 0x8048bd8:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804900f:u32
+jmp 0x8048bd8:u32 @str "call"
+addr 0x804900f @asm "mov    %eax,-0x920(%ebp)"
+label pc_0x804900f
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffff6e0:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049015 @asm "cmpl   $0x0,-0x920(%ebp)"
+label pc_0x8049015
+T_t_123:u32 = mem:?u32[R_EBP:u32 + 0xfffff6e0:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffff6e0:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_EBP:u32 + 0xfffff6e0:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_EBP:u32 + 0xfffff6e0:u32, e_little]:u32 ^
+            T_t_123:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_123:u32 ^ mem:?u32[R_EBP:u32 + 0xfffff6e0:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_123:u32 >> 7:u32 ^ T_t_123:u32 >> 6:u32 ^
+            T_t_123:u32 >> 5:u32 ^ T_t_123:u32 >> 4:u32 ^
+            T_t_123:u32 >> 3:u32 ^ T_t_123:u32 >> 2:u32 ^
+            T_t_123:u32 >> 1:u32 ^ T_t_123:u32)
+R_SF:bool = high:bool(T_t_123:u32)
+R_ZF:bool = 0:u32 == T_t_123:u32
+addr 0x804901c @asm "je     0x0804904b"
+label pc_0x804901c
+cjmp R_ZF:bool, 0x804904b:u32, "nocjmp9"
+label nocjmp9
+addr 0x804901e @asm "mov    -0x920(%ebp),%eax"
+label pc_0x804901e
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6e0:u32, e_little]:u32
+addr 0x8049024 @asm "mov    %eax,0xc(%esp)"
+label pc_0x8049024
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049028 @asm "movl   $0x80498eb,0x8(%esp)"
+label pc_0x8049028
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0x80498eb:u32
+addr 0x8049030 @asm "movl   $0x1f4,0x4(%esp)"
+label pc_0x8049030
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0x1f4:u32
+addr 0x8049038 @asm "mov    -0x924(%ebp),%eax"
+label pc_0x8049038
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x804903e @asm "mov    %eax,(%esp)"
+label pc_0x804903e
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049041 @asm "call   0x08048f03"
+label pc_0x8049041
+T_target_124:u32 = 0x8048f03:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049046:u32
+jmp 0x8048f03:u32 @str "call"
+addr 0x8049046 @asm "jmp    0x08049448"
+label pc_0x8049046
+jmp 0x8049448:u32
+addr 0x8049448 @asm "mov    -0xc(%ebp),%eax"
+label pc_0x8049448
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffff4:u32, e_little]:u32
+addr 0x804944b @asm "xor    %gs:0x14,%eax"
+label pc_0x804944b
+R_EAX:u32 = R_EAX:u32 ^ mem:?u32[R_GS_BASE:u32 + 0x14:u32, e_little]:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after xor":bool
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8049452 @asm "je     0x08049459"
+label pc_0x8049452
+cjmp R_ZF:bool, 0x8049459:u32, "nocjmp10"
+label nocjmp10
+addr 0x8049454 @asm "call   0x08048800"
+label pc_0x8049454
+T_target_125:u32 = 0x8048800:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049459:u32
+jmp 0x8048800:u32 @str "call"
+addr 0x8049459 @asm "add    $0x9b0,%esp"
+label pc_0x8049459
+T_t1_126:u32 = R_ESP:u32
+T_t2_127:u32 = 0x9b0:u32
+R_ESP:u32 = R_ESP:u32 + T_t2_127:u32
+R_CF:bool = R_ESP:u32 < T_t1_126:u32
+R_OF:bool =
+  high:bool((T_t1_126:u32 ^ ~T_t2_127:u32) & (T_t1_126:u32 ^ R_ESP:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_ESP:u32 ^ T_t1_126:u32 ^ T_t2_127:u32))
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x804945f @asm "pop    %ebx"
+label pc_0x804945f
+R_EBX:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+addr 0x8049460 @asm "pop    %edi"
+label pc_0x8049460
+R_EDI:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+addr 0x8049461 @asm "pop    %ebp"
+label pc_0x8049461
+R_EBP:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+addr 0x8049462 @asm "ret    "
+label pc_0x8049462
+T_ra:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+jmp T_ra:u32 @str "ret"
+addr 0x8048800 @asm "jmp    *0x804b01c"
+label pc_0x8048800
+jmp mem:?u32[0x804b01c:u32, e_little]:u32
+addr 0x8048f03 @asm "push   %ebp"
+label pc_0x8048f03
+T_t_129:u32 = R_EBP:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t_129:u32
+addr 0x8048f04 @asm "mov    %esp,%ebp"
+label pc_0x8048f04
+R_EBP:u32 = R_ESP:u32
+addr 0x8048f06 @asm "sub    $0x28,%esp"
+label pc_0x8048f06
+T_t_130:u32 = R_ESP:u32
+R_ESP:u32 = R_ESP:u32 - 0x28:u32
+R_CF:bool = T_t_130:u32 < 0x28:u32
+R_OF:bool = high:bool((T_t_130:u32 ^ 0x28:u32) & (T_t_130:u32 ^ R_ESP:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_ESP:u32 ^ T_t_130:u32 ^ 0x28:u32))
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x8048f09 @asm "lea    0x14(%ebp),%edx"
+label pc_0x8048f09
+R_EDX:u32 = R_EBP:u32 + 0x14:u32
+addr 0x8048f0c @asm "lea    -0xc(%ebp),%eax"
+label pc_0x8048f0c
+R_EAX:u32 = R_EBP:u32 + 0xfffffff4:u32
+addr 0x8048f0f @asm "mov    %edx,(%eax)"
+label pc_0x8048f0f
+mem:?u32 = mem:?u32 with [R_EAX:u32, e_little]:u32 = R_EDX:u32
+addr 0x8048f11 @asm "mov    $0x804989a,%eax"
+label pc_0x8048f11
+R_EAX:u32 = 0x804989a:u32
+addr 0x8048f16 @asm "mov    0xc(%ebp),%edx"
+label pc_0x8048f16
+R_EDX:u32 = mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32
+addr 0x8048f19 @asm "mov    %edx,0x8(%esp)"
+label pc_0x8048f19
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = R_EDX:u32
+addr 0x8048f1d @asm "mov    %eax,0x4(%esp)"
+label pc_0x8048f1d
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048f21 @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048f21
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048f24 @asm "mov    %eax,(%esp)"
+label pc_0x8048f24
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048f27 @asm "call   0x080488f0"
+label pc_0x8048f27
+T_target_131:u32 = 0x80488f0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048f2c:u32
+jmp 0x80488f0:u32 @str "call"
+addr 0x8048f2c @asm "mov    $0x80498ae,%eax"
+label pc_0x8048f2c
+R_EAX:u32 = 0x80498ae:u32
+addr 0x8048f31 @asm "mov    0x8(%ebp),%edx"
+label pc_0x8048f31
+R_EDX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048f34 @asm "mov    %edx,0xc(%esp)"
+label pc_0x8048f34
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_EDX:u32
+addr 0x8048f38 @asm "movl   $0x19,0x8(%esp)"
+label pc_0x8048f38
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0x19:u32
+addr 0x8048f40 @asm "movl   $0x1,0x4(%esp)"
+label pc_0x8048f40
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 1:u32
+addr 0x8048f48 @asm "mov    %eax,(%esp)"
+label pc_0x8048f48
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048f4b @asm "call   0x08048850"
+label pc_0x8048f4b
+T_target_132:u32 = 0x8048850:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048f50:u32
+jmp 0x8048850:u32 @str "call"
+addr 0x8048f50 @asm "mov    $0x80498c8,%eax"
+label pc_0x8048f50
+R_EAX:u32 = 0x80498c8:u32
+addr 0x8048f55 @asm "mov    0x8(%ebp),%edx"
+label pc_0x8048f55
+R_EDX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048f58 @asm "mov    %edx,0xc(%esp)"
+label pc_0x8048f58
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_EDX:u32
+addr 0x8048f5c @asm "movl   $0x2,0x8(%esp)"
+label pc_0x8048f5c
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 2:u32
+addr 0x8048f64 @asm "movl   $0x1,0x4(%esp)"
+label pc_0x8048f64
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 1:u32
+addr 0x8048f6c @asm "mov    %eax,(%esp)"
+label pc_0x8048f6c
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048f6f @asm "call   0x08048850"
+label pc_0x8048f6f
+T_target_133:u32 = 0x8048850:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048f74:u32
+jmp 0x8048850:u32 @str "call"
+addr 0x8048f74 @asm "mov    $0x80498cb,%eax"
+label pc_0x8048f74
+R_EAX:u32 = 0x80498cb:u32
+addr 0x8048f79 @asm "mov    0x8(%ebp),%edx"
+label pc_0x8048f79
+R_EDX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048f7c @asm "mov    %edx,0xc(%esp)"
+label pc_0x8048f7c
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_EDX:u32
+addr 0x8048f80 @asm "movl   $0x1c,0x8(%esp)"
+label pc_0x8048f80
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0x1c:u32
+addr 0x8048f88 @asm "movl   $0x1,0x4(%esp)"
+label pc_0x8048f88
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 1:u32
+addr 0x8048f90 @asm "mov    %eax,(%esp)"
+label pc_0x8048f90
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048f93 @asm "call   0x08048850"
+label pc_0x8048f93
+T_target_134:u32 = 0x8048850:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048f98:u32
+jmp 0x8048850:u32 @str "call"
+addr 0x8048f98 @asm "mov    -0xc(%ebp),%edx"
+label pc_0x8048f98
+R_EDX:u32 = mem:?u32[R_EBP:u32 + 0xfffffff4:u32, e_little]:u32
+addr 0x8048f9b @asm "mov    0x10(%ebp),%eax"
+label pc_0x8048f9b
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0x10:u32, e_little]:u32
+addr 0x8048f9e @asm "mov    %edx,0x8(%esp)"
+label pc_0x8048f9e
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = R_EDX:u32
+addr 0x8048fa2 @asm "mov    %eax,0x4(%esp)"
+label pc_0x8048fa2
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048fa6 @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048fa6
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048fa9 @asm "mov    %eax,(%esp)"
+label pc_0x8048fa9
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048fac @asm "call   0x08048950"
+label pc_0x8048fac
+T_target_135:u32 = 0x8048950:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048fb1:u32
+jmp 0x8048950:u32 @str "call"
+addr 0x8048fb1 @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048fb1
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048fb4 @asm "mov    %eax,(%esp)"
+label pc_0x8048fb4
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048fb7 @asm "call   0x080487e0"
+label pc_0x8048fb7
+T_target_136:u32 = 0x80487e0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048fbc:u32
+jmp 0x80487e0:u32 @str "call"
+addr 0x8048fbc @asm "leave  "
+label pc_0x8048fbc
+R_ESP:u32 = R_EBP:u32
+R_EBP:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+addr 0x8048fbd @asm "ret    "
+label pc_0x8048fbd
+T_ra_137:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+jmp T_ra_137:u32 @str "ret"
+addr 0x80487e0 @asm "jmp    *0x804b014"
+label pc_0x80487e0
+jmp mem:?u32[0x804b014:u32, e_little]:u32
+addr 0x8048950 @asm "jmp    *0x804b070"
+label pc_0x8048950
+jmp mem:?u32[0x804b070:u32, e_little]:u32
+addr 0x8048850 @asm "jmp    *0x804b030"
+label pc_0x8048850
+jmp mem:?u32[0x804b030:u32, e_little]:u32
+addr 0x80488f0 @asm "jmp    *0x804b058"
+label pc_0x80488f0
+jmp mem:?u32[0x804b058:u32, e_little]:u32
+addr 0x804904b @asm "mov    $0x8049905,%eax"
+label pc_0x804904b
+R_EAX:u32 = 0x8049905:u32
+addr 0x8049050 @asm "lea    -0x10c(%ebp),%edx"
+label pc_0x8049050
+R_EDX:u32 = R_EBP:u32 + 0xfffffef4:u32
+addr 0x8049056 @asm "mov    %edx,0xc(%esp)"
+label pc_0x8049056
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_EDX:u32
+addr 0x804905a @asm "mov    -0x98c(%ebp),%edx"
+label pc_0x804905a
+R_EDX:u32 = mem:?u32[R_EBP:u32 + 0xfffff674:u32, e_little]:u32
+addr 0x8049060 @asm "mov    %edx,0x8(%esp)"
+label pc_0x8049060
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = R_EDX:u32
+addr 0x8049064 @asm "mov    %eax,0x4(%esp)"
+label pc_0x8049064
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049068 @asm "lea    -0x90c(%ebp),%eax"
+label pc_0x8049068
+R_EAX:u32 = R_EBP:u32 + 0xfffff6f4:u32
+addr 0x804906e @asm "mov    %eax,(%esp)"
+label pc_0x804906e
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049071 @asm "call   0x08048980"
+label pc_0x8049071
+T_target_138:u32 = 0x8048980:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049076:u32
+jmp 0x8048980:u32 @str "call"
+addr 0x8049076 @asm "lea    -0x90c(%ebp),%eax"
+label pc_0x8049076
+R_EAX:u32 = R_EBP:u32 + 0xfffff6f4:u32
+addr 0x804907c @asm "lea    -0x980(%ebp),%edx"
+label pc_0x804907c
+R_EDX:u32 = R_EBP:u32 + 0xfffff680:u32
+addr 0x8049082 @asm "mov    %edx,0x4(%esp)"
+label pc_0x8049082
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EDX:u32
+addr 0x8049086 @asm "mov    %eax,(%esp)"
+label pc_0x8049086
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049089 @asm "call   0x08049760"
+label pc_0x8049089
+T_target_139:u32 = 0x8049760:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804908e:u32
+jmp 0x8049760:u32 @str "call"
+addr 0x804908e @asm "test   %eax,%eax"
+label pc_0x804908e
+T_t_140:u32 = R_EAX:u32 & R_EAX:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(T_t_140:u32 >> 7:u32 ^ T_t_140:u32 >> 6:u32 ^
+            T_t_140:u32 >> 5:u32 ^ T_t_140:u32 >> 4:u32 ^
+            T_t_140:u32 >> 3:u32 ^ T_t_140:u32 >> 2:u32 ^
+            T_t_140:u32 >> 1:u32 ^ T_t_140:u32)
+R_SF:bool = high:bool(T_t_140:u32)
+R_ZF:bool = 0:u32 == T_t_140:u32
+addr 0x8049090 @asm "jns    0x080490bf"
+label pc_0x8049090
+cjmp ~R_SF:bool, 0x80490bf:u32, "nocjmp11"
+label nocjmp11
+addr 0x8049092 @asm "lea    -0x90c(%ebp),%eax"
+label pc_0x8049092
+R_EAX:u32 = R_EBP:u32 + 0xfffff6f4:u32
+addr 0x8049098 @asm "mov    %eax,0xc(%esp)"
+label pc_0x8049098
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_EAX:u32
+addr 0x804909c @asm "movl   $0x804990c,0x8(%esp)"
+label pc_0x804909c
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0x804990c:u32
+addr 0x80490a4 @asm "movl   $0x194,0x4(%esp)"
+label pc_0x80490a4
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0x194:u32
+addr 0x80490ac @asm "mov    -0x924(%ebp),%eax"
+label pc_0x80490ac
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x80490b2 @asm "mov    %eax,(%esp)"
+label pc_0x80490b2
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80490b5 @asm "call   0x08048f03"
+label pc_0x80490b5
+T_target_141:u32 = 0x8048f03:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80490ba:u32
+jmp 0x8048f03:u32 @str "call"
+addr 0x80490ba @asm "jmp    0x08049448"
+label pc_0x80490ba
+jmp 0x8049448:u32
+addr 0x80490bf @asm "mov    -0x970(%ebp),%eax"
+label pc_0x80490bf
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff690:u32, e_little]:u32
+addr 0x80490c5 @asm "and    $0xf000,%eax"
+label pc_0x80490c5
+R_EAX:u32 = R_EAX:u32 & 0xf000:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x80490ca @asm "cmp    $0x4000,%eax"
+label pc_0x80490ca
+T_t_142:u32 = R_EAX:u32 - 0x4000:u32
+R_CF:bool = R_EAX:u32 < 0x4000:u32
+R_OF:bool = high:bool((R_EAX:u32 ^ 0x4000:u32) & (R_EAX:u32 ^ T_t_142:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (T_t_142:u32 ^ R_EAX:u32 ^ 0x4000:u32))
+R_PF:bool =
+  ~low:bool(T_t_142:u32 >> 7:u32 ^ T_t_142:u32 >> 6:u32 ^
+            T_t_142:u32 >> 5:u32 ^ T_t_142:u32 >> 4:u32 ^
+            T_t_142:u32 >> 3:u32 ^ T_t_142:u32 >> 2:u32 ^
+            T_t_142:u32 >> 1:u32 ^ T_t_142:u32)
+R_SF:bool = high:bool(T_t_142:u32)
+R_ZF:bool = 0:u32 == T_t_142:u32
+addr 0x80490cf @asm "jne    0x08049163"
+label pc_0x80490cf
+cjmp ~R_ZF:bool, 0x8049163:u32, "nocjmp12"
+label nocjmp12
+addr 0x80490d5 @asm "mov    $0x8049931,%edx"
+label pc_0x80490d5
+R_EDX:u32 = 0x8049931:u32
+addr 0x80490da @asm "lea    -0x90c(%ebp),%eax"
+label pc_0x80490da
+R_EAX:u32 = R_EBP:u32 + 0xfffff6f4:u32
+addr 0x80490e0 @asm "movl   $0xffffffff,-0x990(%ebp)"
+label pc_0x80490e0
+mem:?u32 = mem:?u32 with [R_EBP:u32 + 0xfffff670:u32, e_little]:u32 = -1:u32
+addr 0x80490ea @asm "mov    %eax,%ebx"
+label pc_0x80490ea
+R_EBX:u32 = R_EAX:u32
+addr 0x80490ec @asm "mov    $0x0,%eax"
+label pc_0x80490ec
+R_EAX:u32 = 0:u32
+addr 0x80490f1 @asm "mov    -0x990(%ebp),%ecx"
+label pc_0x80490f1
+R_ECX:u32 = mem:?u32[R_EBP:u32 + 0xfffff670:u32, e_little]:u32
+addr 0x80490f7 @asm "mov    %ebx,%edi"
+label pc_0x80490f7
+R_EDI:u32 = R_EBX:u32
+addr 0x80490f9 @asm "repnz scas %es:(%edi),%al"
+label pc_0x80490f9
+cjmp R_ECX:u32 == 0:u32, 0x80490fb:u32, "nocjmp14"
+label nocjmp14
+T_src1:u8 = low:u8(R_EAX:u32)
+T_src2:u8 = mem:?u32[R_EDI:u32, e_little]:u8
+T_tmp:u8 = T_src1:u8 - T_src2:u8
+R_EDI:u32 = R_EDI:u32 + R_DFLAG:u32
+R_CF:bool = T_src1:u8 < T_src2:u8
+R_OF:bool = high:bool((T_src1:u8 ^ T_src2:u8) & (T_src1:u8 ^ T_tmp:u8))
+R_AF:bool = 0x10:u8 == (0x10:u8 & (T_tmp:u8 ^ T_src1:u8 ^ T_src2:u8))
+R_PF:bool =
+  ~low:bool(T_tmp:u8 >> 7:u8 ^ T_tmp:u8 >> 6:u8 ^ T_tmp:u8 >> 5:u8 ^
+            T_tmp:u8 >> 4:u8 ^ T_tmp:u8 >> 3:u8 ^ T_tmp:u8 >> 2:u8 ^
+            T_tmp:u8 >> 1:u8 ^ T_tmp:u8)
+R_SF:bool = high:bool(T_tmp:u8)
+R_ZF:bool = 0:u8 == T_tmp:u8
+R_ECX:u32 = R_ECX:u32 - 1:u32
+cjmp R_ECX:u32 == 0:u32, 0x80490fb:u32, "nocjmp13"
+label nocjmp13
+cjmp R_ZF:bool, 0x80490fb:u32, 0x80490f9:u32
+addr 0x80490fb @asm "mov    %ecx,%eax"
+label pc_0x80490fb
+R_EAX:u32 = R_ECX:u32
+addr 0x80490fd @asm "not    %eax"
+label pc_0x80490fd
+R_EAX:u32 = ~R_EAX:u32
+addr 0x80490ff @asm "lea    -0x1(%eax),%ecx"
+label pc_0x80490ff
+R_ECX:u32 = R_EAX:u32 + -1:u32
+addr 0x8049102 @asm "lea    -0x90c(%ebp),%eax"
+label pc_0x8049102
+R_EAX:u32 = R_EBP:u32 + 0xfffff6f4:u32
+addr 0x8049108 @asm "add    %ecx,%eax"
+label pc_0x8049108
+T_t1_146:u32 = R_EAX:u32
+T_t2_147:u32 = R_ECX:u32
+R_EAX:u32 = R_EAX:u32 + T_t2_147:u32
+R_CF:bool = R_EAX:u32 < T_t1_146:u32
+R_OF:bool =
+  high:bool((T_t1_146:u32 ^ ~T_t2_147:u32) & (T_t1_146:u32 ^ R_EAX:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t1_146:u32 ^ T_t2_147:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x804910a @asm "mov    (%edx),%ecx"
+label pc_0x804910a
+R_ECX:u32 = mem:?u32[R_EDX:u32, e_little]:u32
+addr 0x804910c @asm "mov    %ecx,(%eax)"
+label pc_0x804910c
+mem:?u32 = mem:?u32 with [R_EAX:u32, e_little]:u32 = R_ECX:u32
+addr 0x804910e @asm "mov    0x4(%edx),%ecx"
+label pc_0x804910e
+R_ECX:u32 = mem:?u32[R_EDX:u32 + 4:u32, e_little]:u32
+addr 0x8049111 @asm "mov    %ecx,0x4(%eax)"
+label pc_0x8049111
+mem:?u32 = mem:?u32 with [R_EAX:u32 + 4:u32, e_little]:u32 = R_ECX:u32
+addr 0x8049114 @asm "mov    0x8(%edx),%edx"
+label pc_0x8049114
+R_EDX:u32 = mem:?u32[R_EDX:u32 + 8:u32, e_little]:u32
+addr 0x8049117 @asm "mov    %edx,0x8(%eax)"
+label pc_0x8049117
+mem:?u32 = mem:?u32 with [R_EAX:u32 + 8:u32, e_little]:u32 = R_EDX:u32
+addr 0x804911a @asm "lea    -0x90c(%ebp),%eax"
+label pc_0x804911a
+R_EAX:u32 = R_EBP:u32 + 0xfffff6f4:u32
+addr 0x8049120 @asm "lea    -0x980(%ebp),%edx"
+label pc_0x8049120
+R_EDX:u32 = R_EBP:u32 + 0xfffff680:u32
+addr 0x8049126 @asm "mov    %edx,0x4(%esp)"
+label pc_0x8049126
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EDX:u32
+addr 0x804912a @asm "mov    %eax,(%esp)"
+label pc_0x804912a
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x804912d @asm "call   0x08049760"
+label pc_0x804912d
+T_target_148:u32 = 0x8049760:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049132:u32
+jmp 0x8049760:u32 @str "call"
+addr 0x8049132 @asm "test   %eax,%eax"
+label pc_0x8049132
+T_t_149:u32 = R_EAX:u32 & R_EAX:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(T_t_149:u32 >> 7:u32 ^ T_t_149:u32 >> 6:u32 ^
+            T_t_149:u32 >> 5:u32 ^ T_t_149:u32 >> 4:u32 ^
+            T_t_149:u32 >> 3:u32 ^ T_t_149:u32 >> 2:u32 ^
+            T_t_149:u32 >> 1:u32 ^ T_t_149:u32)
+R_SF:bool = high:bool(T_t_149:u32)
+R_ZF:bool = 0:u32 == T_t_149:u32
+addr 0x8049134 @asm "jns    0x08049163"
+label pc_0x8049134
+cjmp ~R_SF:bool, 0x8049163:u32, "nocjmp15"
+label nocjmp15
+addr 0x8049136 @asm "lea    -0x90c(%ebp),%eax"
+label pc_0x8049136
+R_EAX:u32 = R_EBP:u32 + 0xfffff6f4:u32
+addr 0x804913c @asm "mov    %eax,0xc(%esp)"
+label pc_0x804913c
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049140 @asm "movl   $0x804990c,0x8(%esp)"
+label pc_0x8049140
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0x804990c:u32
+addr 0x8049148 @asm "movl   $0x194,0x4(%esp)"
+label pc_0x8049148
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0x194:u32
+addr 0x8049150 @asm "mov    -0x924(%ebp),%eax"
+label pc_0x8049150
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x8049156 @asm "mov    %eax,(%esp)"
+label pc_0x8049156
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049159 @asm "call   0x08048f03"
+label pc_0x8049159
+T_target_150:u32 = 0x8048f03:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804915e:u32
+jmp 0x8048f03:u32 @str "call"
+addr 0x804915e @asm "jmp    0x08049448"
+label pc_0x804915e
+jmp 0x8049448:u32
+addr 0x8049163 @asm "mov    -0x970(%ebp),%eax"
+label pc_0x8049163
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff690:u32, e_little]:u32
+addr 0x8049169 @asm "and    $0xf000,%eax"
+label pc_0x8049169
+R_EAX:u32 = R_EAX:u32 & 0xf000:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x804916e @asm "cmp    $0x8000,%eax"
+label pc_0x804916e
+T_t_151:u32 = R_EAX:u32 - 0x8000:u32
+R_CF:bool = R_EAX:u32 < 0x8000:u32
+R_OF:bool = high:bool((R_EAX:u32 ^ 0x8000:u32) & (R_EAX:u32 ^ T_t_151:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (T_t_151:u32 ^ R_EAX:u32 ^ 0x8000:u32))
+R_PF:bool =
+  ~low:bool(T_t_151:u32 >> 7:u32 ^ T_t_151:u32 >> 6:u32 ^
+            T_t_151:u32 >> 5:u32 ^ T_t_151:u32 >> 4:u32 ^
+            T_t_151:u32 >> 3:u32 ^ T_t_151:u32 >> 2:u32 ^
+            T_t_151:u32 >> 1:u32 ^ T_t_151:u32)
+R_SF:bool = high:bool(T_t_151:u32)
+R_ZF:bool = 0:u32 == T_t_151:u32
+addr 0x8049173 @asm "jne    0x080492f6"
+label pc_0x8049173
+cjmp ~R_ZF:bool, 0x80492f6:u32, "nocjmp16"
+label nocjmp16
+addr 0x8049179 @asm "mov    -0x970(%ebp),%eax"
+label pc_0x8049179
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff690:u32, e_little]:u32
+addr 0x804917f @asm "and    $0x40,%eax"
+label pc_0x804917f
+R_EAX:u32 = R_EAX:u32 & 0x40:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8049182 @asm "test   %eax,%eax"
+label pc_0x8049182
+T_t_152:u32 = R_EAX:u32 & R_EAX:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(T_t_152:u32 >> 7:u32 ^ T_t_152:u32 >> 6:u32 ^
+            T_t_152:u32 >> 5:u32 ^ T_t_152:u32 >> 4:u32 ^
+            T_t_152:u32 >> 3:u32 ^ T_t_152:u32 >> 2:u32 ^
+            T_t_152:u32 >> 1:u32 ^ T_t_152:u32)
+R_SF:bool = high:bool(T_t_152:u32)
+R_ZF:bool = 0:u32 == T_t_152:u32
+addr 0x8049184 @asm "je     0x080492f6"
+label pc_0x8049184
+cjmp R_ZF:bool, 0x80492f6:u32, "nocjmp17"
+label nocjmp17
+addr 0x804918a @asm "mov    -0x924(%ebp),%eax"
+label pc_0x804918a
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x8049190 @asm "mov    %eax,(%esp)"
+label pc_0x8049190
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049193 @asm "call   0x080487c0"
+label pc_0x8049193
+T_target_153:u32 = 0x80487c0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049198:u32
+jmp 0x80487c0:u32 @str "call"
+addr 0x8049198 @asm "movl   $0x0,0x4(%esp)"
+label pc_0x8049198
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0:u32
+addr 0x80491a0 @asm "movl   $0x11,(%esp)"
+label pc_0x80491a0
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x11:u32
+addr 0x80491a7 @asm "call   0x080487f0"
+label pc_0x80491a7
+T_target_154:u32 = 0x80487f0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80491ac:u32
+jmp 0x80487f0:u32 @str "call"
+addr 0x80491ac @asm "call   0x08048940"
+label pc_0x80491ac
+T_target_155:u32 = 0x8048940:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80491b1:u32
+jmp 0x8048940:u32 @str "call"
+addr 0x80491b1 @asm "mov    %eax,-0x91c(%ebp)"
+label pc_0x80491b1
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffff6e4:u32, e_little]:u32 = R_EAX:u32
+addr 0x80491b7 @asm "cmpl   $0x0,-0x91c(%ebp)"
+label pc_0x80491b7
+T_t_156:u32 = mem:?u32[R_EBP:u32 + 0xfffff6e4:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffff6e4:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_EBP:u32 + 0xfffff6e4:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_EBP:u32 + 0xfffff6e4:u32, e_little]:u32 ^
+            T_t_156:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_156:u32 ^ mem:?u32[R_EBP:u32 + 0xfffff6e4:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_156:u32 >> 7:u32 ^ T_t_156:u32 >> 6:u32 ^
+            T_t_156:u32 >> 5:u32 ^ T_t_156:u32 >> 4:u32 ^
+            T_t_156:u32 >> 3:u32 ^ T_t_156:u32 >> 2:u32 ^
+            T_t_156:u32 >> 1:u32 ^ T_t_156:u32)
+R_SF:bool = high:bool(T_t_156:u32)
+R_ZF:bool = 0:u32 == T_t_156:u32
+addr 0x80491be @asm "jns    0x080491f6"
+label pc_0x80491be
+cjmp ~R_SF:bool, 0x80491f6:u32, "nocjmp18"
+label nocjmp18
+addr 0x80491c0 @asm "call   0x08048910"
+label pc_0x80491c0
+T_target_157:u32 = 0x8048910:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80491c5:u32
+jmp 0x8048910:u32 @str "call"
+addr 0x80491c5 @asm "mov    (%eax),%eax"
+label pc_0x80491c5
+R_EAX:u32 = mem:?u32[R_EAX:u32, e_little]:u32
+addr 0x80491c7 @asm "mov    %eax,(%esp)"
+label pc_0x80491c7
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80491ca @asm "call   0x08048870"
+label pc_0x80491ca
+T_target_158:u32 = 0x8048870:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80491cf:u32
+jmp 0x8048870:u32 @str "call"
+addr 0x80491cf @asm "mov    %eax,0xc(%esp)"
+label pc_0x80491cf
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_EAX:u32
+addr 0x80491d3 @asm "movl   $0x804993d,0x8(%esp)"
+label pc_0x80491d3
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0x804993d:u32
+addr 0x80491db @asm "movl   $0x1f4,0x4(%esp)"
+label pc_0x80491db
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0x1f4:u32
+addr 0x80491e3 @asm "mov    -0x924(%ebp),%eax"
+label pc_0x80491e3
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x80491e9 @asm "mov    %eax,(%esp)"
+label pc_0x80491e9
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80491ec @asm "call   0x08048f03"
+label pc_0x80491ec
+T_target_159:u32 = 0x8048f03:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80491f1:u32
+jmp 0x8048f03:u32 @str "call"
+addr 0x80491f1 @asm "jmp    0x08049448"
+label pc_0x80491f1
+jmp 0x8049448:u32
+addr 0x8048870 @asm "jmp    *0x804b038"
+label pc_0x8048870
+jmp mem:?u32[0x804b038:u32, e_little]:u32
+addr 0x8048910 @asm "jmp    *0x804b060"
+label pc_0x8048910
+jmp mem:?u32[0x804b060:u32, e_little]:u32
+addr 0x80491f6 @asm "cmpl   $0x0,-0x91c(%ebp)"
+label pc_0x80491f6
+T_t_160:u32 = mem:?u32[R_EBP:u32 + 0xfffff6e4:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffff6e4:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_EBP:u32 + 0xfffff6e4:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_EBP:u32 + 0xfffff6e4:u32, e_little]:u32 ^
+            T_t_160:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_160:u32 ^ mem:?u32[R_EBP:u32 + 0xfffff6e4:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_160:u32 >> 7:u32 ^ T_t_160:u32 >> 6:u32 ^
+            T_t_160:u32 >> 5:u32 ^ T_t_160:u32 >> 4:u32 ^
+            T_t_160:u32 >> 3:u32 ^ T_t_160:u32 >> 2:u32 ^
+            T_t_160:u32 >> 1:u32 ^ T_t_160:u32)
+R_SF:bool = high:bool(T_t_160:u32)
+R_ZF:bool = 0:u32 == T_t_160:u32
+addr 0x80491fd @asm "jne    0x080492c3"
+label pc_0x80491fd
+cjmp ~R_ZF:bool, 0x80492c3:u32, "nocjmp19"
+label nocjmp19
+addr 0x8049203 @asm "movl   $0x0,0x4(%esp)"
+label pc_0x8049203
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0:u32
+addr 0x804920b @asm "movl   $0x804994d,(%esp)"
+label pc_0x804920b
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804994d:u32
+addr 0x8049212 @asm "call   0x080488a0"
+label pc_0x8049212
+T_target_161:u32 = 0x80488a0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049217:u32
+jmp 0x80488a0:u32 @str "call"
+addr 0x8049217 @asm "mov    %eax,-0x918(%ebp)"
+label pc_0x8049217
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffff6e8:u32, e_little]:u32 = R_EAX:u32
+addr 0x804921d @asm "movl   $0x0,0x4(%esp)"
+label pc_0x804921d
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0:u32
+addr 0x8049225 @asm "mov    -0x918(%ebp),%eax"
+label pc_0x8049225
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6e8:u32, e_little]:u32
+addr 0x804922b @asm "mov    %eax,(%esp)"
+label pc_0x804922b
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x804922e @asm "call   0x080487a0"
+label pc_0x804922e
+T_target_162:u32 = 0x80487a0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049233:u32
+jmp 0x80487a0:u32 @str "call"
+addr 0x8049233 @asm "mov    -0x924(%ebp),%eax"
+label pc_0x8049233
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x8049239 @asm "mov    %eax,(%esp)"
+label pc_0x8049239
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x804923c @asm "call   0x08048920"
+label pc_0x804923c
+T_target_163:u32 = 0x8048920:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049241:u32
+jmp 0x8048920:u32 @str "call"
+addr 0x8049241 @asm "movl   $0x1,0x4(%esp)"
+label pc_0x8049241
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 1:u32
+addr 0x8049249 @asm "mov    %eax,(%esp)"
+label pc_0x8049249
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x804924c @asm "call   0x080487a0"
+label pc_0x804924c
+T_target_164:u32 = 0x80487a0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049251:u32
+jmp 0x80487a0:u32 @str "call"
+addr 0x8049251 @asm "mov    -0x924(%ebp),%eax"
+label pc_0x8049251
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x8049257 @asm "mov    %eax,(%esp)"
+label pc_0x8049257
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x804925a @asm "call   0x08048920"
+label pc_0x804925a
+T_target_165:u32 = 0x8048920:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804925f:u32
+jmp 0x8048920:u32 @str "call"
+addr 0x804925f @asm "movl   $0x2,0x4(%esp)"
+label pc_0x804925f
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 2:u32
+addr 0x8049267 @asm "mov    %eax,(%esp)"
+label pc_0x8049267
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x804926a @asm "call   0x080487a0"
+label pc_0x804926a
+T_target_166:u32 = 0x80487a0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804926f:u32
+jmp 0x80487a0:u32 @str "call"
+addr 0x804926f @asm "mov    -0x918(%ebp),%eax"
+label pc_0x804926f
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6e8:u32, e_little]:u32
+addr 0x8049275 @asm "mov    %eax,(%esp)"
+label pc_0x8049275
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049278 @asm "call   0x080489c0"
+label pc_0x8049278
+T_target_167:u32 = 0x80489c0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804927d:u32
+jmp 0x80489c0:u32 @str "call"
+addr 0x804927d @asm "mov    -0x924(%ebp),%eax"
+label pc_0x804927d
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x8049283 @asm "mov    %eax,(%esp)"
+label pc_0x8049283
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049286 @asm "call   0x080487e0"
+label pc_0x8049286
+T_target_168:u32 = 0x80487e0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804928b:u32
+jmp 0x80487e0:u32 @str "call"
+addr 0x804928b @asm "movl   $0x0,0x8(%esp)"
+label pc_0x804928b
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0:u32
+addr 0x8049293 @asm "lea    -0x90c(%ebp),%eax"
+label pc_0x8049293
+R_EAX:u32 = R_EBP:u32 + 0xfffff6f4:u32
+addr 0x8049299 @asm "mov    %eax,0x4(%esp)"
+label pc_0x8049299
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x804929d @asm "lea    -0x90c(%ebp),%eax"
+label pc_0x804929d
+R_EAX:u32 = R_EBP:u32 + 0xfffff6f4:u32
+addr 0x80492a3 @asm "mov    %eax,(%esp)"
+label pc_0x80492a3
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80492a6 @asm "call   0x08048930"
+label pc_0x80492a6
+T_target_169:u32 = 0x8048930:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80492ab:u32
+jmp 0x8048930:u32 @str "call"
+addr 0x80492ab @asm "movl   $0x8049957,(%esp)"
+label pc_0x80492ab
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049957:u32
+addr 0x80492b2 @asm "call   0x08048830"
+label pc_0x80492b2
+T_target_170:u32 = 0x8048830:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80492b7:u32
+jmp 0x8048830:u32 @str "call"
+addr 0x80492b7 @asm "movl   $0xffffffff,(%esp)"
+label pc_0x80492b7
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = -1:u32
+addr 0x80492be @asm "call   0x08048890"
+label pc_0x80492be
+T_target_171:u32 = 0x8048890:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80492c3:u32
+jmp 0x8048890:u32 @str "call"
+addr 0x80492c3 @asm "movl   $0x0,0x8(%esp)"
+label pc_0x80492c3
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0:u32
+addr 0x80492cb @asm "lea    -0x928(%ebp),%eax"
+label pc_0x80492cb
+R_EAX:u32 = R_EBP:u32 + 0xfffff6d8:u32
+addr 0x80492d1 @asm "mov    %eax,0x4(%esp)"
+label pc_0x80492d1
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x80492d5 @asm "mov    -0x91c(%ebp),%eax"
+label pc_0x80492d5
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6e4:u32, e_little]:u32
+addr 0x80492db @asm "mov    %eax,(%esp)"
+label pc_0x80492db
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80492de @asm "call   0x08048860"
+label pc_0x80492de
+T_target_172:u32 = 0x8048860:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80492e3:u32
+jmp 0x8048860:u32 @str "call"
+addr 0x80492e3 @asm "mov    -0x924(%ebp),%eax"
+label pc_0x80492e3
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x80492e9 @asm "mov    %eax,(%esp)"
+label pc_0x80492e9
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80492ec @asm "call   0x080487e0"
+label pc_0x80492ec
+T_target_173:u32 = 0x80487e0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80492f1:u32
+jmp 0x80487e0:u32 @str "call"
+addr 0x80492f1 @asm "jmp    0x08049448"
+label pc_0x80492f1
+jmp 0x8049448:u32
+addr 0x8048860 @asm "jmp    *0x804b034"
+label pc_0x8048860
+jmp mem:?u32[0x804b034:u32, e_little]:u32
+addr 0x8048890 @asm "jmp    *0x804b040"
+label pc_0x8048890
+jmp mem:?u32[0x804b040:u32, e_little]:u32
+addr 0x8048930 @asm "jmp    *0x804b068"
+label pc_0x8048930
+jmp mem:?u32[0x804b068:u32, e_little]:u32
+addr 0x80487a0 @asm "jmp    *0x804b004"
+label pc_0x80487a0
+jmp mem:?u32[0x804b004:u32, e_little]:u32
+addr 0x8048920 @asm "jmp    *0x804b064"
+label pc_0x8048920
+jmp mem:?u32[0x804b064:u32, e_little]:u32
+addr 0x80488a0 @asm "jmp    *0x804b044"
+label pc_0x80488a0
+jmp mem:?u32[0x804b044:u32, e_little]:u32
+addr 0x8048940 @asm "jmp    *0x804b06c"
+label pc_0x8048940
+jmp mem:?u32[0x804b06c:u32, e_little]:u32
+addr 0x80487f0 @asm "jmp    *0x804b018"
+label pc_0x80487f0
+jmp mem:?u32[0x804b018:u32, e_little]:u32
+addr 0x80487c0 @asm "jmp    *0x804b00c"
+label pc_0x80487c0
+jmp mem:?u32[0x804b00c:u32, e_little]:u32
+addr 0x80492f6 @asm "movl   $0x0,0x4(%esp)"
+label pc_0x80492f6
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0:u32
+addr 0x80492fe @asm "lea    -0x90c(%ebp),%eax"
+label pc_0x80492fe
+R_EAX:u32 = R_EBP:u32 + 0xfffff6f4:u32
+addr 0x8049304 @asm "mov    %eax,(%esp)"
+label pc_0x8049304
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049307 @asm "call   0x080488a0"
+label pc_0x8049307
+T_target_174:u32 = 0x80488a0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804930c:u32
+jmp 0x80488a0:u32 @str "call"
+addr 0x804930c @asm "mov    %eax,-0x914(%ebp)"
+label pc_0x804930c
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffff6ec:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049312 @asm "cmpl   $0x0,-0x914(%ebp)"
+label pc_0x8049312
+T_t_175:u32 = mem:?u32[R_EBP:u32 + 0xfffff6ec:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffff6ec:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_EBP:u32 + 0xfffff6ec:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_EBP:u32 + 0xfffff6ec:u32, e_little]:u32 ^
+            T_t_175:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_175:u32 ^ mem:?u32[R_EBP:u32 + 0xfffff6ec:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_175:u32 >> 7:u32 ^ T_t_175:u32 >> 6:u32 ^
+            T_t_175:u32 >> 5:u32 ^ T_t_175:u32 >> 4:u32 ^
+            T_t_175:u32 >> 3:u32 ^ T_t_175:u32 >> 2:u32 ^
+            T_t_175:u32 >> 1:u32 ^ T_t_175:u32)
+R_SF:bool = high:bool(T_t_175:u32)
+R_ZF:bool = 0:u32 == T_t_175:u32
+addr 0x8049319 @asm "jns    0x0804935b"
+label pc_0x8049319
+cjmp ~R_SF:bool, 0x804935b:u32, "nocjmp20"
+label nocjmp20
+addr 0x804931b @asm "call   0x08048910"
+label pc_0x804931b
+T_target_176:u32 = 0x8048910:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049320:u32
+jmp 0x8048910:u32 @str "call"
+addr 0x8049320 @asm "mov    (%eax),%eax"
+label pc_0x8049320
+R_EAX:u32 = mem:?u32[R_EAX:u32, e_little]:u32
+addr 0x8049322 @asm "mov    %eax,(%esp)"
+label pc_0x8049322
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049325 @asm "call   0x08048870"
+label pc_0x8049325
+T_target_177:u32 = 0x8048870:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804932a:u32
+jmp 0x8048870:u32 @str "call"
+addr 0x804932a @asm "mov    %eax,0x10(%esp)"
+label pc_0x804932a
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0x10:u32, e_little]:u32 = R_EAX:u32
+addr 0x804932e @asm "lea    -0x90c(%ebp),%eax"
+label pc_0x804932e
+R_EAX:u32 = R_EBP:u32 + 0xfffff6f4:u32
+addr 0x8049334 @asm "mov    %eax,0xc(%esp)"
+label pc_0x8049334
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049338 @asm "movl   $0x804995d,0x8(%esp)"
+label pc_0x8049338
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0x804995d:u32
+addr 0x8049340 @asm "movl   $0x1f4,0x4(%esp)"
+label pc_0x8049340
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0x1f4:u32
+addr 0x8049348 @asm "mov    -0x924(%ebp),%eax"
+label pc_0x8049348
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x804934e @asm "mov    %eax,(%esp)"
+label pc_0x804934e
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049351 @asm "call   0x08048f03"
+label pc_0x8049351
+T_target_178:u32 = 0x8048f03:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049356:u32
+jmp 0x8048f03:u32 @str "call"
+addr 0x8049356 @asm "jmp    0x08049448"
+label pc_0x8049356
+jmp 0x8049448:u32
+addr 0x804935b @asm "mov    $0x8049970,%eax"
+label pc_0x804935b
+R_EAX:u32 = 0x8049970:u32
+addr 0x8049360 @asm "mov    -0x924(%ebp),%edx"
+label pc_0x8049360
+R_EDX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x8049366 @asm "mov    %edx,0xc(%esp)"
+label pc_0x8049366
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_EDX:u32
+addr 0x804936a @asm "movl   $0x11,0x8(%esp)"
+label pc_0x804936a
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0x11:u32
+addr 0x8049372 @asm "movl   $0x1,0x4(%esp)"
+label pc_0x8049372
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 1:u32
+addr 0x804937a @asm "mov    %eax,(%esp)"
+label pc_0x804937a
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x804937d @asm "call   0x08048850"
+label pc_0x804937d
+T_target_179:u32 = 0x8048850:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049382:u32
+jmp 0x8048850:u32 @str "call"
+addr 0x8049382 @asm "mov    $0x80498ae,%eax"
+label pc_0x8049382
+R_EAX:u32 = 0x80498ae:u32
+addr 0x8049387 @asm "mov    -0x924(%ebp),%edx"
+label pc_0x8049387
+R_EDX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x804938d @asm "mov    %edx,0xc(%esp)"
+label pc_0x804938d
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_EDX:u32
+addr 0x8049391 @asm "movl   $0x19,0x8(%esp)"
+label pc_0x8049391
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0x19:u32
+addr 0x8049399 @asm "movl   $0x1,0x4(%esp)"
+label pc_0x8049399
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 1:u32
+addr 0x80493a1 @asm "mov    %eax,(%esp)"
+label pc_0x80493a1
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80493a4 @asm "call   0x08048850"
+label pc_0x80493a4
+T_target_180:u32 = 0x8048850:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80493a9:u32
+jmp 0x8048850:u32 @str "call"
+addr 0x80493a9 @asm "mov    $0x80498c8,%eax"
+label pc_0x80493a9
+R_EAX:u32 = 0x80498c8:u32
+addr 0x80493ae @asm "mov    -0x924(%ebp),%edx"
+label pc_0x80493ae
+R_EDX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x80493b4 @asm "mov    %edx,0xc(%esp)"
+label pc_0x80493b4
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_EDX:u32
+addr 0x80493b8 @asm "movl   $0x2,0x8(%esp)"
+label pc_0x80493b8
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 2:u32
+addr 0x80493c0 @asm "movl   $0x1,0x4(%esp)"
+label pc_0x80493c0
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 1:u32
+addr 0x80493c8 @asm "mov    %eax,(%esp)"
+label pc_0x80493c8
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80493cb @asm "call   0x08048850"
+label pc_0x80493cb
+T_target_181:u32 = 0x8048850:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80493d0:u32
+jmp 0x8048850:u32 @str "call"
+addr 0x80493d0 @asm "movl   $0x400,0x8(%esp)"
+label pc_0x80493d0
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0x400:u32
+addr 0x80493d8 @asm "lea    -0x50c(%ebp),%eax"
+label pc_0x80493d8
+R_EAX:u32 = R_EBP:u32 + 0xfffffaf4:u32
+addr 0x80493de @asm "mov    %eax,0x4(%esp)"
+label pc_0x80493de
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x80493e2 @asm "mov    -0x914(%ebp),%eax"
+label pc_0x80493e2
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6ec:u32, e_little]:u32
+addr 0x80493e8 @asm "mov    %eax,(%esp)"
+label pc_0x80493e8
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x80493eb @asm "call   0x080487b0"
+label pc_0x80493eb
+T_target_182:u32 = 0x80487b0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x80493f0:u32
+jmp 0x80487b0:u32 @str "call"
+addr 0x80493f0 @asm "mov    %eax,-0x910(%ebp)"
+label pc_0x80493f0
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffff6f0:u32, e_little]:u32 = R_EAX:u32
+addr 0x80493f6 @asm "cmpl   $0x0,-0x910(%ebp)"
+label pc_0x80493f6
+T_t_183:u32 = mem:?u32[R_EBP:u32 + 0xfffff6f0:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffff6f0:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_EBP:u32 + 0xfffff6f0:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_EBP:u32 + 0xfffff6f0:u32, e_little]:u32 ^
+            T_t_183:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_183:u32 ^ mem:?u32[R_EBP:u32 + 0xfffff6f0:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_183:u32 >> 7:u32 ^ T_t_183:u32 >> 6:u32 ^
+            T_t_183:u32 >> 5:u32 ^ T_t_183:u32 >> 4:u32 ^
+            T_t_183:u32 >> 3:u32 ^ T_t_183:u32 >> 2:u32 ^
+            T_t_183:u32 >> 1:u32 ^ T_t_183:u32)
+R_SF:bool = high:bool(T_t_183:u32)
+R_ZF:bool = 0:u32 == T_t_183:u32
+addr 0x80493fd @asm "jle    0x0804942b"
+label pc_0x80493fd
+cjmp R_ZF:bool | R_SF:bool ^ R_OF:bool, 0x804942b:u32, "nocjmp21"
+label nocjmp21
+addr 0x80493ff @asm "mov    -0x910(%ebp),%edx"
+label pc_0x80493ff
+R_EDX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6f0:u32, e_little]:u32
+addr 0x8049405 @asm "lea    -0x50c(%ebp),%eax"
+label pc_0x8049405
+R_EAX:u32 = R_EBP:u32 + 0xfffffaf4:u32
+addr 0x804940b @asm "mov    -0x924(%ebp),%ecx"
+label pc_0x804940b
+R_ECX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x8049411 @asm "mov    %ecx,0xc(%esp)"
+label pc_0x8049411
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 0xc:u32, e_little]:u32 = R_ECX:u32
+addr 0x8049415 @asm "mov    %edx,0x8(%esp)"
+label pc_0x8049415
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = R_EDX:u32
+addr 0x8049419 @asm "movl   $0x1,0x4(%esp)"
+label pc_0x8049419
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 1:u32
+addr 0x8049421 @asm "mov    %eax,(%esp)"
+label pc_0x8049421
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049424 @asm "call   0x08048850"
+label pc_0x8049424
+T_target_184:u32 = 0x8048850:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049429:u32
+jmp 0x8048850:u32 @str "call"
+addr 0x8049429 @asm "jmp    0x080493d0"
+label pc_0x8049429
+jmp 0x80493d0:u32
+addr 0x804942b @asm "nop"
+label pc_0x804942b
+addr 0x804942c @asm "mov    -0x914(%ebp),%eax"
+label pc_0x804942c
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6ec:u32, e_little]:u32
+addr 0x8049432 @asm "mov    %eax,(%esp)"
+label pc_0x8049432
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049435 @asm "call   0x080489c0"
+label pc_0x8049435
+T_target_185:u32 = 0x80489c0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804943a:u32
+jmp 0x80489c0:u32 @str "call"
+addr 0x804943a @asm "mov    -0x924(%ebp),%eax"
+label pc_0x804943a
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffff6dc:u32, e_little]:u32
+addr 0x8049440 @asm "mov    %eax,(%esp)"
+label pc_0x8049440
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049443 @asm "call   0x080487e0"
+label pc_0x8049443
+T_target_186:u32 = 0x80487e0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049448:u32
+jmp 0x80487e0:u32 @str "call"
+addr 0x80487b0 @asm "jmp    *0x804b008"
+label pc_0x80487b0
+jmp mem:?u32[0x804b008:u32, e_little]:u32
+addr 0x8049760 @asm "push   %ebx"
+label pc_0x8049760
+T_t_187:u32 = R_EBX:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t_187:u32
+addr 0x8049761 @asm "sub    $0x18,%esp"
+label pc_0x8049761
+T_t_188:u32 = R_ESP:u32
+R_ESP:u32 = R_ESP:u32 - 0x18:u32
+R_CF:bool = T_t_188:u32 < 0x18:u32
+R_OF:bool = high:bool((T_t_188:u32 ^ 0x18:u32) & (T_t_188:u32 ^ R_ESP:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_ESP:u32 ^ T_t_188:u32 ^ 0x18:u32))
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x8049764 @asm "mov    0x24(%esp),%eax"
+label pc_0x8049764
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x24:u32, e_little]:u32
+addr 0x8049768 @asm "call   0x08049752"
+label pc_0x8049768
+T_target_189:u32 = 0x8049752:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804976d:u32
+jmp 0x8049752:u32 @str "call"
+addr 0x804976d @asm "add    $0x1887,%ebx"
+label pc_0x804976d
+T_t1_190:u32 = R_EBX:u32
+T_t2_191:u32 = 0x1887:u32
+R_EBX:u32 = R_EBX:u32 + T_t2_191:u32
+R_CF:bool = R_EBX:u32 < T_t1_190:u32
+R_OF:bool =
+  high:bool((T_t1_190:u32 ^ ~T_t2_191:u32) & (T_t1_190:u32 ^ R_EBX:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_EBX:u32 ^ T_t1_190:u32 ^ T_t2_191:u32))
+R_PF:bool =
+  ~low:bool(R_EBX:u32 >> 7:u32 ^ R_EBX:u32 >> 6:u32 ^ R_EBX:u32 >> 5:u32 ^
+            R_EBX:u32 >> 4:u32 ^ R_EBX:u32 >> 3:u32 ^ R_EBX:u32 >> 2:u32 ^
+            R_EBX:u32 >> 1:u32 ^ R_EBX:u32)
+R_SF:bool = high:bool(R_EBX:u32)
+R_ZF:bool = 0:u32 == R_EBX:u32
+addr 0x8049773 @asm "movl   $0x3,(%esp)"
+label pc_0x8049773
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 3:u32
+addr 0x804977a @asm "mov    %eax,0x8(%esp)"
+label pc_0x804977a
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = R_EAX:u32
+addr 0x804977e @asm "mov    0x20(%esp),%eax"
+label pc_0x804977e
+R_EAX:u32 = mem:?u32[R_ESP:u32 + 0x20:u32, e_little]:u32
+addr 0x8049782 @asm "mov    %eax,0x4(%esp)"
+label pc_0x8049782
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8049786 @asm "call   0x08048820"
+label pc_0x8049786
+T_target_192:u32 = 0x8048820:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804978b:u32
+jmp 0x8048820:u32 @str "call"
+addr 0x804978b @asm "add    $0x18,%esp"
+label pc_0x804978b
+T_t1_193:u32 = R_ESP:u32
+T_t2_194:u32 = 0x18:u32
+R_ESP:u32 = R_ESP:u32 + T_t2_194:u32
+R_CF:bool = R_ESP:u32 < T_t1_193:u32
+R_OF:bool =
+  high:bool((T_t1_193:u32 ^ ~T_t2_194:u32) & (T_t1_193:u32 ^ R_ESP:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_ESP:u32 ^ T_t1_193:u32 ^ T_t2_194:u32))
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x804978e @asm "pop    %ebx"
+label pc_0x804978e
+R_EBX:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+addr 0x804978f @asm "ret    "
+label pc_0x804978f
+T_ra_195:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+jmp T_ra_195:u32 @str "ret"
+addr 0x8048820 @asm "jmp    *0x804b024"
+label pc_0x8048820
+jmp mem:?u32[0x804b024:u32, e_little]:u32
+addr 0x8049752 @asm "mov    (%esp),%ebx"
+label pc_0x8049752
+R_EBX:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+addr 0x8049755 @asm "ret    "
+label pc_0x8049755
+T_ra_196:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+jmp T_ra_196:u32 @str "ret"
+addr 0x8048980 @asm "jmp    *0x804b07c"
+label pc_0x8048980
+jmp mem:?u32[0x804b07c:u32, e_little]:u32
+addr 0x8048bd8 @asm "push   %ebp"
+label pc_0x8048bd8
+T_t_197:u32 = R_EBP:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t_197:u32
+addr 0x8048bd9 @asm "mov    %esp,%ebp"
+label pc_0x8048bd9
+R_EBP:u32 = R_ESP:u32
+addr 0x8048bdb @asm "push   %edi"
+label pc_0x8048bdb
+T_t_198:u32 = R_EDI:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t_198:u32
+addr 0x8048bdc @asm "push   %esi"
+label pc_0x8048bdc
+T_t_199:u32 = R_ESI:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t_199:u32
+addr 0x8048bdd @asm "push   %ebx"
+label pc_0x8048bdd
+T_t_200:u32 = R_EBX:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t_200:u32
+addr 0x8048bde @asm "sub    $0x24c,%esp"
+label pc_0x8048bde
+T_t_201:u32 = R_ESP:u32
+R_ESP:u32 = R_ESP:u32 - 0x24c:u32
+R_CF:bool = T_t_201:u32 < 0x24c:u32
+R_OF:bool = high:bool((T_t_201:u32 ^ 0x24c:u32) & (T_t_201:u32 ^ R_ESP:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_ESP:u32 ^ T_t_201:u32 ^ 0x24c:u32))
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x8048be4 @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048be4
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048be7 @asm "mov    %eax,-0x23c(%ebp)"
+label pc_0x8048be7
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffdc4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048bed @asm "mov    %gs:0x14,%eax"
+label pc_0x8048bed
+R_EAX:u32 = mem:?u32[R_GS_BASE:u32 + 0x14:u32, e_little]:u32
+addr 0x8048bf3 @asm "mov    %eax,-0x1c(%ebp)"
+label pc_0x8048bf3
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xffffffe4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048bf6 @asm "xor    %eax,%eax"
+label pc_0x8048bf6
+R_EAX:u32 = 0:u32
+R_AF:bool = unknown "AF is undefined after xor":bool
+R_ZF:bool = true
+R_PF:bool = true
+R_OF:bool = false
+R_CF:bool = false
+R_SF:bool = false
+addr 0x8048bf8 @asm "mov    0x804b0c0,%eax"
+label pc_0x8048bf8
+R_EAX:u32 = mem:?u32[0x804b0c0:u32, e_little]:u32
+addr 0x8048bfd @asm "mov    %eax,0x8(%esp)"
+label pc_0x8048bfd
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048c01 @asm "movl   $0x2000,0x4(%esp)"
+label pc_0x8048c01
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0x2000:u32
+addr 0x8048c09 @asm "movl   $0x804b0e0,(%esp)"
+label pc_0x8048c09
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804b0e0:u32
+addr 0x8048c10 @asm "call   0x08048a84"
+label pc_0x8048c10
+T_target_202:u32 = 0x8048a84:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048c15:u32
+jmp 0x8048a84:u32 @str "call"
+addr 0x8048c15 @asm "test   %eax,%eax"
+label pc_0x8048c15
+T_t_203:u32 = R_EAX:u32 & R_EAX:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(T_t_203:u32 >> 7:u32 ^ T_t_203:u32 >> 6:u32 ^
+            T_t_203:u32 >> 5:u32 ^ T_t_203:u32 >> 4:u32 ^
+            T_t_203:u32 >> 3:u32 ^ T_t_203:u32 >> 2:u32 ^
+            T_t_203:u32 >> 1:u32 ^ T_t_203:u32)
+R_SF:bool = high:bool(T_t_203:u32)
+R_ZF:bool = 0:u32 == T_t_203:u32
+addr 0x8048c17 @asm "jns    0x08048c23"
+label pc_0x8048c17
+cjmp ~R_SF:bool, 0x8048c23:u32, "nocjmp22"
+label nocjmp22
+addr 0x8048c19 @asm "mov    $0x80497e0,%eax"
+label pc_0x8048c19
+R_EAX:u32 = 0x80497e0:u32
+addr 0x8048c1e @asm "jmp    0x08048ee7"
+label pc_0x8048c1e
+jmp 0x8048ee7:u32
+addr 0x8048ee7 @asm "mov    -0x1c(%ebp),%edx"
+label pc_0x8048ee7
+R_EDX:u32 = mem:?u32[R_EBP:u32 + 0xffffffe4:u32, e_little]:u32
+addr 0x8048eea @asm "xor    %gs:0x14,%edx"
+label pc_0x8048eea
+R_EDX:u32 = R_EDX:u32 ^ mem:?u32[R_GS_BASE:u32 + 0x14:u32, e_little]:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after xor":bool
+R_PF:bool =
+  ~low:bool(R_EDX:u32 >> 7:u32 ^ R_EDX:u32 >> 6:u32 ^ R_EDX:u32 >> 5:u32 ^
+            R_EDX:u32 >> 4:u32 ^ R_EDX:u32 >> 3:u32 ^ R_EDX:u32 >> 2:u32 ^
+            R_EDX:u32 >> 1:u32 ^ R_EDX:u32)
+R_SF:bool = high:bool(R_EDX:u32)
+R_ZF:bool = 0:u32 == R_EDX:u32
+addr 0x8048ef1 @asm "je     0x08048ef8"
+label pc_0x8048ef1
+cjmp R_ZF:bool, 0x8048ef8:u32, "nocjmp23"
+label nocjmp23
+addr 0x8048ef3 @asm "call   0x08048800"
+label pc_0x8048ef3
+T_target_204:u32 = 0x8048800:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048ef8:u32
+jmp 0x8048800:u32 @str "call"
+addr 0x8048ef8 @asm "add    $0x24c,%esp"
+label pc_0x8048ef8
+T_t1_205:u32 = R_ESP:u32
+T_t2_206:u32 = 0x24c:u32
+R_ESP:u32 = R_ESP:u32 + T_t2_206:u32
+R_CF:bool = R_ESP:u32 < T_t1_205:u32
+R_OF:bool =
+  high:bool((T_t1_205:u32 ^ ~T_t2_206:u32) & (T_t1_205:u32 ^ R_ESP:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_ESP:u32 ^ T_t1_205:u32 ^ T_t2_206:u32))
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x8048efe @asm "pop    %ebx"
+label pc_0x8048efe
+R_EBX:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+addr 0x8048eff @asm "pop    %esi"
+label pc_0x8048eff
+R_ESI:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+addr 0x8048f00 @asm "pop    %edi"
+label pc_0x8048f00
+R_EDI:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+addr 0x8048f01 @asm "pop    %ebp"
+label pc_0x8048f01
+R_EBP:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+addr 0x8048f02 @asm "ret    "
+label pc_0x8048f02
+T_ra_207:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+jmp T_ra_207:u32 @str "ret"
+addr 0x8048c23 @asm "movl   $0x20,0x4(%esp)"
+label pc_0x8048c23
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0x20:u32
+addr 0x8048c2b @asm "movl   $0x804b0e0,(%esp)"
+label pc_0x8048c2b
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804b0e0:u32
+addr 0x8048c32 @asm "call   0x080488c0"
+label pc_0x8048c32
+T_target_208:u32 = 0x80488c0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048c37:u32
+jmp 0x80488c0:u32 @str "call"
+addr 0x8048c37 @asm "mov    %eax,-0x230(%ebp)"
+label pc_0x8048c37
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048c3d @asm "cmpl   $0x0,-0x230(%ebp)"
+label pc_0x8048c3d
+T_t_209:u32 = mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 ^
+            T_t_209:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_209:u32 ^ mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_209:u32 >> 7:u32 ^ T_t_209:u32 >> 6:u32 ^
+            T_t_209:u32 >> 5:u32 ^ T_t_209:u32 >> 4:u32 ^
+            T_t_209:u32 >> 3:u32 ^ T_t_209:u32 >> 2:u32 ^
+            T_t_209:u32 >> 1:u32 ^ T_t_209:u32)
+R_SF:bool = high:bool(T_t_209:u32)
+R_ZF:bool = 0:u32 == T_t_209:u32
+addr 0x8048c44 @asm "jne    0x08048c50"
+label pc_0x8048c44
+cjmp ~R_ZF:bool, 0x8048c50:u32, "nocjmp24"
+label nocjmp24
+addr 0x8048c46 @asm "mov    $0x80497f0,%eax"
+label pc_0x8048c46
+R_EAX:u32 = 0x80497f0:u32
+addr 0x8048c4b @asm "jmp    0x08048ee7"
+label pc_0x8048c4b
+jmp 0x8048ee7:u32
+addr 0x8048c50 @asm "mov    -0x230(%ebp),%eax"
+label pc_0x8048c50
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32
+addr 0x8048c56 @asm "movb   $0x0,(%eax)"
+label pc_0x8048c56
+mem:?u32 = mem:?u32 with [R_EAX:u32, e_little]:u8 = 0:u8
+addr 0x8048c59 @asm "addl   $0x1,-0x230(%ebp)"
+label pc_0x8048c59
+T_t1_210:u32 = mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32
+T_t2_211:u32 = 1:u32
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 =
+  mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 + T_t2_211:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 < T_t1_210:u32
+R_OF:bool =
+  high:bool((T_t1_210:u32 ^ ~T_t2_211:u32) &
+            (T_t1_210:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 ^ T_t1_210:u32 ^
+  T_t2_211:u32))
+R_PF:bool =
+  ~low:bool(mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 >> 7:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 >> 6:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 >> 5:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 >> 4:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 >> 3:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 >> 2:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32 >> 1:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32)
+R_SF:bool = high:bool(mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32)
+R_ZF:bool = 0:u32 == mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32
+addr 0x8048c60 @asm "movl   $0x20,0x4(%esp)"
+label pc_0x8048c60
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0x20:u32
+addr 0x8048c68 @asm "mov    -0x230(%ebp),%eax"
+label pc_0x8048c68
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32
+addr 0x8048c6e @asm "mov    %eax,(%esp)"
+label pc_0x8048c6e
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048c71 @asm "call   0x080488c0"
+label pc_0x8048c71
+T_target_212:u32 = 0x80488c0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048c76:u32
+jmp 0x80488c0:u32 @str "call"
+addr 0x8048c76 @asm "mov    %eax,-0x22c(%ebp)"
+label pc_0x8048c76
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048c7c @asm "cmpl   $0x0,-0x22c(%ebp)"
+label pc_0x8048c7c
+T_t_213:u32 = mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 ^
+            T_t_213:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_213:u32 ^ mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_213:u32 >> 7:u32 ^ T_t_213:u32 >> 6:u32 ^
+            T_t_213:u32 >> 5:u32 ^ T_t_213:u32 >> 4:u32 ^
+            T_t_213:u32 >> 3:u32 ^ T_t_213:u32 >> 2:u32 ^
+            T_t_213:u32 >> 1:u32 ^ T_t_213:u32)
+R_SF:bool = high:bool(T_t_213:u32)
+R_ZF:bool = 0:u32 == T_t_213:u32
+addr 0x8048c83 @asm "jne    0x08048c8f"
+label pc_0x8048c83
+cjmp ~R_ZF:bool, 0x8048c8f:u32, "nocjmp25"
+label nocjmp25
+addr 0x8048c85 @asm "mov    $0x804980e,%eax"
+label pc_0x8048c85
+R_EAX:u32 = 0x804980e:u32
+addr 0x8048c8a @asm "jmp    0x08048ee7"
+label pc_0x8048c8a
+jmp 0x8048ee7:u32
+addr 0x8048c8f @asm "mov    -0x22c(%ebp),%eax"
+label pc_0x8048c8f
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32
+addr 0x8048c95 @asm "movb   $0x0,(%eax)"
+label pc_0x8048c95
+mem:?u32 = mem:?u32 with [R_EAX:u32, e_little]:u8 = 0:u8
+addr 0x8048c98 @asm "addl   $0x1,-0x22c(%ebp)"
+label pc_0x8048c98
+T_t1_214:u32 = mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32
+T_t2_215:u32 = 1:u32
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 =
+  mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 + T_t2_215:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 < T_t1_214:u32
+R_OF:bool =
+  high:bool((T_t1_214:u32 ^ ~T_t2_215:u32) &
+            (T_t1_214:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 ^ T_t1_214:u32 ^
+  T_t2_215:u32))
+R_PF:bool =
+  ~low:bool(mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 >> 7:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 >> 6:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 >> 5:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 >> 4:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 >> 3:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 >> 2:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32 >> 1:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32)
+R_SF:bool = high:bool(mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32)
+R_ZF:bool = 0:u32 == mem:?u32[R_EBP:u32 + 0xfffffdd4:u32, e_little]:u32
+addr 0x8048c9f @asm "mov    $0x804b0e0,%edx"
+label pc_0x8048c9f
+R_EDX:u32 = 0x804b0e0:u32
+addr 0x8048ca4 @asm "mov    $0x804982c,%eax"
+label pc_0x8048ca4
+R_EAX:u32 = 0x804982c:u32
+addr 0x8048ca9 @asm "mov    $0x4,%ecx"
+label pc_0x8048ca9
+R_ECX:u32 = 4:u32
+addr 0x8048cae @asm "mov    %edx,%esi"
+label pc_0x8048cae
+R_ESI:u32 = R_EDX:u32
+addr 0x8048cb0 @asm "mov    %eax,%edi"
+label pc_0x8048cb0
+R_EDI:u32 = R_EAX:u32
+addr 0x8048cb2 @asm "repz cmpsb %es:(%edi),%ds:(%esi)"
+label pc_0x8048cb2
+cjmp R_ECX:u32 == 0:u32, 0x8048cb4:u32, "nocjmp27"
+label nocjmp27
+T_src1_216:u8 = mem:?u32[R_ESI:u32, e_little]:u8
+T_src2_217:u8 = mem:?u32[R_EDI:u32, e_little]:u8
+T_tmp_218:u8 = T_src1_216:u8 - T_src2_217:u8
+R_ESI:u32 = R_ESI:u32 + R_DFLAG:u32
+R_EDI:u32 = R_EDI:u32 + R_DFLAG:u32
+R_CF:bool = T_src1_216:u8 < T_src2_217:u8
+R_OF:bool =
+  high:bool((T_src1_216:u8 ^ T_src2_217:u8) & (T_src1_216:u8 ^ T_tmp_218:u8))
+R_AF:bool =
+  0x10:u8 == (0x10:u8 & (T_tmp_218:u8 ^ T_src1_216:u8 ^ T_src2_217:u8))
+R_PF:bool =
+  ~low:bool(T_tmp_218:u8 >> 7:u8 ^ T_tmp_218:u8 >> 6:u8 ^
+            T_tmp_218:u8 >> 5:u8 ^ T_tmp_218:u8 >> 4:u8 ^
+            T_tmp_218:u8 >> 3:u8 ^ T_tmp_218:u8 >> 2:u8 ^
+            T_tmp_218:u8 >> 1:u8 ^ T_tmp_218:u8)
+R_SF:bool = high:bool(T_tmp_218:u8)
+R_ZF:bool = 0:u8 == T_tmp_218:u8
+R_ECX:u32 = R_ECX:u32 - 1:u32
+cjmp R_ECX:u32 == 0:u32, 0x8048cb4:u32, "nocjmp26"
+label nocjmp26
+cjmp R_ZF:bool, 0x8048cb2:u32, 0x8048cb4:u32
+addr 0x8048cb4 @asm "seta   %dl"
+label pc_0x8048cb4
+R_EDX:u32 =
+  concat:[extract:31:8:[R_EDX:u32]][pad:u8(~(R_CF:bool | R_ZF:bool))]
+addr 0x8048cb7 @asm "setb   %al"
+label pc_0x8048cb7
+R_EAX:u32 = concat:[extract:31:8:[R_EAX:u32]][pad:u8(R_CF:bool)]
+addr 0x8048cba @asm "mov    %edx,%ecx"
+label pc_0x8048cba
+R_ECX:u32 = R_EDX:u32
+addr 0x8048cbc @asm "sub    %al,%cl"
+label pc_0x8048cbc
+T_t_219:u8 = low:u8(R_ECX:u32)
+R_ECX:u32 =
+  concat:[extract:31:8:[R_ECX:u32]][low:u8(R_ECX:u32) - low:u8(R_EAX:u32)]
+R_CF:bool = T_t_219:u8 < low:u8(R_EAX:u32)
+R_OF:bool =
+  high:bool((T_t_219:u8 ^ low:u8(R_EAX:u32)) &
+            (T_t_219:u8 ^ low:u8(R_ECX:u32)))
+R_AF:bool =
+  0x10:u8 == (0x10:u8 & (low:u8(R_ECX:u32) ^ T_t_219:u8 ^ low:u8(R_EAX:u32)))
+R_PF:bool =
+  ~low:bool(low:u8(R_ECX:u32) >> 7:u8 ^ low:u8(R_ECX:u32) >> 6:u8 ^
+            low:u8(R_ECX:u32) >> 5:u8 ^ low:u8(R_ECX:u32) >> 4:u8 ^
+            low:u8(R_ECX:u32) >> 3:u8 ^ low:u8(R_ECX:u32) >> 2:u8 ^
+            low:u8(R_ECX:u32) >> 1:u8 ^ low:u8(R_ECX:u32))
+R_SF:bool = high:bool(low:u8(R_ECX:u32))
+R_ZF:bool = 0:u8 == low:u8(R_ECX:u32)
+addr 0x8048cbe @asm "mov    %ecx,%eax"
+label pc_0x8048cbe
+R_EAX:u32 = R_ECX:u32
+addr 0x8048cc0 @asm "movsbl %al,%eax"
+label pc_0x8048cc0
+R_EAX:u32 = extend:u32(low:u8(R_EAX:u32))
+addr 0x8048cc3 @asm "test   %eax,%eax"
+label pc_0x8048cc3
+T_t_220:u32 = R_EAX:u32 & R_EAX:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(T_t_220:u32 >> 7:u32 ^ T_t_220:u32 >> 6:u32 ^
+            T_t_220:u32 >> 5:u32 ^ T_t_220:u32 >> 4:u32 ^
+            T_t_220:u32 >> 3:u32 ^ T_t_220:u32 >> 2:u32 ^
+            T_t_220:u32 >> 1:u32 ^ T_t_220:u32)
+R_SF:bool = high:bool(T_t_220:u32)
+R_ZF:bool = 0:u32 == T_t_220:u32
+addr 0x8048cc5 @asm "je     0x08048cd1"
+label pc_0x8048cc5
+cjmp R_ZF:bool, 0x8048cd1:u32, "nocjmp28"
+label nocjmp28
+addr 0x8048cc7 @asm "mov    $0x8049830,%eax"
+label pc_0x8048cc7
+R_EAX:u32 = 0x8049830:u32
+addr 0x8048ccc @asm "jmp    0x08048ee7"
+label pc_0x8048ccc
+jmp 0x8048ee7:u32
+addr 0x8048cd1 @asm "mov    -0x23c(%ebp),%eax"
+label pc_0x8048cd1
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffdc4:u32, e_little]:u32
+addr 0x8048cd7 @asm "mov    %eax,0x4(%esp)"
+label pc_0x8048cd7
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048cdb @asm "mov    -0x230(%ebp),%eax"
+label pc_0x8048cdb
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffdd0:u32, e_little]:u32
+addr 0x8048ce1 @asm "mov    %eax,(%esp)"
+label pc_0x8048ce1
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048ce4 @asm "call   0x08048b49"
+label pc_0x8048ce4
+T_target_221:u32 = 0x8048b49:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048ce9:u32
+jmp 0x8048b49:u32 @str "call"
+addr 0x8048ce9 @asm "movl   $0x3f,0x4(%esp)"
+label pc_0x8048ce9
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0x3f:u32
+addr 0x8048cf1 @asm "mov    -0x23c(%ebp),%eax"
+label pc_0x8048cf1
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffdc4:u32, e_little]:u32
+addr 0x8048cf7 @asm "mov    %eax,(%esp)"
+label pc_0x8048cf7
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048cfa @asm "call   0x080488c0"
+label pc_0x8048cfa
+T_target_222:u32 = 0x80488c0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048cff:u32
+jmp 0x80488c0:u32 @str "call"
+addr 0x8048cff @asm "mov    %eax,-0x228(%ebp)"
+label pc_0x8048cff
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffdd8:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048d05 @asm "cmpl   $0x0,-0x228(%ebp)"
+label pc_0x8048d05
+T_t_223:u32 = mem:?u32[R_EBP:u32 + 0xfffffdd8:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffffdd8:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_EBP:u32 + 0xfffffdd8:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_EBP:u32 + 0xfffffdd8:u32, e_little]:u32 ^
+            T_t_223:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_223:u32 ^ mem:?u32[R_EBP:u32 + 0xfffffdd8:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_223:u32 >> 7:u32 ^ T_t_223:u32 >> 6:u32 ^
+            T_t_223:u32 >> 5:u32 ^ T_t_223:u32 >> 4:u32 ^
+            T_t_223:u32 >> 3:u32 ^ T_t_223:u32 >> 2:u32 ^
+            T_t_223:u32 >> 1:u32 ^ T_t_223:u32)
+R_SF:bool = high:bool(T_t_223:u32)
+R_ZF:bool = 0:u32 == T_t_223:u32
+addr 0x8048d0c @asm "je     0x08048d38"
+label pc_0x8048d0c
+cjmp R_ZF:bool, 0x8048d38:u32, "nocjmp29"
+label nocjmp29
+addr 0x8048d0e @asm "mov    -0x228(%ebp),%eax"
+label pc_0x8048d0e
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffdd8:u32, e_little]:u32
+addr 0x8048d14 @asm "movb   $0x0,(%eax)"
+label pc_0x8048d14
+mem:?u32 = mem:?u32 with [R_EAX:u32, e_little]:u8 = 0:u8
+addr 0x8048d17 @asm "mov    -0x228(%ebp),%eax"
+label pc_0x8048d17
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffdd8:u32, e_little]:u32
+addr 0x8048d1d @asm "add    $0x1,%eax"
+label pc_0x8048d1d
+T_t1_224:u32 = R_EAX:u32
+T_t2_225:u32 = 1:u32
+R_EAX:u32 = R_EAX:u32 + T_t2_225:u32
+R_CF:bool = R_EAX:u32 < T_t1_224:u32
+R_OF:bool =
+  high:bool((T_t1_224:u32 ^ ~T_t2_225:u32) & (T_t1_224:u32 ^ R_EAX:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t1_224:u32 ^ T_t2_225:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048d20 @asm "movl   $0x1,0x8(%esp)"
+label pc_0x8048d20
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 1:u32
+addr 0x8048d28 @asm "mov    %eax,0x4(%esp)"
+label pc_0x8048d28
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048d2c @asm "movl   $0x8049840,(%esp)"
+label pc_0x8048d2c
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8049840:u32
+addr 0x8048d33 @asm "call   0x080488d0"
+label pc_0x8048d33
+T_target_226:u32 = 0x80488d0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048d38:u32
+jmp 0x80488d0:u32 @str "call"
+addr 0x8048d38 @asm "mov    0x804b0c0,%eax"
+label pc_0x8048d38
+R_EAX:u32 = mem:?u32[0x804b0c0:u32, e_little]:u32
+addr 0x8048d3d @asm "mov    %eax,0x8(%esp)"
+label pc_0x8048d3d
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048d41 @asm "movl   $0x2000,0x4(%esp)"
+label pc_0x8048d41
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0x2000:u32
+addr 0x8048d49 @asm "movl   $0x804b0e0,(%esp)"
+label pc_0x8048d49
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804b0e0:u32
+addr 0x8048d50 @asm "call   0x08048a84"
+label pc_0x8048d50
+T_target_227:u32 = 0x8048a84:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048d55:u32
+jmp 0x8048a84:u32 @str "call"
+addr 0x8048d55 @asm "test   %eax,%eax"
+label pc_0x8048d55
+T_t_228:u32 = R_EAX:u32 & R_EAX:u32
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(T_t_228:u32 >> 7:u32 ^ T_t_228:u32 >> 6:u32 ^
+            T_t_228:u32 >> 5:u32 ^ T_t_228:u32 >> 4:u32 ^
+            T_t_228:u32 >> 3:u32 ^ T_t_228:u32 >> 2:u32 ^
+            T_t_228:u32 >> 1:u32 ^ T_t_228:u32)
+R_SF:bool = high:bool(T_t_228:u32)
+R_ZF:bool = 0:u32 == T_t_228:u32
+addr 0x8048d57 @asm "jns    0x08048d63"
+label pc_0x8048d57
+cjmp ~R_SF:bool, 0x8048d63:u32, "nocjmp30"
+label nocjmp30
+addr 0x8048d59 @asm "mov    $0x80497e0,%eax"
+label pc_0x8048d59
+R_EAX:u32 = 0x80497e0:u32
+addr 0x8048d5e @asm "jmp    0x08048ee7"
+label pc_0x8048d5e
+jmp 0x8048ee7:u32
+addr 0x8048d63 @asm "movzbl 0x804b0e0,%eax"
+label pc_0x8048d63
+R_EAX:u32 = pad:u32(mem:?u32[0x804b0e0:u32, e_little]:u8)
+addr 0x8048d6a @asm "test   %al,%al"
+label pc_0x8048d6a
+T_t_229:u8 = low:u8(R_EAX:u32) & low:u8(R_EAX:u32)
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(T_t_229:u8 >> 7:u8 ^ T_t_229:u8 >> 6:u8 ^ T_t_229:u8 >> 5:u8 ^
+            T_t_229:u8 >> 4:u8 ^ T_t_229:u8 >> 3:u8 ^ T_t_229:u8 >> 2:u8 ^
+            T_t_229:u8 >> 1:u8 ^ T_t_229:u8)
+R_SF:bool = high:bool(T_t_229:u8)
+R_ZF:bool = 0:u8 == T_t_229:u8
+addr 0x8048d6c @asm "je     0x08048ee1"
+label pc_0x8048d6c
+cjmp R_ZF:bool, 0x8048ee1:u32, "nocjmp31"
+label nocjmp31
+addr 0x8048d72 @asm "movl   $0x20,0x4(%esp)"
+label pc_0x8048d72
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0x20:u32
+addr 0x8048d7a @asm "movl   $0x804b0e0,(%esp)"
+label pc_0x8048d7a
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x804b0e0:u32
+addr 0x8048d81 @asm "call   0x080488c0"
+label pc_0x8048d81
+T_target_230:u32 = 0x80488c0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048d86:u32
+jmp 0x80488c0:u32 @str "call"
+addr 0x8048d86 @asm "mov    %eax,-0x224(%ebp)"
+label pc_0x8048d86
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048d8c @asm "cmpl   $0x0,-0x224(%ebp)"
+label pc_0x8048d8c
+T_t_231:u32 = mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 ^
+            T_t_231:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_231:u32 ^ mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_231:u32 >> 7:u32 ^ T_t_231:u32 >> 6:u32 ^
+            T_t_231:u32 >> 5:u32 ^ T_t_231:u32 >> 4:u32 ^
+            T_t_231:u32 >> 3:u32 ^ T_t_231:u32 >> 2:u32 ^
+            T_t_231:u32 >> 1:u32 ^ T_t_231:u32)
+R_SF:bool = high:bool(T_t_231:u32)
+R_ZF:bool = 0:u32 == T_t_231:u32
+addr 0x8048d93 @asm "jne    0x08048d9f"
+label pc_0x8048d93
+cjmp ~R_ZF:bool, 0x8048d9f:u32, "nocjmp32"
+label nocjmp32
+addr 0x8048d95 @asm "mov    $0x804984d,%eax"
+label pc_0x8048d95
+R_EAX:u32 = 0x804984d:u32
+addr 0x8048d9a @asm "jmp    0x08048ee7"
+label pc_0x8048d9a
+jmp 0x8048ee7:u32
+addr 0x8048d9f @asm "mov    -0x224(%ebp),%eax"
+label pc_0x8048d9f
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32
+addr 0x8048da5 @asm "movb   $0x0,(%eax)"
+label pc_0x8048da5
+mem:?u32 = mem:?u32 with [R_EAX:u32, e_little]:u8 = 0:u8
+addr 0x8048da8 @asm "addl   $0x1,-0x224(%ebp)"
+label pc_0x8048da8
+T_t1_232:u32 = mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32
+T_t2_233:u32 = 1:u32
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 =
+  mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 + T_t2_233:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 < T_t1_232:u32
+R_OF:bool =
+  high:bool((T_t1_232:u32 ^ ~T_t2_233:u32) &
+            (T_t1_232:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 ^ T_t1_232:u32 ^
+  T_t2_233:u32))
+R_PF:bool =
+  ~low:bool(mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 >> 7:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 >> 6:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 >> 5:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 >> 4:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 >> 3:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 >> 2:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32 >> 1:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32)
+R_SF:bool = high:bool(mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32)
+R_ZF:bool = 0:u32 == mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32
+addr 0x8048daf @asm "mov    $0x804b0e0,%eax"
+label pc_0x8048daf
+R_EAX:u32 = 0x804b0e0:u32
+addr 0x8048db4 @asm "movzbl (%eax),%eax"
+label pc_0x8048db4
+R_EAX:u32 = pad:u32(mem:?u32[R_EAX:u32, e_little]:u8)
+addr 0x8048db7 @asm "test   %al,%al"
+label pc_0x8048db7
+T_t_234:u8 = low:u8(R_EAX:u32) & low:u8(R_EAX:u32)
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(T_t_234:u8 >> 7:u8 ^ T_t_234:u8 >> 6:u8 ^ T_t_234:u8 >> 5:u8 ^
+            T_t_234:u8 >> 4:u8 ^ T_t_234:u8 >> 3:u8 ^ T_t_234:u8 >> 2:u8 ^
+            T_t_234:u8 >> 1:u8 ^ T_t_234:u8)
+R_SF:bool = high:bool(T_t_234:u8)
+R_ZF:bool = 0:u8 == T_t_234:u8
+addr 0x8048db9 @asm "jne    0x08048dc5"
+label pc_0x8048db9
+cjmp ~R_ZF:bool, 0x8048dc5:u32, "nocjmp33"
+label nocjmp33
+addr 0x8048dbb @asm "mov    $0x8049864,%eax"
+label pc_0x8048dbb
+R_EAX:u32 = 0x8049864:u32
+addr 0x8048dc0 @asm "jmp    0x08048ee7"
+label pc_0x8048dc0
+jmp 0x8048ee7:u32
+addr 0x8048dc5 @asm "mov    $0x804b0e0,%eax"
+label pc_0x8048dc5
+R_EAX:u32 = 0x804b0e0:u32
+addr 0x8048dca @asm "movl   $0xffffffff,-0x240(%ebp)"
+label pc_0x8048dca
+mem:?u32 = mem:?u32 with [R_EBP:u32 + 0xfffffdc0:u32, e_little]:u32 = -1:u32
+addr 0x8048dd4 @asm "mov    %eax,%edx"
+label pc_0x8048dd4
+R_EDX:u32 = R_EAX:u32
+addr 0x8048dd6 @asm "mov    $0x0,%eax"
+label pc_0x8048dd6
+R_EAX:u32 = 0:u32
+addr 0x8048ddb @asm "mov    -0x240(%ebp),%ecx"
+label pc_0x8048ddb
+R_ECX:u32 = mem:?u32[R_EBP:u32 + 0xfffffdc0:u32, e_little]:u32
+addr 0x8048de1 @asm "mov    %edx,%edi"
+label pc_0x8048de1
+R_EDI:u32 = R_EDX:u32
+addr 0x8048de3 @asm "repnz scas %es:(%edi),%al"
+label pc_0x8048de3
+cjmp R_ECX:u32 == 0:u32, 0x8048de5:u32, "nocjmp35"
+label nocjmp35
+T_src1_235:u8 = low:u8(R_EAX:u32)
+T_src2_236:u8 = mem:?u32[R_EDI:u32, e_little]:u8
+T_tmp_237:u8 = T_src1_235:u8 - T_src2_236:u8
+R_EDI:u32 = R_EDI:u32 + R_DFLAG:u32
+R_CF:bool = T_src1_235:u8 < T_src2_236:u8
+R_OF:bool =
+  high:bool((T_src1_235:u8 ^ T_src2_236:u8) & (T_src1_235:u8 ^ T_tmp_237:u8))
+R_AF:bool =
+  0x10:u8 == (0x10:u8 & (T_tmp_237:u8 ^ T_src1_235:u8 ^ T_src2_236:u8))
+R_PF:bool =
+  ~low:bool(T_tmp_237:u8 >> 7:u8 ^ T_tmp_237:u8 >> 6:u8 ^
+            T_tmp_237:u8 >> 5:u8 ^ T_tmp_237:u8 >> 4:u8 ^
+            T_tmp_237:u8 >> 3:u8 ^ T_tmp_237:u8 >> 2:u8 ^
+            T_tmp_237:u8 >> 1:u8 ^ T_tmp_237:u8)
+R_SF:bool = high:bool(T_tmp_237:u8)
+R_ZF:bool = 0:u8 == T_tmp_237:u8
+R_ECX:u32 = R_ECX:u32 - 1:u32
+cjmp R_ECX:u32 == 0:u32, 0x8048de5:u32, "nocjmp34"
+label nocjmp34
+cjmp R_ZF:bool, 0x8048de5:u32, 0x8048de3:u32
+addr 0x8048de5 @asm "mov    %ecx,%eax"
+label pc_0x8048de5
+R_EAX:u32 = R_ECX:u32
+addr 0x8048de7 @asm "not    %eax"
+label pc_0x8048de7
+R_EAX:u32 = ~R_EAX:u32
+addr 0x8048de9 @asm "sub    $0x1,%eax"
+label pc_0x8048de9
+T_t_238:u32 = R_EAX:u32
+R_EAX:u32 = R_EAX:u32 - 1:u32
+R_CF:bool = T_t_238:u32 < 1:u32
+R_OF:bool = high:bool((T_t_238:u32 ^ 1:u32) & (T_t_238:u32 ^ R_EAX:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t_238:u32 ^ 1:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048dec @asm "sub    $0x1,%eax"
+label pc_0x8048dec
+T_t_239:u32 = R_EAX:u32
+R_EAX:u32 = R_EAX:u32 - 1:u32
+R_CF:bool = T_t_239:u32 < 1:u32
+R_OF:bool = high:bool((T_t_239:u32 ^ 1:u32) & (T_t_239:u32 ^ R_EAX:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t_239:u32 ^ 1:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048def @asm "add    $0x804b0e0,%eax"
+label pc_0x8048def
+T_t1_240:u32 = R_EAX:u32
+T_t2_241:u32 = 0x804b0e0:u32
+R_EAX:u32 = R_EAX:u32 + T_t2_241:u32
+R_CF:bool = R_EAX:u32 < T_t1_240:u32
+R_OF:bool =
+  high:bool((T_t1_240:u32 ^ ~T_t2_241:u32) & (T_t1_240:u32 ^ R_EAX:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t1_240:u32 ^ T_t2_241:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048df4 @asm "mov    %eax,-0x220(%ebp)"
+label pc_0x8048df4
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffde0:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048dfa @asm "mov    -0x220(%ebp),%eax"
+label pc_0x8048dfa
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffde0:u32, e_little]:u32
+addr 0x8048e00 @asm "movzbl (%eax),%eax"
+label pc_0x8048e00
+R_EAX:u32 = pad:u32(mem:?u32[R_EAX:u32, e_little]:u8)
+addr 0x8048e03 @asm "cmp    $0x3a,%al"
+label pc_0x8048e03
+T_t_242:u8 = low:u8(R_EAX:u32) - 0x3a:u8
+R_CF:bool = low:u8(R_EAX:u32) < 0x3a:u8
+R_OF:bool =
+  high:bool((low:u8(R_EAX:u32) ^ 0x3a:u8) & (low:u8(R_EAX:u32) ^ T_t_242:u8))
+R_AF:bool = 0x10:u8 == (0x10:u8 & (T_t_242:u8 ^ low:u8(R_EAX:u32) ^ 0x3a:u8))
+R_PF:bool =
+  ~low:bool(T_t_242:u8 >> 7:u8 ^ T_t_242:u8 >> 6:u8 ^ T_t_242:u8 >> 5:u8 ^
+            T_t_242:u8 >> 4:u8 ^ T_t_242:u8 >> 3:u8 ^ T_t_242:u8 >> 2:u8 ^
+            T_t_242:u8 >> 1:u8 ^ T_t_242:u8)
+R_SF:bool = high:bool(T_t_242:u8)
+R_ZF:bool = 0:u8 == T_t_242:u8
+addr 0x8048e05 @asm "je     0x08048e11"
+label pc_0x8048e05
+cjmp R_ZF:bool, 0x8048e11:u32, "nocjmp36"
+label nocjmp36
+addr 0x8048e07 @asm "mov    $0x804987b,%eax"
+label pc_0x8048e07
+R_EAX:u32 = 0x804987b:u32
+addr 0x8048e0c @asm "jmp    0x08048ee7"
+label pc_0x8048e0c
+jmp 0x8048ee7:u32
+addr 0x8048e11 @asm "mov    -0x220(%ebp),%eax"
+label pc_0x8048e11
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffde0:u32, e_little]:u32
+addr 0x8048e17 @asm "movb   $0x0,(%eax)"
+label pc_0x8048e17
+mem:?u32 = mem:?u32 with [R_EAX:u32, e_little]:u8 = 0:u8
+addr 0x8048e1a @asm "movl   $0x0,-0x234(%ebp)"
+label pc_0x8048e1a
+mem:?u32 = mem:?u32 with [R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32 = 0:u32
+addr 0x8048e24 @asm "jmp    0x08048e54"
+label pc_0x8048e24
+jmp 0x8048e54:u32
+addr 0x8048e54 @asm "mov    -0x234(%ebp),%ebx"
+label pc_0x8048e54
+R_EBX:u32 = mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32
+addr 0x8048e5a @asm "mov    $0x804b0e0,%eax"
+label pc_0x8048e5a
+R_EAX:u32 = 0x804b0e0:u32
+addr 0x8048e5f @asm "movl   $0xffffffff,-0x240(%ebp)"
+label pc_0x8048e5f
+mem:?u32 = mem:?u32 with [R_EBP:u32 + 0xfffffdc0:u32, e_little]:u32 = -1:u32
+addr 0x8048e69 @asm "mov    %eax,%edx"
+label pc_0x8048e69
+R_EDX:u32 = R_EAX:u32
+addr 0x8048e6b @asm "mov    $0x0,%eax"
+label pc_0x8048e6b
+R_EAX:u32 = 0:u32
+addr 0x8048e70 @asm "mov    -0x240(%ebp),%ecx"
+label pc_0x8048e70
+R_ECX:u32 = mem:?u32[R_EBP:u32 + 0xfffffdc0:u32, e_little]:u32
+addr 0x8048e76 @asm "mov    %edx,%edi"
+label pc_0x8048e76
+R_EDI:u32 = R_EDX:u32
+addr 0x8048e78 @asm "repnz scas %es:(%edi),%al"
+label pc_0x8048e78
+cjmp R_ECX:u32 == 0:u32, 0x8048e7a:u32, "nocjmp38"
+label nocjmp38
+T_src1_243:u8 = low:u8(R_EAX:u32)
+T_src2_244:u8 = mem:?u32[R_EDI:u32, e_little]:u8
+T_tmp_245:u8 = T_src1_243:u8 - T_src2_244:u8
+R_EDI:u32 = R_EDI:u32 + R_DFLAG:u32
+R_CF:bool = T_src1_243:u8 < T_src2_244:u8
+R_OF:bool =
+  high:bool((T_src1_243:u8 ^ T_src2_244:u8) & (T_src1_243:u8 ^ T_tmp_245:u8))
+R_AF:bool =
+  0x10:u8 == (0x10:u8 & (T_tmp_245:u8 ^ T_src1_243:u8 ^ T_src2_244:u8))
+R_PF:bool =
+  ~low:bool(T_tmp_245:u8 >> 7:u8 ^ T_tmp_245:u8 >> 6:u8 ^
+            T_tmp_245:u8 >> 5:u8 ^ T_tmp_245:u8 >> 4:u8 ^
+            T_tmp_245:u8 >> 3:u8 ^ T_tmp_245:u8 >> 2:u8 ^
+            T_tmp_245:u8 >> 1:u8 ^ T_tmp_245:u8)
+R_SF:bool = high:bool(T_tmp_245:u8)
+R_ZF:bool = 0:u8 == T_tmp_245:u8
+R_ECX:u32 = R_ECX:u32 - 1:u32
+cjmp R_ECX:u32 == 0:u32, 0x8048e7a:u32, "nocjmp37"
+label nocjmp37
+cjmp R_ZF:bool, 0x8048e7a:u32, 0x8048e78:u32
+addr 0x8048e7a @asm "mov    %ecx,%eax"
+label pc_0x8048e7a
+R_EAX:u32 = R_ECX:u32
+addr 0x8048e7c @asm "not    %eax"
+label pc_0x8048e7c
+R_EAX:u32 = ~R_EAX:u32
+addr 0x8048e7e @asm "sub    $0x1,%eax"
+label pc_0x8048e7e
+T_t_246:u32 = R_EAX:u32
+R_EAX:u32 = R_EAX:u32 - 1:u32
+R_CF:bool = T_t_246:u32 < 1:u32
+R_OF:bool = high:bool((T_t_246:u32 ^ 1:u32) & (T_t_246:u32 ^ R_EAX:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t_246:u32 ^ 1:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048e81 @asm "cmp    %eax,%ebx"
+label pc_0x8048e81
+T_t_247:u32 = R_EBX:u32 - R_EAX:u32
+R_CF:bool = R_EBX:u32 < R_EAX:u32
+R_OF:bool = high:bool((R_EBX:u32 ^ R_EAX:u32) & (R_EBX:u32 ^ T_t_247:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (T_t_247:u32 ^ R_EBX:u32 ^ R_EAX:u32))
+R_PF:bool =
+  ~low:bool(T_t_247:u32 >> 7:u32 ^ T_t_247:u32 >> 6:u32 ^
+            T_t_247:u32 >> 5:u32 ^ T_t_247:u32 >> 4:u32 ^
+            T_t_247:u32 >> 3:u32 ^ T_t_247:u32 >> 2:u32 ^
+            T_t_247:u32 >> 1:u32 ^ T_t_247:u32)
+R_SF:bool = high:bool(T_t_247:u32)
+R_ZF:bool = 0:u32 == T_t_247:u32
+addr 0x8048e83 @asm "jb     0x08048e26"
+label pc_0x8048e83
+cjmp R_CF:bool, 0x8048e26:u32, "nocjmp39"
+label nocjmp39
+addr 0x8048e85 @asm "lea    -0x21c(%ebp),%eax"
+label pc_0x8048e85
+R_EAX:u32 = R_EBP:u32 + 0xfffffde4:u32
+addr 0x8048e8b @asm "mov    %eax,0x4(%esp)"
+label pc_0x8048e8b
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048e8f @asm "mov    -0x224(%ebp),%eax"
+label pc_0x8048e8f
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffddc:u32, e_little]:u32
+addr 0x8048e95 @asm "mov    %eax,(%esp)"
+label pc_0x8048e95
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048e98 @asm "call   0x08048b49"
+label pc_0x8048e98
+T_target_248:u32 = 0x8048b49:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048e9d:u32
+jmp 0x8048b49:u32 @str "call"
+addr 0x8048e9d @asm "mov    $0x8049892,%eax"
+label pc_0x8048e9d
+R_EAX:u32 = 0x8049892:u32
+addr 0x8048ea2 @asm "movl   $0x804b0e0,0x8(%esp)"
+label pc_0x8048ea2
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0x804b0e0:u32
+addr 0x8048eaa @asm "mov    %eax,0x4(%esp)"
+label pc_0x8048eaa
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048eae @asm "lea    -0x11c(%ebp),%eax"
+label pc_0x8048eae
+R_EAX:u32 = R_EBP:u32 + 0xfffffee4:u32
+addr 0x8048eb4 @asm "mov    %eax,(%esp)"
+label pc_0x8048eb4
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048eb7 @asm "call   0x08048980"
+label pc_0x8048eb7
+T_target_249:u32 = 0x8048980:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048ebc:u32
+jmp 0x8048980:u32 @str "call"
+addr 0x8048ebc @asm "movl   $0x1,0x8(%esp)"
+label pc_0x8048ebc
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 1:u32
+addr 0x8048ec4 @asm "lea    -0x21c(%ebp),%eax"
+label pc_0x8048ec4
+R_EAX:u32 = R_EBP:u32 + 0xfffffde4:u32
+addr 0x8048eca @asm "mov    %eax,0x4(%esp)"
+label pc_0x8048eca
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048ece @asm "lea    -0x11c(%ebp),%eax"
+label pc_0x8048ece
+R_EAX:u32 = R_EBP:u32 + 0xfffffee4:u32
+addr 0x8048ed4 @asm "mov    %eax,(%esp)"
+label pc_0x8048ed4
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048ed7 @asm "call   0x080488d0"
+label pc_0x8048ed7
+T_target_250:u32 = 0x80488d0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048edc:u32
+jmp 0x80488d0:u32 @str "call"
+addr 0x8048edc @asm "jmp    0x08048d38"
+label pc_0x8048edc
+jmp 0x8048d38:u32
+addr 0x80488d0 @asm "jmp    *0x804b050"
+label pc_0x80488d0
+jmp mem:?u32[0x804b050:u32, e_little]:u32
+addr 0x8048b49 @asm "push   %ebp"
+label pc_0x8048b49
+T_t_251:u32 = R_EBP:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t_251:u32
+addr 0x8048b4a @asm "mov    %esp,%ebp"
+label pc_0x8048b4a
+R_EBP:u32 = R_ESP:u32
+addr 0x8048b4c @asm "sub    $0x28,%esp"
+label pc_0x8048b4c
+T_t_252:u32 = R_ESP:u32
+R_ESP:u32 = R_ESP:u32 - 0x28:u32
+R_CF:bool = T_t_252:u32 < 0x28:u32
+R_OF:bool = high:bool((T_t_252:u32 ^ 0x28:u32) & (T_t_252:u32 ^ R_ESP:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_ESP:u32 ^ T_t_252:u32 ^ 0x28:u32))
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x8048b4f @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048b4f
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048b52 @asm "movzbl (%eax),%eax"
+label pc_0x8048b52
+R_EAX:u32 = pad:u32(mem:?u32[R_EAX:u32, e_little]:u8)
+addr 0x8048b55 @asm "cmp    $0x25,%al"
+label pc_0x8048b55
+T_t_253:u8 = low:u8(R_EAX:u32) - 0x25:u8
+R_CF:bool = low:u8(R_EAX:u32) < 0x25:u8
+R_OF:bool =
+  high:bool((low:u8(R_EAX:u32) ^ 0x25:u8) & (low:u8(R_EAX:u32) ^ T_t_253:u8))
+R_AF:bool = 0x10:u8 == (0x10:u8 & (T_t_253:u8 ^ low:u8(R_EAX:u32) ^ 0x25:u8))
+R_PF:bool =
+  ~low:bool(T_t_253:u8 >> 7:u8 ^ T_t_253:u8 >> 6:u8 ^ T_t_253:u8 >> 5:u8 ^
+            T_t_253:u8 >> 4:u8 ^ T_t_253:u8 >> 3:u8 ^ T_t_253:u8 >> 2:u8 ^
+            T_t_253:u8 >> 1:u8 ^ T_t_253:u8)
+R_SF:bool = high:bool(T_t_253:u8)
+R_ZF:bool = 0:u8 == T_t_253:u8
+addr 0x8048b57 @asm "jne    0x08048bb3"
+label pc_0x8048b57
+cjmp ~R_ZF:bool, 0x8048bb3:u32, "nocjmp40"
+label nocjmp40
+addr 0x8048b59 @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048b59
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048b5c @asm "add    $0x1,%eax"
+label pc_0x8048b5c
+T_t1_254:u32 = R_EAX:u32
+T_t2_255:u32 = 1:u32
+R_EAX:u32 = R_EAX:u32 + T_t2_255:u32
+R_CF:bool = R_EAX:u32 < T_t1_254:u32
+R_OF:bool =
+  high:bool((T_t1_254:u32 ^ ~T_t2_255:u32) & (T_t1_254:u32 ^ R_EAX:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t1_254:u32 ^ T_t2_255:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048b5f @asm "movzbl (%eax),%eax"
+label pc_0x8048b5f
+R_EAX:u32 = pad:u32(mem:?u32[R_EAX:u32, e_little]:u8)
+addr 0x8048b62 @asm "test   %al,%al"
+label pc_0x8048b62
+T_t_256:u8 = low:u8(R_EAX:u32) & low:u8(R_EAX:u32)
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(T_t_256:u8 >> 7:u8 ^ T_t_256:u8 >> 6:u8 ^ T_t_256:u8 >> 5:u8 ^
+            T_t_256:u8 >> 4:u8 ^ T_t_256:u8 >> 3:u8 ^ T_t_256:u8 >> 2:u8 ^
+            T_t_256:u8 >> 1:u8 ^ T_t_256:u8)
+R_SF:bool = high:bool(T_t_256:u8)
+R_ZF:bool = 0:u8 == T_t_256:u8
+addr 0x8048b64 @asm "je     0x08048bb3"
+label pc_0x8048b64
+cjmp R_ZF:bool, 0x8048bb3:u32, "nocjmp41"
+label nocjmp41
+addr 0x8048b66 @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048b66
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048b69 @asm "add    $0x2,%eax"
+label pc_0x8048b69
+T_t1_257:u32 = R_EAX:u32
+T_t2_258:u32 = 2:u32
+R_EAX:u32 = R_EAX:u32 + T_t2_258:u32
+R_CF:bool = R_EAX:u32 < T_t1_257:u32
+R_OF:bool =
+  high:bool((T_t1_257:u32 ^ ~T_t2_258:u32) & (T_t1_257:u32 ^ R_EAX:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t1_257:u32 ^ T_t2_258:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048b6c @asm "movzbl (%eax),%eax"
+label pc_0x8048b6c
+R_EAX:u32 = pad:u32(mem:?u32[R_EAX:u32, e_little]:u8)
+addr 0x8048b6f @asm "test   %al,%al"
+label pc_0x8048b6f
+T_t_259:u8 = low:u8(R_EAX:u32) & low:u8(R_EAX:u32)
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(T_t_259:u8 >> 7:u8 ^ T_t_259:u8 >> 6:u8 ^ T_t_259:u8 >> 5:u8 ^
+            T_t_259:u8 >> 4:u8 ^ T_t_259:u8 >> 3:u8 ^ T_t_259:u8 >> 2:u8 ^
+            T_t_259:u8 >> 1:u8 ^ T_t_259:u8)
+R_SF:bool = high:bool(T_t_259:u8)
+R_ZF:bool = 0:u8 == T_t_259:u8
+addr 0x8048b71 @asm "je     0x08048bb3"
+label pc_0x8048b71
+cjmp R_ZF:bool, 0x8048bb3:u32, "nocjmp42"
+label nocjmp42
+addr 0x8048b73 @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048b73
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048b76 @asm "movzbl 0x1(%eax),%eax"
+label pc_0x8048b76
+R_EAX:u32 = pad:u32(mem:?u32[R_EAX:u32 + 1:u32, e_little]:u8)
+addr 0x8048b7a @asm "mov    %al,-0xb(%ebp)"
+label pc_0x8048b7a
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffff5:u32, e_little]:u8 = low:u8(R_EAX:u32)
+addr 0x8048b7d @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048b7d
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048b80 @asm "movzbl 0x2(%eax),%eax"
+label pc_0x8048b80
+R_EAX:u32 = pad:u32(mem:?u32[R_EAX:u32 + 2:u32, e_little]:u8)
+addr 0x8048b84 @asm "mov    %al,-0xa(%ebp)"
+label pc_0x8048b84
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffff6:u32, e_little]:u8 = low:u8(R_EAX:u32)
+addr 0x8048b87 @asm "movb   $0x0,-0x9(%ebp)"
+label pc_0x8048b87
+mem:?u32 = mem:?u32 with [R_EBP:u32 + -9:u32, e_little]:u8 = 0:u8
+addr 0x8048b8b @asm "lea    -0xb(%ebp),%eax"
+label pc_0x8048b8b
+R_EAX:u32 = R_EBP:u32 + 0xfffffff5:u32
+addr 0x8048b8e @asm "movl   $0x10,0x8(%esp)"
+label pc_0x8048b8e
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = 0x10:u32
+addr 0x8048b96 @asm "movl   $0x0,0x4(%esp)"
+label pc_0x8048b96
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = 0:u32
+addr 0x8048b9e @asm "mov    %eax,(%esp)"
+label pc_0x8048b9e
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048ba1 @asm "call   0x080489b0"
+label pc_0x8048ba1
+T_target_260:u32 = 0x80489b0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048ba6:u32
+jmp 0x80489b0:u32 @str "call"
+addr 0x8048ba6 @asm "mov    %eax,%edx"
+label pc_0x8048ba6
+R_EDX:u32 = R_EAX:u32
+addr 0x8048ba8 @asm "mov    0xc(%ebp),%eax"
+label pc_0x8048ba8
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32
+addr 0x8048bab @asm "mov    %dl,(%eax)"
+label pc_0x8048bab
+mem:?u32 = mem:?u32 with [R_EAX:u32, e_little]:u8 = low:u8(R_EDX:u32)
+addr 0x8048bad @asm "addl   $0x3,0x8(%ebp)"
+label pc_0x8048bad
+T_t1_261:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+T_t2_262:u32 = 3:u32
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 8:u32, e_little]:u32 =
+  mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 + T_t2_262:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 < T_t1_261:u32
+R_OF:bool =
+  high:bool((T_t1_261:u32 ^ ~T_t2_262:u32) &
+            (T_t1_261:u32 ^ mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 ^ T_t1_261:u32 ^ T_t2_262:u32))
+R_PF:bool =
+  ~low:bool(mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 7:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 6:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 5:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 4:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 3:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 2:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 1:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32)
+R_SF:bool = high:bool(mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32)
+R_ZF:bool = 0:u32 == mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048bb1 @asm "jmp    0x08048bcc"
+label pc_0x8048bb1
+jmp 0x8048bcc:u32
+addr 0x8048bcc @asm "addl   $0x1,0xc(%ebp)"
+label pc_0x8048bcc
+T_t1_263:u32 = mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32
+T_t2_264:u32 = 1:u32
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xc:u32, e_little]:u32 =
+  mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32 + T_t2_264:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32 < T_t1_263:u32
+R_OF:bool =
+  high:bool((T_t1_263:u32 ^ ~T_t2_264:u32) &
+            (T_t1_263:u32 ^ mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32 ^ T_t1_263:u32 ^ T_t2_264:u32))
+R_PF:bool =
+  ~low:bool(mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32 >> 7:u32 ^
+            mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32 >> 6:u32 ^
+            mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32 >> 5:u32 ^
+            mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32 >> 4:u32 ^
+            mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32 >> 3:u32 ^
+            mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32 >> 2:u32 ^
+            mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32 >> 1:u32 ^
+            mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32)
+R_SF:bool = high:bool(mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32)
+R_ZF:bool = 0:u32 == mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32
+addr 0x8048bd0 @asm "jmp    0x08048b4f"
+label pc_0x8048bd0
+jmp 0x8048b4f:u32
+addr 0x80489b0 @asm "jmp    *0x804b088"
+label pc_0x80489b0
+jmp mem:?u32[0x804b088:u32, e_little]:u32
+addr 0x8048bb3 @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048bb3
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048bb6 @asm "movzbl (%eax),%edx"
+label pc_0x8048bb6
+R_EDX:u32 = pad:u32(mem:?u32[R_EAX:u32, e_little]:u8)
+addr 0x8048bb9 @asm "mov    0xc(%ebp),%eax"
+label pc_0x8048bb9
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32
+addr 0x8048bbc @asm "mov    %dl,(%eax)"
+label pc_0x8048bbc
+mem:?u32 = mem:?u32 with [R_EAX:u32, e_little]:u8 = low:u8(R_EDX:u32)
+addr 0x8048bbe @asm "addl   $0x1,0x8(%ebp)"
+label pc_0x8048bbe
+T_t1_265:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+T_t2_266:u32 = 1:u32
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 8:u32, e_little]:u32 =
+  mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 + T_t2_266:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 < T_t1_265:u32
+R_OF:bool =
+  high:bool((T_t1_265:u32 ^ ~T_t2_266:u32) &
+            (T_t1_265:u32 ^ mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 ^ T_t1_265:u32 ^ T_t2_266:u32))
+R_PF:bool =
+  ~low:bool(mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 7:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 6:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 5:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 4:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 3:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 2:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32 >> 1:u32 ^
+            mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32)
+R_SF:bool = high:bool(mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32)
+R_ZF:bool = 0:u32 == mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048bc2 @asm "mov    0xc(%ebp),%eax"
+label pc_0x8048bc2
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32
+addr 0x8048bc5 @asm "movzbl (%eax),%eax"
+label pc_0x8048bc5
+R_EAX:u32 = pad:u32(mem:?u32[R_EAX:u32, e_little]:u8)
+addr 0x8048bc8 @asm "test   %al,%al"
+label pc_0x8048bc8
+T_t_267:u8 = low:u8(R_EAX:u32) & low:u8(R_EAX:u32)
+R_OF:bool = false
+R_CF:bool = false
+R_AF:bool = unknown "AF is undefined after and":bool
+R_PF:bool =
+  ~low:bool(T_t_267:u8 >> 7:u8 ^ T_t_267:u8 >> 6:u8 ^ T_t_267:u8 >> 5:u8 ^
+            T_t_267:u8 >> 4:u8 ^ T_t_267:u8 >> 3:u8 ^ T_t_267:u8 >> 2:u8 ^
+            T_t_267:u8 >> 1:u8 ^ T_t_267:u8)
+R_SF:bool = high:bool(T_t_267:u8)
+R_ZF:bool = 0:u8 == T_t_267:u8
+addr 0x8048bca @asm "je     0x08048bd5"
+label pc_0x8048bca
+cjmp R_ZF:bool, 0x8048bd5:u32, "nocjmp43"
+label nocjmp43
+jmp 0x8048bcc:u32 @str "rdisasm"
+addr 0x8048bd5 @asm "nop"
+label pc_0x8048bd5
+addr 0x8048bd6 @asm "leave  "
+label pc_0x8048bd6
+R_ESP:u32 = R_EBP:u32
+R_EBP:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+addr 0x8048bd7 @asm "ret    "
+label pc_0x8048bd7
+T_ra_268:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+jmp T_ra_268:u32 @str "ret"
+addr 0x8048e26 @asm "mov    -0x234(%ebp),%eax"
+label pc_0x8048e26
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32
+addr 0x8048e2c @asm "add    $0x804b0e0,%eax"
+label pc_0x8048e2c
+T_t1_269:u32 = R_EAX:u32
+T_t2_270:u32 = 0x804b0e0:u32
+R_EAX:u32 = R_EAX:u32 + T_t2_270:u32
+R_CF:bool = R_EAX:u32 < T_t1_269:u32
+R_OF:bool =
+  high:bool((T_t1_269:u32 ^ ~T_t2_270:u32) & (T_t1_269:u32 ^ R_EAX:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t1_269:u32 ^ T_t2_270:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048e31 @asm "movzbl (%eax),%eax"
+label pc_0x8048e31
+R_EAX:u32 = pad:u32(mem:?u32[R_EAX:u32, e_little]:u8)
+addr 0x8048e34 @asm "movsbl %al,%eax"
+label pc_0x8048e34
+R_EAX:u32 = extend:u32(low:u8(R_EAX:u32))
+addr 0x8048e37 @asm "mov    %eax,(%esp)"
+label pc_0x8048e37
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048e3a @asm "call   0x08048970"
+label pc_0x8048e3a
+T_target_271:u32 = 0x8048970:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048e3f:u32
+jmp 0x8048970:u32 @str "call"
+addr 0x8048e3f @asm "mov    -0x234(%ebp),%edx"
+label pc_0x8048e3f
+R_EDX:u32 = mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32
+addr 0x8048e45 @asm "add    $0x804b0e0,%edx"
+label pc_0x8048e45
+T_t1_272:u32 = R_EDX:u32
+T_t2_273:u32 = 0x804b0e0:u32
+R_EDX:u32 = R_EDX:u32 + T_t2_273:u32
+R_CF:bool = R_EDX:u32 < T_t1_272:u32
+R_OF:bool =
+  high:bool((T_t1_272:u32 ^ ~T_t2_273:u32) & (T_t1_272:u32 ^ R_EDX:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_EDX:u32 ^ T_t1_272:u32 ^ T_t2_273:u32))
+R_PF:bool =
+  ~low:bool(R_EDX:u32 >> 7:u32 ^ R_EDX:u32 >> 6:u32 ^ R_EDX:u32 >> 5:u32 ^
+            R_EDX:u32 >> 4:u32 ^ R_EDX:u32 >> 3:u32 ^ R_EDX:u32 >> 2:u32 ^
+            R_EDX:u32 >> 1:u32 ^ R_EDX:u32)
+R_SF:bool = high:bool(R_EDX:u32)
+R_ZF:bool = 0:u32 == R_EDX:u32
+addr 0x8048e4b @asm "mov    %al,(%edx)"
+label pc_0x8048e4b
+mem:?u32 = mem:?u32 with [R_EDX:u32, e_little]:u8 = low:u8(R_EAX:u32)
+addr 0x8048e4d @asm "addl   $0x1,-0x234(%ebp)"
+label pc_0x8048e4d
+T_t1_274:u32 = mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32
+T_t2_275:u32 = 1:u32
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32 =
+  mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32 + T_t2_275:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32 < T_t1_274:u32
+R_OF:bool =
+  high:bool((T_t1_274:u32 ^ ~T_t2_275:u32) &
+            (T_t1_274:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32 ^ T_t1_274:u32 ^
+  T_t2_275:u32))
+R_PF:bool =
+  ~low:bool(mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32 >> 7:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32 >> 6:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32 >> 5:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32 >> 4:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32 >> 3:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32 >> 2:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32 >> 1:u32 ^
+            mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32)
+R_SF:bool = high:bool(mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32)
+R_ZF:bool = 0:u32 == mem:?u32[R_EBP:u32 + 0xfffffdcc:u32, e_little]:u32
+jmp 0x8048e54:u32 @str "rdisasm"
+addr 0x8048970 @asm "jmp    *0x804b078"
+label pc_0x8048970
+jmp mem:?u32[0x804b078:u32, e_little]:u32
+addr 0x80488c0 @asm "jmp    *0x804b04c"
+label pc_0x80488c0
+jmp mem:?u32[0x804b04c:u32, e_little]:u32
+addr 0x8048ee1 @asm "nop"
+label pc_0x8048ee1
+addr 0x8048ee2 @asm "mov    $0x0,%eax"
+label pc_0x8048ee2
+R_EAX:u32 = 0:u32
+jmp 0x8048ee7:u32 @str "rdisasm"
+addr 0x8048a84 @asm "push   %ebp"
+label pc_0x8048a84
+T_t_276:u32 = R_EBP:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t_276:u32
+addr 0x8048a85 @asm "mov    %esp,%ebp"
+label pc_0x8048a85
+R_EBP:u32 = R_ESP:u32
+addr 0x8048a87 @asm "push   %edi"
+label pc_0x8048a87
+T_t_277:u32 = R_EDI:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = T_t_277:u32
+addr 0x8048a88 @asm "sub    $0x34,%esp"
+label pc_0x8048a88
+T_t_278:u32 = R_ESP:u32
+R_ESP:u32 = R_ESP:u32 - 0x34:u32
+R_CF:bool = T_t_278:u32 < 0x34:u32
+R_OF:bool = high:bool((T_t_278:u32 ^ 0x34:u32) & (T_t_278:u32 ^ R_ESP:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_ESP:u32 ^ T_t_278:u32 ^ 0x34:u32))
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x8048a8b @asm "mov    0x10(%ebp),%eax"
+label pc_0x8048a8b
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0x10:u32, e_little]:u32
+addr 0x8048a8e @asm "mov    %eax,0x8(%esp)"
+label pc_0x8048a8e
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 8:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048a92 @asm "mov    0xc(%ebp),%eax"
+label pc_0x8048a92
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 0xc:u32, e_little]:u32
+addr 0x8048a95 @asm "mov    %eax,0x4(%esp)"
+label pc_0x8048a95
+mem:?u32 = mem:?u32 with [R_ESP:u32 + 4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048a99 @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048a99
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048a9c @asm "mov    %eax,(%esp)"
+label pc_0x8048a9c
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048a9f @asm "call   0x080487d0"
+label pc_0x8048a9f
+T_target_279:u32 = 0x80487d0:u32
+R_ESP:u32 = R_ESP:u32 - 4:u32
+mem:?u32 = mem:?u32 with [R_ESP:u32, e_little]:u32 = 0x8048aa4:u32
+jmp 0x80487d0:u32 @str "call"
+addr 0x8048aa4 @asm "mov    %eax,-0xc(%ebp)"
+label pc_0x8048aa4
+mem:?u32 =
+  mem:?u32 with [R_EBP:u32 + 0xfffffff4:u32, e_little]:u32 = R_EAX:u32
+addr 0x8048aa7 @asm "cmpl   $0x0,-0xc(%ebp)"
+label pc_0x8048aa7
+T_t_280:u32 = mem:?u32[R_EBP:u32 + 0xfffffff4:u32, e_little]:u32 - 0:u32
+R_CF:bool = mem:?u32[R_EBP:u32 + 0xfffffff4:u32, e_little]:u32 < 0:u32
+R_OF:bool =
+  high:bool((mem:?u32[R_EBP:u32 + 0xfffffff4:u32, e_little]:u32 ^ 0:u32) &
+            (mem:?u32[R_EBP:u32 + 0xfffffff4:u32, e_little]:u32 ^
+            T_t_280:u32))
+R_AF:bool =
+  0x10:u32 ==
+  (0x10:u32 &
+  (T_t_280:u32 ^ mem:?u32[R_EBP:u32 + 0xfffffff4:u32, e_little]:u32 ^ 0:u32))
+R_PF:bool =
+  ~low:bool(T_t_280:u32 >> 7:u32 ^ T_t_280:u32 >> 6:u32 ^
+            T_t_280:u32 >> 5:u32 ^ T_t_280:u32 >> 4:u32 ^
+            T_t_280:u32 >> 3:u32 ^ T_t_280:u32 >> 2:u32 ^
+            T_t_280:u32 >> 1:u32 ^ T_t_280:u32)
+R_SF:bool = high:bool(T_t_280:u32)
+R_ZF:bool = 0:u32 == T_t_280:u32
+addr 0x8048aab @asm "jne    0x08048ae1"
+label pc_0x8048aab
+cjmp ~R_ZF:bool, 0x8048ae1:u32, "nocjmp44"
+label nocjmp44
+addr 0x8048aad @asm "mov    $0xffffffff,%eax"
+label pc_0x8048aad
+R_EAX:u32 = -1:u32
+addr 0x8048ab2 @asm "jmp    0x08048b43"
+label pc_0x8048ab2
+jmp 0x8048b43:u32
+addr 0x8048b43 @asm "add    $0x34,%esp"
+label pc_0x8048b43
+T_t1_281:u32 = R_ESP:u32
+T_t2_282:u32 = 0x34:u32
+R_ESP:u32 = R_ESP:u32 + T_t2_282:u32
+R_CF:bool = R_ESP:u32 < T_t1_281:u32
+R_OF:bool =
+  high:bool((T_t1_281:u32 ^ ~T_t2_282:u32) & (T_t1_281:u32 ^ R_ESP:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_ESP:u32 ^ T_t1_281:u32 ^ T_t2_282:u32))
+R_PF:bool =
+  ~low:bool(R_ESP:u32 >> 7:u32 ^ R_ESP:u32 >> 6:u32 ^ R_ESP:u32 >> 5:u32 ^
+            R_ESP:u32 >> 4:u32 ^ R_ESP:u32 >> 3:u32 ^ R_ESP:u32 >> 2:u32 ^
+            R_ESP:u32 >> 1:u32 ^ R_ESP:u32)
+R_SF:bool = high:bool(R_ESP:u32)
+R_ZF:bool = 0:u32 == R_ESP:u32
+addr 0x8048b46 @asm "pop    %edi"
+label pc_0x8048b46
+R_EDI:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+addr 0x8048b47 @asm "pop    %ebp"
+label pc_0x8048b47
+R_EBP:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+addr 0x8048b48 @asm "ret    "
+label pc_0x8048b48
+T_ra_283:u32 = mem:?u32[R_ESP:u32, e_little]:u32
+R_ESP:u32 = R_ESP:u32 + 4:u32
+jmp T_ra_283:u32 @str "ret"
+addr 0x8048ae1 @asm "nop"
+label pc_0x8048ae1
+addr 0x8048ae2 @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048ae2
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048ae5 @asm "movl   $0xffffffff,-0x1c(%ebp)"
+label pc_0x8048ae5
+mem:?u32 = mem:?u32 with [R_EBP:u32 + 0xffffffe4:u32, e_little]:u32 = -1:u32
+addr 0x8048aec @asm "mov    %eax,%edx"
+label pc_0x8048aec
+R_EDX:u32 = R_EAX:u32
+addr 0x8048aee @asm "mov    $0x0,%eax"
+label pc_0x8048aee
+R_EAX:u32 = 0:u32
+addr 0x8048af3 @asm "mov    -0x1c(%ebp),%ecx"
+label pc_0x8048af3
+R_ECX:u32 = mem:?u32[R_EBP:u32 + 0xffffffe4:u32, e_little]:u32
+addr 0x8048af6 @asm "mov    %edx,%edi"
+label pc_0x8048af6
+R_EDI:u32 = R_EDX:u32
+addr 0x8048af8 @asm "repnz scas %es:(%edi),%al"
+label pc_0x8048af8
+cjmp R_ECX:u32 == 0:u32, 0x8048afa:u32, "nocjmp46"
+label nocjmp46
+T_src1_284:u8 = low:u8(R_EAX:u32)
+T_src2_285:u8 = mem:?u32[R_EDI:u32, e_little]:u8
+T_tmp_286:u8 = T_src1_284:u8 - T_src2_285:u8
+R_EDI:u32 = R_EDI:u32 + R_DFLAG:u32
+R_CF:bool = T_src1_284:u8 < T_src2_285:u8
+R_OF:bool =
+  high:bool((T_src1_284:u8 ^ T_src2_285:u8) & (T_src1_284:u8 ^ T_tmp_286:u8))
+R_AF:bool =
+  0x10:u8 == (0x10:u8 & (T_tmp_286:u8 ^ T_src1_284:u8 ^ T_src2_285:u8))
+R_PF:bool =
+  ~low:bool(T_tmp_286:u8 >> 7:u8 ^ T_tmp_286:u8 >> 6:u8 ^
+            T_tmp_286:u8 >> 5:u8 ^ T_tmp_286:u8 >> 4:u8 ^
+            T_tmp_286:u8 >> 3:u8 ^ T_tmp_286:u8 >> 2:u8 ^
+            T_tmp_286:u8 >> 1:u8 ^ T_tmp_286:u8)
+R_SF:bool = high:bool(T_tmp_286:u8)
+R_ZF:bool = 0:u8 == T_tmp_286:u8
+R_ECX:u32 = R_ECX:u32 - 1:u32
+cjmp R_ECX:u32 == 0:u32, 0x8048afa:u32, "nocjmp45"
+label nocjmp45
+cjmp R_ZF:bool, 0x8048afa:u32, 0x8048af8:u32
+addr 0x8048afa @asm "mov    %ecx,%eax"
+label pc_0x8048afa
+R_EAX:u32 = R_ECX:u32
+addr 0x8048afc @asm "not    %eax"
+label pc_0x8048afc
+R_EAX:u32 = ~R_EAX:u32
+addr 0x8048afe @asm "sub    $0x1,%eax"
+label pc_0x8048afe
+T_t_287:u32 = R_EAX:u32
+R_EAX:u32 = R_EAX:u32 - 1:u32
+R_CF:bool = T_t_287:u32 < 1:u32
+R_OF:bool = high:bool((T_t_287:u32 ^ 1:u32) & (T_t_287:u32 ^ R_EAX:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t_287:u32 ^ 1:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048b01 @asm "sub    $0x1,%eax"
+label pc_0x8048b01
+T_t_288:u32 = R_EAX:u32
+R_EAX:u32 = R_EAX:u32 - 1:u32
+R_CF:bool = T_t_288:u32 < 1:u32
+R_OF:bool = high:bool((T_t_288:u32 ^ 1:u32) & (T_t_288:u32 ^ R_EAX:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t_288:u32 ^ 1:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048b04 @asm "add    0x8(%ebp),%eax"
+label pc_0x8048b04
+T_t1_289:u32 = R_EAX:u32
+T_t2_290:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+R_EAX:u32 = R_EAX:u32 + T_t2_290:u32
+R_CF:bool = R_EAX:u32 < T_t1_289:u32
+R_OF:bool =
+  high:bool((T_t1_289:u32 ^ ~T_t2_290:u32) & (T_t1_289:u32 ^ R_EAX:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t1_289:u32 ^ T_t2_290:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048b07 @asm "movzbl (%eax),%eax"
+label pc_0x8048b07
+R_EAX:u32 = pad:u32(mem:?u32[R_EAX:u32, e_little]:u8)
+addr 0x8048b0a @asm "cmp    $0xd,%al"
+label pc_0x8048b0a
+T_t_291:u8 = low:u8(R_EAX:u32) - 0xd:u8
+R_CF:bool = low:u8(R_EAX:u32) < 0xd:u8
+R_OF:bool =
+  high:bool((low:u8(R_EAX:u32) ^ 0xd:u8) & (low:u8(R_EAX:u32) ^ T_t_291:u8))
+R_AF:bool = 0x10:u8 == (0x10:u8 & (T_t_291:u8 ^ low:u8(R_EAX:u32) ^ 0xd:u8))
+R_PF:bool =
+  ~low:bool(T_t_291:u8 >> 7:u8 ^ T_t_291:u8 >> 6:u8 ^ T_t_291:u8 >> 5:u8 ^
+            T_t_291:u8 >> 4:u8 ^ T_t_291:u8 >> 3:u8 ^ T_t_291:u8 >> 2:u8 ^
+            T_t_291:u8 >> 1:u8 ^ T_t_291:u8)
+R_SF:bool = high:bool(T_t_291:u8)
+R_ZF:bool = 0:u8 == T_t_291:u8
+addr 0x8048b0c @asm "je     0x08048ab7"
+label pc_0x8048b0c
+cjmp R_ZF:bool, 0x8048ab7:u32, "nocjmp47"
+label nocjmp47
+addr 0x8048b0e @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048b0e
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048b11 @asm "movl   $0xffffffff,-0x1c(%ebp)"
+label pc_0x8048b11
+mem:?u32 = mem:?u32 with [R_EBP:u32 + 0xffffffe4:u32, e_little]:u32 = -1:u32
+addr 0x8048b18 @asm "mov    %eax,%edx"
+label pc_0x8048b18
+R_EDX:u32 = R_EAX:u32
+addr 0x8048b1a @asm "mov    $0x0,%eax"
+label pc_0x8048b1a
+R_EAX:u32 = 0:u32
+addr 0x8048b1f @asm "mov    -0x1c(%ebp),%ecx"
+label pc_0x8048b1f
+R_ECX:u32 = mem:?u32[R_EBP:u32 + 0xffffffe4:u32, e_little]:u32
+addr 0x8048b22 @asm "mov    %edx,%edi"
+label pc_0x8048b22
+R_EDI:u32 = R_EDX:u32
+addr 0x8048b24 @asm "repnz scas %es:(%edi),%al"
+label pc_0x8048b24
+cjmp R_ECX:u32 == 0:u32, 0x8048b26:u32, "nocjmp49"
+label nocjmp49
+T_src1_292:u8 = low:u8(R_EAX:u32)
+T_src2_293:u8 = mem:?u32[R_EDI:u32, e_little]:u8
+T_tmp_294:u8 = T_src1_292:u8 - T_src2_293:u8
+R_EDI:u32 = R_EDI:u32 + R_DFLAG:u32
+R_CF:bool = T_src1_292:u8 < T_src2_293:u8
+R_OF:bool =
+  high:bool((T_src1_292:u8 ^ T_src2_293:u8) & (T_src1_292:u8 ^ T_tmp_294:u8))
+R_AF:bool =
+  0x10:u8 == (0x10:u8 & (T_tmp_294:u8 ^ T_src1_292:u8 ^ T_src2_293:u8))
+R_PF:bool =
+  ~low:bool(T_tmp_294:u8 >> 7:u8 ^ T_tmp_294:u8 >> 6:u8 ^
+            T_tmp_294:u8 >> 5:u8 ^ T_tmp_294:u8 >> 4:u8 ^
+            T_tmp_294:u8 >> 3:u8 ^ T_tmp_294:u8 >> 2:u8 ^
+            T_tmp_294:u8 >> 1:u8 ^ T_tmp_294:u8)
+R_SF:bool = high:bool(T_tmp_294:u8)
+R_ZF:bool = 0:u8 == T_tmp_294:u8
+R_ECX:u32 = R_ECX:u32 - 1:u32
+cjmp R_ECX:u32 == 0:u32, 0x8048b26:u32, "nocjmp48"
+label nocjmp48
+cjmp R_ZF:bool, 0x8048b26:u32, 0x8048b24:u32
+addr 0x8048b26 @asm "mov    %ecx,%eax"
+label pc_0x8048b26
+R_EAX:u32 = R_ECX:u32
+addr 0x8048b28 @asm "not    %eax"
+label pc_0x8048b28
+R_EAX:u32 = ~R_EAX:u32
+addr 0x8048b2a @asm "sub    $0x1,%eax"
+label pc_0x8048b2a
+T_t_295:u32 = R_EAX:u32
+R_EAX:u32 = R_EAX:u32 - 1:u32
+R_CF:bool = T_t_295:u32 < 1:u32
+R_OF:bool = high:bool((T_t_295:u32 ^ 1:u32) & (T_t_295:u32 ^ R_EAX:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t_295:u32 ^ 1:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048b2d @asm "sub    $0x1,%eax"
+label pc_0x8048b2d
+T_t_296:u32 = R_EAX:u32
+R_EAX:u32 = R_EAX:u32 - 1:u32
+R_CF:bool = T_t_296:u32 < 1:u32
+R_OF:bool = high:bool((T_t_296:u32 ^ 1:u32) & (T_t_296:u32 ^ R_EAX:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t_296:u32 ^ 1:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048b30 @asm "add    0x8(%ebp),%eax"
+label pc_0x8048b30
+T_t1_297:u32 = R_EAX:u32
+T_t2_298:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+R_EAX:u32 = R_EAX:u32 + T_t2_298:u32
+R_CF:bool = R_EAX:u32 < T_t1_297:u32
+R_OF:bool =
+  high:bool((T_t1_297:u32 ^ ~T_t2_298:u32) & (T_t1_297:u32 ^ R_EAX:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t1_297:u32 ^ T_t2_298:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048b33 @asm "movzbl (%eax),%eax"
+label pc_0x8048b33
+R_EAX:u32 = pad:u32(mem:?u32[R_EAX:u32, e_little]:u8)
+addr 0x8048b36 @asm "cmp    $0xa,%al"
+label pc_0x8048b36
+T_t_299:u8 = low:u8(R_EAX:u32) - 0xa:u8
+R_CF:bool = low:u8(R_EAX:u32) < 0xa:u8
+R_OF:bool =
+  high:bool((low:u8(R_EAX:u32) ^ 0xa:u8) & (low:u8(R_EAX:u32) ^ T_t_299:u8))
+R_AF:bool = 0x10:u8 == (0x10:u8 & (T_t_299:u8 ^ low:u8(R_EAX:u32) ^ 0xa:u8))
+R_PF:bool =
+  ~low:bool(T_t_299:u8 >> 7:u8 ^ T_t_299:u8 >> 6:u8 ^ T_t_299:u8 >> 5:u8 ^
+            T_t_299:u8 >> 4:u8 ^ T_t_299:u8 >> 3:u8 ^ T_t_299:u8 >> 2:u8 ^
+            T_t_299:u8 >> 1:u8 ^ T_t_299:u8)
+R_SF:bool = high:bool(T_t_299:u8)
+R_ZF:bool = 0:u8 == T_t_299:u8
+addr 0x8048b38 @asm "je     0x08048ab7"
+label pc_0x8048b38
+cjmp R_ZF:bool, 0x8048ab7:u32, "nocjmp50"
+label nocjmp50
+addr 0x8048b3e @asm "mov    $0x0,%eax"
+label pc_0x8048b3e
+R_EAX:u32 = 0:u32
+jmp 0x8048b43:u32 @str "rdisasm"
+addr 0x8048ab7 @asm "mov    0x8(%ebp),%eax"
+label pc_0x8048ab7
+R_EAX:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+addr 0x8048aba @asm "movl   $0xffffffff,-0x1c(%ebp)"
+label pc_0x8048aba
+mem:?u32 = mem:?u32 with [R_EBP:u32 + 0xffffffe4:u32, e_little]:u32 = -1:u32
+addr 0x8048ac1 @asm "mov    %eax,%edx"
+label pc_0x8048ac1
+R_EDX:u32 = R_EAX:u32
+addr 0x8048ac3 @asm "mov    $0x0,%eax"
+label pc_0x8048ac3
+R_EAX:u32 = 0:u32
+addr 0x8048ac8 @asm "mov    -0x1c(%ebp),%ecx"
+label pc_0x8048ac8
+R_ECX:u32 = mem:?u32[R_EBP:u32 + 0xffffffe4:u32, e_little]:u32
+addr 0x8048acb @asm "mov    %edx,%edi"
+label pc_0x8048acb
+R_EDI:u32 = R_EDX:u32
+addr 0x8048acd @asm "repnz scas %es:(%edi),%al"
+label pc_0x8048acd
+cjmp R_ECX:u32 == 0:u32, 0x8048acf:u32, "nocjmp52"
+label nocjmp52
+T_src1_300:u8 = low:u8(R_EAX:u32)
+T_src2_301:u8 = mem:?u32[R_EDI:u32, e_little]:u8
+T_tmp_302:u8 = T_src1_300:u8 - T_src2_301:u8
+R_EDI:u32 = R_EDI:u32 + R_DFLAG:u32
+R_CF:bool = T_src1_300:u8 < T_src2_301:u8
+R_OF:bool =
+  high:bool((T_src1_300:u8 ^ T_src2_301:u8) & (T_src1_300:u8 ^ T_tmp_302:u8))
+R_AF:bool =
+  0x10:u8 == (0x10:u8 & (T_tmp_302:u8 ^ T_src1_300:u8 ^ T_src2_301:u8))
+R_PF:bool =
+  ~low:bool(T_tmp_302:u8 >> 7:u8 ^ T_tmp_302:u8 >> 6:u8 ^
+            T_tmp_302:u8 >> 5:u8 ^ T_tmp_302:u8 >> 4:u8 ^
+            T_tmp_302:u8 >> 3:u8 ^ T_tmp_302:u8 >> 2:u8 ^
+            T_tmp_302:u8 >> 1:u8 ^ T_tmp_302:u8)
+R_SF:bool = high:bool(T_tmp_302:u8)
+R_ZF:bool = 0:u8 == T_tmp_302:u8
+R_ECX:u32 = R_ECX:u32 - 1:u32
+cjmp R_ECX:u32 == 0:u32, 0x8048acf:u32, "nocjmp51"
+label nocjmp51
+cjmp R_ZF:bool, 0x8048acf:u32, 0x8048acd:u32
+addr 0x8048acf @asm "mov    %ecx,%eax"
+label pc_0x8048acf
+R_EAX:u32 = R_ECX:u32
+addr 0x8048ad1 @asm "not    %eax"
+label pc_0x8048ad1
+R_EAX:u32 = ~R_EAX:u32
+addr 0x8048ad3 @asm "sub    $0x1,%eax"
+label pc_0x8048ad3
+T_t_303:u32 = R_EAX:u32
+R_EAX:u32 = R_EAX:u32 - 1:u32
+R_CF:bool = T_t_303:u32 < 1:u32
+R_OF:bool = high:bool((T_t_303:u32 ^ 1:u32) & (T_t_303:u32 ^ R_EAX:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t_303:u32 ^ 1:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048ad6 @asm "sub    $0x1,%eax"
+label pc_0x8048ad6
+T_t_304:u32 = R_EAX:u32
+R_EAX:u32 = R_EAX:u32 - 1:u32
+R_CF:bool = T_t_304:u32 < 1:u32
+R_OF:bool = high:bool((T_t_304:u32 ^ 1:u32) & (T_t_304:u32 ^ R_EAX:u32))
+R_AF:bool = 0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t_304:u32 ^ 1:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048ad9 @asm "add    0x8(%ebp),%eax"
+label pc_0x8048ad9
+T_t1_305:u32 = R_EAX:u32
+T_t2_306:u32 = mem:?u32[R_EBP:u32 + 8:u32, e_little]:u32
+R_EAX:u32 = R_EAX:u32 + T_t2_306:u32
+R_CF:bool = R_EAX:u32 < T_t1_305:u32
+R_OF:bool =
+  high:bool((T_t1_305:u32 ^ ~T_t2_306:u32) & (T_t1_305:u32 ^ R_EAX:u32))
+R_AF:bool =
+  0x10:u32 == (0x10:u32 & (R_EAX:u32 ^ T_t1_305:u32 ^ T_t2_306:u32))
+R_PF:bool =
+  ~low:bool(R_EAX:u32 >> 7:u32 ^ R_EAX:u32 >> 6:u32 ^ R_EAX:u32 >> 5:u32 ^
+            R_EAX:u32 >> 4:u32 ^ R_EAX:u32 >> 3:u32 ^ R_EAX:u32 >> 2:u32 ^
+            R_EAX:u32 >> 1:u32 ^ R_EAX:u32)
+R_SF:bool = high:bool(R_EAX:u32)
+R_ZF:bool = 0:u32 == R_EAX:u32
+addr 0x8048adc @asm "movb   $0x0,(%eax)"
+label pc_0x8048adc
+mem:?u32 = mem:?u32 with [R_EAX:u32, e_little]:u8 = 0:u8
+addr 0x8048adf @asm "jmp    0x08048ae2"
+label pc_0x8048adf
+jmp 0x8048ae2:u32
+addr 0x80487d0 @asm "jmp    *0x804b010"
+label pc_0x80487d0
+jmp mem:?u32[0x804b010:u32, e_little]:u32
+addr 0x80488b0 @asm "jmp    *0x804b048"
+label pc_0x80488b0
+jmp mem:?u32[0x804b048:u32, e_little]:u32
+addr 0x8048840 @asm "jmp    *0x804b02c"
+label pc_0x8048840
+jmp mem:?u32[0x804b02c:u32, e_little]:u32
+addr 0x8048960 @asm "jmp    *0x804b074"
+label pc_0x8048960
+jmp mem:?u32[0x804b074:u32, e_little]:u32
+addr 0x8048900 @asm "jmp    *0x804b05c"
+label pc_0x8048900
+jmp mem:?u32[0x804b05c:u32, e_little]:u32
+addr 0x8048790 @asm "jmp    *0x804b000"
+label pc_0x8048790
+jmp mem:?u32[0x804b000:u32, e_little]:u32
+addr 0x80489a0 @asm "jmp    *0x804b084"
+label pc_0x80489a0
+jmp mem:?u32[0x804b084:u32, e_little]:u32
+addr 0x8048810 @asm "jmp    *0x804b020"
+label pc_0x8048810
+jmp mem:?u32[0x804b020:u32, e_little]:u32
+addr 0x8048990 @asm "jmp    *0x804b080"
+label pc_0x8048990
+jmp mem:?u32[0x804b080:u32, e_little]:u32
+
+
