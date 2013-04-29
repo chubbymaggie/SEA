@@ -25,12 +25,67 @@
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from Path    import Path
-from Program import Program
-from Operand import Operand, detectType, size_in_bytes
-from Reil    import ReilParser#, ReilInstruction
-from Bap     import BapParser#, BapInstruction
+#import copy, math
+  
+size_in_bits = {
+    "BYTE": 8,
+    "WORD": 16,
+    "DWORD": 32,
+    "QWORD": 64,
+    "1"    : 1,
+    "8"    : 8,
+    "16"    : 16,
+    "32"    : 32,
+}
 
-ReilPath   = lambda trace_filename,first,last: Path(first, last, filename = trace_filename, parser = ReilParser)
-BapProgram = lambda program_filename: Program(program_filename, BapParser)
-BapPath    = lambda program_code: Path(program_filename, code = program_code)
+class Operand:
+
+  def __init__(self, name, size):
+    self.type = None
+    self.name = str(name)
+    
+    self.size_in_bits = size_in_bits.get(size, 0)
+    
+    if (self.size_in_bits % 8 == 0):
+      self.size_in_bytes = self.size_in_bits / 8
+    else:
+      self.size_in_bytes = () # bottom
+
+  def __str__(self):
+    return self.name
+
+  def __cmp__(self, op):
+    return cmp(self.name,op.name)
+  
+  def __hash__(self):
+    return hash(self.name)
+
+class Imm(Operand):
+  pass
+
+class Addr(Operand):
+  pass
+
+class pAddr(Operand):
+  pass
+
+class Reg(Operand):
+  pass
+
+class pReg(Operand):
+  pass
+
+class NoOp(Operand):
+  pass
+
+isOp = isinstance
+
+#def guessOperand(name, size):
+  #if x == "EMPTY":
+    #return NoOp(name, size)
+  
+  #try:
+    #y = int(x)
+    #return Imm(name, size)
+  #except ValueError:
+    #return "reg"

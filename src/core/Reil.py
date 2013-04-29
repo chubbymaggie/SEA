@@ -46,10 +46,12 @@ body            = body.setResultsName("augmented_operands")
 
 reil = address + colon + instruction + left_sbracket + body + right_sbracket
 
-ReilParser = reil.parseString
+#ReilParser = reil.parseString
 
 class REILInstruction(Instruction):
-  def __init__(self, pins, mem_access, mem_regs = True):
+  def __init__(self, raw_ins, mem_regs = True):
+    
+    pins = reil.parseString(raw_ins)
     self.address = pins.address
     self.instruction = pins.instruction
     self.operands = []
@@ -75,44 +77,18 @@ class REILInstruction(Instruction):
       self.write_operands = [self.operands[2]]
       self.mem_reg = self.operands[0]
       
-      if (mem_access <> None):
-        
-        #if (mem_regs):
-        #  self.read_operands  = [self.operands[0]]
-        
-        mem_source = mem_access["source"]
-        mem_offset = mem_access["offset"]
-        for i in range(self.operands[2].size):
-          name = mem_source+"@"+str(mem_offset+i)
-          self.read_operands.append(Operand(name, "BYTE", mem_source, mem_offset+i))
-         
-        #self.read_operands.append(self.operands[0])
-      #else:
-      #  print "#WARNING: No memory access information of ldm in", self.address
-      
     # stm: [op_2] = op_0
     elif (pins.instruction == "stm"):
       
       self.read_operands.append(self.operands[0])
       self.mem_reg = self.operands[2]
       
-      if (mem_access <> None):
-      #  if (mem_regs):
-      #    self.write_operands = [self.operands[2]]
-        
-        mem_source = mem_access["source"]
-        mem_offset = mem_access["offset"]
-        for i in range(self.operands[0].size):
-          name = mem_source+"@"+str(mem_offset+i)
-          self.write_operands.append(Operand(name, "BYTE", mem_source, mem_offset+i))
-      #else:
-      #  print "#WARNING: No memory access information of stm in", self.address
-      
     elif (pins.instruction == "jcc"):
       self.read_operands  = filter(lambda o: not o.isEmpty(), self.operands[0:2])
       self.write_operands = []
       
     elif (pins.instruction == "call"):
+      #print "n:", self.operands[0].name
       #print self.operands[0].name
       if (self.operands[0].name <> "EMPTY"):
         self.called_function = self.operands[0].name
@@ -121,3 +97,45 @@ class REILInstruction(Instruction):
       
       self.read_operands  = filter(lambda o: not o.isEmpty(), self.operands[0:2])
       self.write_operands = filter(lambda o: not o.isEmpty(), self.operands[2:3])
+      
+  def fixMemoryAccess(self, mem_access):
+    assert(mem_access <> None)
+    #print self.instruction
+    
+    if (self.instruction == "ldm"):
+      
+      self.write_operands = [self.operands[2]]
+      self.mem_reg = self.operands[0]
+      
+      #if (mem_regs):
+      #  self.read_operands  = [self.operands[0]]
+        
+      mem_source = mem_access["source"]
+      mem_offset = mem_access["offset"]
+      for i in range(self.operands[2].size):
+        name = mem_source+"@"+str(mem_offset+i)
+        self.read_operands.append(Operand(name, "BYTE", mem_source, mem_offset+i))
+         
+      #self.read_operands.append(self.operands[0])
+      
+    # stm: [op_2] = op_0
+    elif (self.instruction == "stm"):
+      
+      self.read_operands.append(self.operands[0])
+      self.mem_reg = self.operands[2]
+      
+      mem_source = mem_access["source"]
+      mem_offset = mem_access["offset"]
+      for i in range(self.operands[0].size):
+        name = mem_source+"@"+str(mem_offset+i)
+        self.write_operands.append(Operand(name, "BYTE", mem_source, mem_offset+i))
+    else:
+      assert(False)
+      
+def ReilParser(filename):
+    openf = open(filename)
+    r = []
+    for raw_ins in openf.readlines():
+      r.append(REILInstruction(raw_ins))
+    
+    return r

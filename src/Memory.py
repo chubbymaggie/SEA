@@ -17,12 +17,7 @@
     Copyright 2013 by neuromancer
 """
 
-
 from core        import *
-
-#from Instruction import *
-#from Reil        import parse_reil
-#from Operand     import *
 from Common      import getTypedValueFromCode
   
 class MemAccess:
@@ -55,9 +50,9 @@ class MemAccessREIL(MemAccess):
 
   def detectMemAccess(self, reil_code, callstack, inputs, counter):
     
-    pins = reil_code[-1]
-    ins = REILInstruction(pins,None)
-  
+    ins = reil_code[-1]
+    #ins = REILInstruction(pins,None)
+    
     assert(ins.instruction in ["stm", "ldm"])
     addr_op = ins.getMemReg()
     #print "op:", addr_op, ins.address
@@ -77,18 +72,6 @@ class MemAccessREIL(MemAccess):
     else:
       assert(0)
       
-  #def __isArgMem__(self, val, main_addr):
-  #  return ("s."+hex(main_addr) in val.name and val.mem_offset >= 8)
-  #    
-  #def __getArgMemAccess__(self, ins, val, main_addr):
-  #  mem_access = dict()
-  #  mem_access["source"] = "a."+hex(main_addr)+"." + str(int((val.mem_offset-4) / 4)-1) # FIXME: it's a hack!
-  #  mem_access["offset"] = (val.mem_offset - 4) % 4 
-  #  mem_access["type"]   = ins.instruction
-  #  mem_access["address"]   = ins.address
-  #  
-  #  return mem_access
-
   def __getMemAccess__(self, ins, val):
 
     mem_access = dict()

@@ -19,9 +19,6 @@
 
 from core import *
 
-#from Instruction import *
-#from Reil        import parse_reil
-#from Operand     import *
 from Function    import *
 from Common      import getTypedValueFromCode
 
@@ -58,8 +55,8 @@ class FuncParametersREIL:
     
   def detectFuncParameters(self, reil_code, memaccess, callstack, inputs, counter):
     
-    pins = reil_code[-1]
-    ins = REILInstruction(pins,None)
+    ins = reil_code[-1]
+    #ins = REILInstruction(pins,None)
     
     assert(ins.instruction == "call" and ins.called_function <> None)
     

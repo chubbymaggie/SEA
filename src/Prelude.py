@@ -34,7 +34,7 @@ from Allocation  import Allocation
 def mkTrace(trace_filename, first, last, raw_inputs):
     
     print "Loading trace.."
-    reil_code = REIL_Path(trace_filename, first, last)
+    reil_code = ReilPath(trace_filename, first, last)
     
     Inputs = parse_inputs(raw_inputs)
     
@@ -62,18 +62,26 @@ def mkTrace(trace_filename, first, last, raw_inputs):
     
     print "Detecting memory accesses and function parameters.."
   
-    for (end,pins) in enumerate(reil_code):
+    for (end,ins) in enumerate(reil_code):
+      #print (end, ins.instruction)
       #pins = parse_reil(ins_str)
-      ins = REILInstruction(pins,None)
+      #ins = REILInstruction(pins,None)
       
-      Callstack.nextInstruction(pins)
+      Callstack.nextInstruction(ins)
       
-      if ins.instruction in ["stm", "ldm"]: 
+      if ins.instruction in ["stm", "ldm"]:
+	
+	##for i in reil_code[start:end+1]:
+	  ##print i.instruction
+	
+	
+	##assert(False)
+	
         MemAccess.detectMemAccess(reil_code[start:end+1], Callstack, Inputs, end)
         AllocationLog.check(MemAccess.getAccess(end), end)
         
       elif ins.instruction == "call" and ins.called_function <> None:
-        #print "detect parameters of", ins.called_function, "at", ins_str
+        ##print "detect parameters of", ins.called_function, "at", ins_str
         FuncParameters.detectFuncParameters(reil_code[start:end+1], MemAccess, Callstack, Inputs, end)
         if (ins.called_function == "malloc"):
           

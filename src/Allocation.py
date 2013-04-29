@@ -54,8 +54,8 @@ class Allocation:
     if (len(self.buffers) > 0):
       print "Live buffers:"
       print self.buffers
-    else: 
-      print "No live buffers."
+    #else: 
+    #  print "No live buffers."
       
     if (self.overflows <> []):
       print "Heap overflow detected!"

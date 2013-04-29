@@ -21,11 +21,8 @@ from SSA import SSA
 
 from core import *
 
-#from Instruction import *
 from Condition   import *
 from SMT         import SMT
-#from Reil        import parse_reil
-#from Operand     import *
 
 def getValueFromCode(inss, initial_values, op):
   assert(len(inss) > 0)
@@ -43,11 +40,11 @@ def getValueFromCode(inss, initial_values, op):
   mvars = set([op])    
   ssa.getMap(mvars, set(), set())
 
-  for pins in inss:
+  for ins in inss:
     #print ins_str.strip("\n")
     #pins = parse_reil(ins_str)
       
-    ins = REILInstruction(pins, None) # no memory and callstack are available
+    #ins = REILInstruction(pins, None) # no memory and callstack are available
     
     ins_write_vars = set(ins.getWriteVarOperands())
     ins_read_vars = set(ins.getReadVarOperands())
@@ -56,7 +53,7 @@ def getValueFromCode(inss, initial_values, op):
       
       ssa_map = ssa.getMap(ins_read_vars.difference(mvars), ins_write_vars, ins_read_vars.intersection(mvars))
 
-      cons = conds.get(pins.instruction, Condition)
+      cons = conds.get(ins.instruction, Condition)
       condition = cons(ins, ssa_map)
      
       mvars = mvars.difference(ins_write_vars) 
@@ -100,18 +97,18 @@ class CallstackREIL:
     reil_size = len(reil_code)
     start = 0  
   
-    for (end,pins) in enumerate(self.reil_code):
+    for (end,ins) in enumerate(self.reil_code):
       #print ins_str.strip("\n")
       #pins = parse_reil(ins_str)
-      ins = REILInstruction(pins, None)
+      #ins = REILInstruction(pins, None)
   
       if (ins.instruction == "call" and ins.called_function == None) or ins.instruction == "ret":
         self.__getStackDiff__(ins.instruction, ins.address,reil_code[start:end])
         start = end
         
     if (start <> reil_size-1):
-      pins = reil_code[start]
-      self.__getStackDiff__(pins.instruction, pins.address,reil_code[start:reil_size])
+      ins = reil_code[start]
+      self.__getStackDiff__(ins.instruction, ins.address,reil_code[start:reil_size-1])
       
     self.index = len(self.callstack) - 1
   
@@ -132,18 +129,19 @@ class CallstackREIL:
   def reset(self):
     self.index = 0
   
-  def nextInstruction(self, pins):
+  def nextInstruction(self, ins):
     #pins = parse_reil(ins)
-    if pins.instruction == "call" or pins.instruction == "ret":
+    if (ins.instruction == "call" and ins.called_function == None) or ins.instruction == "ret":
       self.index = self.index + 1
   
   
-  def prevInstruction(self, pins):
+  def prevInstruction(self, ins):
     #pins = parse_reil(ins)
-    if pins.instruction == "call" or pins.instruction == "ret":
+    if (ins.instruction == "call" and ins.called_function == None) or ins.instruction == "ret":
       self.index = self.index - 1
   
   def currentCall(self):
+    #print self.callstack[self.index]
     return self.callstack[self.index]
     
   def currentStackDiff(self):

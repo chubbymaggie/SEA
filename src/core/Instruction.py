@@ -29,7 +29,10 @@ from Operand import *
 
 class Instruction:
   """An abstract instruction class"""
-  def __init__(self, pins, mem_access, mem_regs = True):
+  def __init__(self, raw_ins, mem_regs = True):
+    pass
+  
+  def fixMemoryAccess(mem_access):
     pass
 
   def getOperands(self):

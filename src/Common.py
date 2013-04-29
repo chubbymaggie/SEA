@@ -84,16 +84,14 @@ def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = F
   
   ssa.getMap(mvars, set(), set())
 
-  for pins in inss:
-    #print inss.current, "->", ins_str.strip("\n")
-    #print ins_str.strip("\n")
-    #for v in mvars:
-    #  print v,
-    #
-    #print ""
-    #
-    #pins = parse_reil(ins_str)
-    ins = REILInstruction(pins, memory.getAccess(counter), mem_regs = False)
+  for ins in inss:
+    
+    if debug:
+      print ">", ins.instruction, counter ,str(ins.called_function)
+
+    if memory.getAccess(counter) <> None:
+      ins.fixMemoryAccess(memory.getAccess(counter))
+    #ins = REILInstruction(pins, memory.getAccess(counter), mem_regs = False)
   
     ins_write_vars = set(ins.getWriteVarOperands())
     ins_read_vars = set(ins.getReadVarOperands())
@@ -102,7 +100,7 @@ def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = F
       
       ssa_map = ssa.getMap(ins_read_vars.difference(mvars), ins_write_vars, ins_read_vars.intersection(mvars))
 
-      cons = conds.get(pins.instruction, Condition)
+      cons = conds.get(ins.instruction, Condition)
       condition = cons(ins, ssa_map)
      
       mvars = mvars.difference(ins_write_vars) 
@@ -123,7 +121,7 @@ def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = F
     # we update the counter 
     counter = counter - 1    
     # we update the current call for next instruction
-    callstack.prevInstruction(pins) 
+    callstack.prevInstruction(ins) 
   
   if val_type == None:
     val_type = "imm"
@@ -187,22 +185,19 @@ def getPathConditions(trace):
   # we start without free variables
   fvars = set()
 
-  for pins in inss:
-    #print ins_str.strip("\n")
-    #for v in mvars:
-    #  print v,
-    #   
-    #pins = parse_reil(ins_str)
-    ins = REILInstruction(pins, memory.getAccess(counter), mem_regs = False)  
+  for ins in inss:
+    
+    if memory.getAccess(counter) <> None:
+      ins.fixMemoryAccess(memory.getAccess(counter))
   
     ins_write_vars = set(ins.getWriteVarOperands())
     ins_read_vars = set(ins.getReadVarOperands())
  
-    if pins.instruction == "jcc" or len(ins_write_vars.intersection(mvars)) > 0:
+    if ins.instruction == "jcc" or len(ins_write_vars.intersection(mvars)) > 0:
       
       ssa_map = ssa.getMap(ins_read_vars.difference(mvars), ins_write_vars, ins_read_vars.intersection(mvars))
 
-      cons = conds.get(pins.instruction, Condition)
+      cons = conds.get(ins.instruction, Condition)
       condition = cons(ins, ssa_map)
      
       mvars = mvars.difference(ins_write_vars) 
@@ -217,9 +212,6 @@ def getPathConditions(trace):
       
       func_write_vars = set(func.getWriteVarOperands())
       func_read_vars = set(func.getReadVarOperands())
-      
-      #for op in func_write_vars:
-      #  print op
       
       if len(func_write_vars.intersection(mvars)) > 0:
         ssa_map = ssa.getMap(func_read_vars.difference(mvars), func_write_vars, func_read_vars.intersection(mvars))
@@ -244,7 +236,7 @@ def getPathConditions(trace):
     # we update the counter 
     counter = counter - 1    
     # we update the current call for next instruction
-    callstack.prevInstruction(pins) 
+    callstack.prevInstruction(ins) 
   
   #for v in mvars:
   #  print v

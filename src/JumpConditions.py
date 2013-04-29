@@ -18,22 +18,17 @@
 """
 
 from core import *
-
-#from Reil        import parse_reil
 from Common      import getPathConditions
-
-#from Instruction import *
 
 input_vars = ["stdin:", "arg[0]@0:", "arg[1]@0:", "arg[2]@0:"]
 
 def getJumpConditions(trace, addr):
-  raw_ins = (trace["code"][-1])
+  last_ins = (trace["code"][-1])
   addr = int(addr, 16)
   pos = trace["code"].last - 1
   
-  if (raw_ins.instruction == "jcc"):
-    ins = REILInstruction(raw_ins, None)
-    jmp_op = ins.operands[2]
+  if (last_ins.instruction == "jcc"):
+    jmp_op = last_ins.operands[2]
     
     if (jmp_op.isVar()):
       
@@ -43,14 +38,16 @@ def getJumpConditions(trace, addr):
       
       if (sol <> None):
         print "SAT conditions found!"
-        filename = raw_ins.instruction + "[" + str(pos)  +"]"
+        filename = last_ins.instruction + "[" + str(pos)  +"]"
         dumped = sol.dump(filename,input_vars)
         for filename in dumped:
           print filename, "dumped!"
       else:
-        print "Impossible to jump to", hex(addr), "from", raw_ins.instruction, "at", pos
+        print "Impossible to jump to", hex(addr), "from", last_ins.instruction, "at", pos
     else:
+      print "Jump operand (", jmp_op.name ,") in last instruction (", last_ins.instruction, ") is not variable!" 
       return None
     
   else:
+    print "Last instructions (", last_ins, ") is not a jmp" 
     return None

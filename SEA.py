@@ -25,6 +25,7 @@ import argparse
 from src.Prelude            import mkTrace
 from src.Common             import getPathConditions
 from src.JumpConditions     import getJumpConditions
+from src.PathSelection      import selectPath
 
 parser = argparse.ArgumentParser(description='Symbolic Exploit Assistant.')
 parser.add_argument('trace_filename', metavar='trace', type=str,
@@ -49,12 +50,13 @@ args = parser.parse_args()
 
 mode  = args.type
 
-if not (mode in ["jump", "path", "debug"]):
+if not (mode in ["jump", "path", "debug", "selection"]):
   print "\""+mode+"\" is an invalid type of operation for SEA"
   exit(1)
 
-address = args.address
-trace = mkTrace(args.trace_filename, args.first, args.last, args.iconditions)
+if (mode <> "selection"):
+  address = args.address
+  trace = mkTrace(args.trace_filename, args.first, args.last, args.iconditions)
 
 if (mode == "jump"):
   if (address == None):
@@ -76,6 +78,9 @@ elif (mode == 'path'):
     dumped = sol.dump(filename,input_vars)
     for filename in dumped:
       print filename, "dumped."
+      
+elif (mode == 'selection'): 
+  selectPath(args.trace_filename)
     
 elif (mode == 'debug'):
   pass
