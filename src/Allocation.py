@@ -71,7 +71,3 @@ class Allocation:
       print "Double frees detected!"
       for (s,c) in self.dfrees:
         print s, "at", c
-      
-    
-    
-#AllocationLog = Allocation()

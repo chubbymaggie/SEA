@@ -206,9 +206,7 @@ class  Ldm_Cond(Condition):
 
     conds = []
     
-    #for (i,dst) in zip(range(offset, offset-(dst.size),-1), dsts):
     for (i,dst) in zip(range(dst.size), dsts):
-    #for (i,dst) in zip(range(offset, offset+(dst.size)+1), dsts):
       conds.append(array[offset+i] == dst)
 
     return conds
@@ -231,8 +229,6 @@ class  Stm_Cond(Condition):
     old_array = mkArray(old_sname)
     array = mkArray(new_sname)
 
-    #for (i,src) in zip(range(offset,offset-(src.size),-1), srcs):
-    #for (i,src) in zip(range(offset,offset+(src.size)+1), srcs):
     for (i,src) in zip(range(src.size), srcs):
       array = z3.Store(array, offset + i, src)
       

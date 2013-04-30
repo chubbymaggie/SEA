@@ -51,13 +51,11 @@ class MemAccessREIL(MemAccess):
   def detectMemAccess(self, reil_code, callstack, inputs, counter):
     
     ins = reil_code[-1]
-    #ins = REILInstruction(pins,None)
     
     assert(ins.instruction in ["stm", "ldm"])
     addr_op = ins.getMemReg()
-    #print "op:", addr_op, ins.address
     val = getTypedValueFromCode(reil_code, callstack, inputs, self, addr_op)
-    #print val
+    
     if (val.isMem()):
       
       #if self.__isArgMem__(val, callstack.callstack[1]):

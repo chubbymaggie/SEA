@@ -17,10 +17,10 @@
     Copyright 2013 by neuromancer
 """
 
-from SSA import SSA
 
 from core import *
 
+from SSA import SSA
 from Condition   import *
 from SMT         import SMT
 
@@ -41,10 +41,6 @@ def getValueFromCode(inss, initial_values, op):
   ssa.getMap(mvars, set(), set())
 
   for ins in inss:
-    #print ins_str.strip("\n")
-    #pins = parse_reil(ins_str)
-      
-    #ins = REILInstruction(pins, None) # no memory and callstack are available
     
     ins_write_vars = set(ins.getWriteVarOperands())
     ins_read_vars = set(ins.getReadVarOperands())
@@ -88,7 +84,6 @@ class CallstackREIL:
     self.stack_diff = []
     
     self.index = 0
-    #self.prev_callstack = [None]
     
     # aditional information need to compute the callstack
     self.calls = [None]
@@ -98,28 +93,18 @@ class CallstackREIL:
     start = 0  
   
     for (end,ins) in enumerate(self.reil_code):
-      #print ins_str.strip("\n")
-      #pins = parse_reil(ins_str)
-      #ins = REILInstruction(pins, None)
-  
-      if (ins.instruction == "call" and ins.called_function == None) or ins.instruction == "ret":
-        self.__getStackDiff__(ins.instruction, ins.address,reil_code[start:end])
+      if (ins.isCall() and ins.called_function == None) or ins.isRet():
+        self.__getStackDiff__(ins, reil_code[start:end])
         start = end
         
     if (start <> reil_size-1):
       ins = reil_code[start]
-      self.__getStackDiff__(ins.instruction, ins.address,reil_code[start:reil_size-1])
+      self.__getStackDiff__(ins, reil_code[start:reil_size-1])
       
     self.index = len(self.callstack) - 1
   
   def __str__(self):
     ret = ""
-    #for addr in reversed(self.prev_callstack):
-    #  if (addr <> None):
-    #    ret = ret + " " + hex(addr)
-    
-    #ret = ret + "->"
-    #print len(self.callstack), len(self.stack_diff)
     for (addr, sdiff) in zip(self.callstack, self.stack_diff):
       if (addr <> None):
         ret = ret + " " + hex(addr) + "[" +str(sdiff)+"]"
@@ -130,18 +115,15 @@ class CallstackREIL:
     self.index = 0
   
   def nextInstruction(self, ins):
-    #pins = parse_reil(ins)
-    if (ins.instruction == "call" and ins.called_function == None) or ins.instruction == "ret":
+    if (ins.isCall() and ins.called_function == None) or ins.isRet():
       self.index = self.index + 1
   
   
   def prevInstruction(self, ins):
-    #pins = parse_reil(ins)
-    if (ins.instruction == "call" and ins.called_function == None) or ins.instruction == "ret":
+    if (ins.isCall() and ins.called_function == None) or ins.isRet():
       self.index = self.index - 1
   
   def currentCall(self):
-    #print self.callstack[self.index]
     return self.callstack[self.index]
     
   def currentStackDiff(self):
@@ -154,9 +136,6 @@ class CallstackREIL:
     return self.index == 1
   
   def convertStackMemOp(self, op):
-    
-    #print str(op)
-    
     self.index = self.index - 1
     
     mem_source =  "s."+hex(self.currentCall())+"."+str(self.currentCounter())
@@ -170,8 +149,10 @@ class CallstackREIL:
     
     return Operand(name,"BYTE", mem_source, mem_offset)
   
-  def __getStackDiff__(self, inst, addr,reil_code):
-    if inst == "call":
+  def __getStackDiff__(self, ins, reil_code):
+    
+    addr = ins.address
+    if ins.isCall():
       call = int(addr, 16)
       esp_diff = self.__getESPdifference__(reil_code, 0) 
         
@@ -181,9 +162,9 @@ class CallstackREIL:
       self.stack_diff.append(esp_diff)
       self.esp_diffs.append(esp_diff)
       
-    elif inst == "ret":
+    elif ins.isRet():
         
-      if (reil_code[0].instruction == "call"):
+      if (reil_code[0].isCall()):
         self.stack_diff.append(self.__getESPdifference__(reil_code, 0))
       else:
         self.calls.pop()
@@ -198,7 +179,6 @@ class CallstackREIL:
       assert(False)
   
   def __getESPdifference__(self, reil_code, initial_esp):
-    #print "inf:", reil_code.first, reil_code.last
     if len(reil_code) == 0:
       return initial_esp
     

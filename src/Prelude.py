@@ -18,18 +18,11 @@
 """
 
 from core        import *
-
-#from Trace       import REIL_Trace
 from Inputs      import parse_inputs
 from Memory      import MemAccessREIL
 from Parameters  import FuncParametersREIL
 from Callstack   import CallstackREIL
 from Allocation  import Allocation
-
-#from Instruction import *
-#from Reil        import parse_reil
-#from Operand     import *
-
 
 def mkTrace(trace_filename, first, last, raw_inputs):
     
@@ -63,24 +56,15 @@ def mkTrace(trace_filename, first, last, raw_inputs):
     print "Detecting memory accesses and function parameters.."
   
     for (end,ins) in enumerate(reil_code):
-      #print (end, ins.instruction)
-      #pins = parse_reil(ins_str)
-      #ins = REILInstruction(pins,None)
       
       Callstack.nextInstruction(ins)
       
       if ins.instruction in ["stm", "ldm"]:
 	
-	##for i in reil_code[start:end+1]:
-	  ##print i.instruction
-	
-	
-	##assert(False)
-	
         MemAccess.detectMemAccess(reil_code[start:end+1], Callstack, Inputs, end)
         AllocationLog.check(MemAccess.getAccess(end), end)
         
-      elif ins.instruction == "call" and ins.called_function <> None:
+      elif ins.isCall() and ins.called_function <> None:
         ##print "detect parameters of", ins.called_function, "at", ins_str
         FuncParameters.detectFuncParameters(reil_code[start:end+1], MemAccess, Callstack, Inputs, end)
         if (ins.called_function == "malloc"):

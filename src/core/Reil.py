@@ -131,7 +131,12 @@ class REILInstruction(Instruction):
         self.write_operands.append(Operand(name, "BYTE", mem_source, mem_offset+i))
     else:
       assert(False)
-      
+  
+  def isCall(self):
+    return self.instruction == "call"
+  def isRet(self):
+    return self.instruction == "ret"
+  
 def ReilParser(filename):
     openf = open(filename)
     r = []

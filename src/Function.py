@@ -18,8 +18,6 @@
 """
 from core import *
 
-#from Operand import *
-
 class Function:
   """An abstract function class"""
   parameter_typs = []
@@ -127,8 +125,6 @@ class Strlen_Func(Function):
         
       # return value
       self.write_operands.append(Operand("eax", "DWORD"))  
-
-
       
 class Strcpy_Func(Function):
   parameter_typs = [("char * str", "DWORD", 0, True), ("char * str", "DWORD", 4, True)]

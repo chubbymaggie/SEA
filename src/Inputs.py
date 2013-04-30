@@ -19,9 +19,6 @@
 
 from core import *
 
-#from Condition   import *
-#from Operand     import *
-
 def parse_inputs(inputs):
   
   r = dict()  

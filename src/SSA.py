@@ -17,7 +17,6 @@
     Copyright 2013 by neuromancer
 """
 from core import *
-#from Operand import *
 
 class SSA:
   def __init__(self):

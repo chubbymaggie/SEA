@@ -64,4 +64,15 @@ class Instruction:
   
   def getMemReg(self):
     return self.mem_reg 
+    
+  def isCall(self):
+    pass
+  def isRet(self):
+    pass
+    
+  def isJmp(self):
+    pass
+    
+  def isCJmp(self):
+    pass
 

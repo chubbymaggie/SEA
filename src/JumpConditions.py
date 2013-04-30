@@ -17,7 +17,7 @@
     Copyright 2013 by neuromancer
 """
 
-from core import *
+from core        import *
 from Common      import getPathConditions
 
 input_vars = ["stdin:", "arg[0]@0:", "arg[1]@0:", "arg[2]@0:"]

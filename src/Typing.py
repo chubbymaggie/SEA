@@ -16,8 +16,8 @@
 
     Copyright 2013 by neuromancer
 """
+
 from core import *
-#from Operand     import *
 from Condition   import *
 
 def getInitialConditionsCall(callstack):
@@ -114,13 +114,13 @@ def detectType(mvars, ins, counter, callstack):
     if op in mvars:
       return "arg["+str(i / 4)+"]"
   
-  if ins.instruction == "call" and ins.called_function == "malloc":
+  if ins.isCall() and ins.called_function == "malloc":
     
     # heap pointers
     if set([Operand("eax","DWORD")]).issubset(mvars):
       return "h."+"0x"+ins.address+"."+str(counter)
   
-  elif ins.instruction == "call" and ins.called_function == None:
+  elif ins.isCall() and ins.called_function == None:
     
     # stack pointers
     if mvars.issubset(set([Operand("esp", "DWORD"), Operand("ebp", "DWORD")])):
@@ -146,14 +146,14 @@ def addAditionalConditions(mvars, ins, ssa, callstack, smt_conds):
   eq = Eq(None, None)
   
   # if the instruction was a call
-  if ins.instruction == "call" and ins.called_function == "malloc":
+  if ins.isCall() and ins.called_function == "malloc":
 
     if (Operand("eax","DWORD") in mvars):
       initial_values_at_alloc = getInitialConditionsAlloc()
       setInitialConditions(ssa, initial_values_at_alloc, smt_conds)
       mvars.remove(Operand("eax","DWORD"))
       
-  elif ins.instruction == "call" and ins.called_function == None:
+  elif ins.isCall() and ins.called_function == None:
     initial_values_at_call = getInitialConditionsCall(callstack)
       
     

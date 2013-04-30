@@ -56,24 +56,19 @@ class FuncParametersREIL:
   def detectFuncParameters(self, reil_code, memaccess, callstack, inputs, counter):
     
     ins = reil_code[-1]
-    #ins = REILInstruction(pins,None)
     
-    assert(ins.instruction == "call" and ins.called_function <> None)
+    assert(ins.isCall() and ins.called_function <> None)
     
     # first we locate the stack pointer to know where the parameters are located
     esp = Operand("esp","DWORD")
     pbase = getTypedValueFromCode(reil_code, callstack, inputs, memaccess, esp)
     
-    #print pbase.name
-    #print pbase.mem_source
-    #
     func_cons = funcs.get(ins.called_function, Function)
     func = func_cons(pbase = pbase)
     
     parameters = []
     
     for (par_type, location, needed) in func.getParameterLocations():
-      #print (ins.called_function, par_type, location.mem_source, needed)
       if needed:
         reil_code.reverse()
         reil_code.reset()

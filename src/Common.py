@@ -17,17 +17,15 @@
     Copyright 2013 by neuromancer
 """
 
-from SSA import SSA
 
-from core import *
 
-#from Instruction import *
+from core        import *
+
+from SSA         import SSA
 from Function    import *
 from Condition   import *
-#from Reil        import parse_reil
-#from Operand     import *
 from SMT         import SMT, Solution
-from Typing      import *#detectType, mkVal, addAditionalConditions
+from Typing      import *
 
 def setInitialConditions(ssa, initial_values, smt_conds):
   ssa_map = ssa.getMap(set(), set(), set(initial_values.keys()))
@@ -91,7 +89,6 @@ def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = F
 
     if memory.getAccess(counter) <> None:
       ins.fixMemoryAccess(memory.getAccess(counter))
-    #ins = REILInstruction(pins, memory.getAccess(counter), mem_regs = False)
   
     ins_write_vars = set(ins.getWriteVarOperands())
     ins_read_vars = set(ins.getReadVarOperands())
@@ -115,7 +112,6 @@ def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = F
     mvars = addAditionalConditions(mvars, ins, ssa, callstack, smt_conds)
     
     val_type = max(val_type, new_val_type)
-
 
     # no more things to do
     # we update the counter 
@@ -205,7 +201,7 @@ def getPathConditions(trace):
    
       smt_conds.add(condition.getEq())
       
-    elif (ins.instruction == "call" and ins.called_function <> None):
+    elif (ins.isCall() and ins.called_function <> None):
       
       func_cons = funcs.get(ins.called_function, Function)
       func = func_cons(None, parameters.getParameters(counter))
@@ -258,8 +254,3 @@ def getPathConditions(trace):
     return Solution(smt_conds.m, fvars)
   else: # unsat :(
     return None
-  #for v in fvars:
-  #  print v
-  #  sol[str(v)] = smt_conds.getValue(v)
-  
-  #return sol
