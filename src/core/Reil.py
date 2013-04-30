@@ -46,8 +46,6 @@ body            = body.setResultsName("augmented_operands")
 
 reil = address + colon + instruction + left_sbracket + body + right_sbracket
 
-#ReilParser = reil.parseString
-
 class REILInstruction(Instruction):
   def __init__(self, raw_ins, mem_regs = True):
     
