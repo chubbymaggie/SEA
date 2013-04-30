@@ -76,7 +76,7 @@ def getValueFromCode(inss, initial_values, op):
   return smt_conds.getValue(op)
 
 
-class CallstackREIL:
+class Callstack:
   def __init__(self, reil_code):
     
     # The first instruction should be a call

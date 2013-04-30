@@ -17,7 +17,8 @@
     Copyright 2013 by neuromancer
 """
 
-import src.core
+from core      import *
+from Callstack import Callstack
 
 def help_path(filename):
   print "To select interactively a path in", filename, " use:"
@@ -40,8 +41,8 @@ def ask(values):
   
 def selectPath(filename):
 
-  pr = src.core.BapProgram(filename)
-  bap_path = []
+  pr = BapProgram(filename)
+  bap_code = []
   help_path(filename)
 
   #def readRelocTable(filename):
@@ -60,7 +61,7 @@ def selectPath(filename):
   
   for (addr, ins) in pr:
     #print addr, ">", ins.ins
-    bap_path.append((addr, ins))
+    bap_code.append(ins)
   
     if ins.isCall():
       print "call detected! (", ins.branchs[0], ")"
@@ -94,10 +95,12 @@ def selectPath(filename):
         pr.selectFalseBranch()
       elif i == "t":
         pr.selectTrueBranch()
-    
+  
+  path = BapPath(0, len(bap_code), bap_code)
+  #callstack = Callstack(path)
   print "Path selected:"
-  for (addr,ins) in bap_path:
-    print addr, ":", ins.ins
+  for ins in path:
+    print ins.ins
 
 #path = src.core.Path(map(lambda p: p[1], bap_path),0,len(bap_path))
 #print "Path selected:"

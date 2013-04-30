@@ -21,7 +21,7 @@ from core        import *
 from Inputs      import parse_inputs
 from Memory      import MemAccessREIL
 from Parameters  import FuncParametersREIL
-from Callstack   import CallstackREIL
+from Callstack   import Callstack
 from Allocation  import Allocation
 
 def mkTrace(trace_filename, first, last, raw_inputs):
@@ -38,7 +38,7 @@ def mkTrace(trace_filename, first, last, raw_inputs):
         print op,"=", Inputs[op]
     
     print "Detecting callstack layout..."
-    Callstack = CallstackREIL(reil_code)#, Inputs) #TODO: it should recieve inputs also!
+    Callstack = Callstack(reil_code)#, Inputs) #TODO: it should recieve inputs also!
     
     reil_code.reset()
     

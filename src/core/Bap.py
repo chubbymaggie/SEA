@@ -88,10 +88,11 @@ class BapInstruction(Instruction):
     # self.mem_reg = None
     
     # # for call instructions
-    # self.called_function = None
+    self.called_function = None
     self.ins = None
     self.raw = str(dins)
     self.isCallV = False
+    self.isRetV  = False
     #self.isJmp = False
     
     if ('label_stmt' in dins):
