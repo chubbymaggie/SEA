@@ -27,7 +27,6 @@
 
 from NewOperand  import * 
 from Instruction import Instruction
-#from Path        import Path
 
 class Program:
     def __init__(self, filename, parser):
@@ -38,6 +37,7 @@ class Program:
         self.labels   = dict()
         self.all = self.parser(self.filename)
         self.code = []
+        self.callstack = []
         
         #print self.all
         
@@ -78,7 +78,9 @@ class Program:
          assert(False)
       
       if str(taken) in self.labels:
-        #print taken, "taken!"
+        print taken, "call"
+        # TODO: check if this is the last instruction!
+        self.callstack.append(self.current)
         self.current = self.labels[str(taken)]
       else:
 	assert(False)
@@ -151,6 +153,18 @@ class Program:
 	      self.prev_ins = ins
 	      self.current += 1
 	      #pass # fixme
+	  elif (ins.isRet()):
+	    print "ret"
+	    # next instruction is on the return address
+	    
+	    if self.callstack <> []:
+	      self.current = self.callstack.pop()
+	      #print "returning to", self.current
+	    else:
+	      raise StopIteration
+	    
+	    
+	    return self.next()
 	  else:
 	    # next instruction is the only possible branch
 	    taken = ins.branchs[0]
