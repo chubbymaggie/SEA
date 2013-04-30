@@ -95,7 +95,9 @@ def selectPath(filename):
       elif i == "t":
         pr.selectTrueBranch()
     
-  print bap_path
+  print "Path selected:"
+  for (addr,ins) in bap_path:
+    print addr, ":", ins.ins
 
 #path = src.core.Path(map(lambda p: p[1], bap_path),0,len(bap_path))
 #print "Path selected:"
