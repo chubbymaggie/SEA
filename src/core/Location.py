@@ -25,54 +25,50 @@
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from NewOperand import *
+class Location:
 
-class Instruction:
-  """An abstract instruction class"""
-  def __init__(self, raw_ins, mem_regs = True):
-    pass
+  def __init__(self, name, index):
+    self.type = None
+    self.name = str(name)
+    self.index = index
+
+  def __str__(self):
+    assert(False)
+
+  def __cmp__(self, op):
+    return cmp(self.name,op.name) * cmp(self.index,op.index)
   
-  def fixMemoryAccess(mem_access):
-    pass
-
-  def getOperands(self):
-    return list(self.read_operands + self.write_operands)
-  
-  def getReadOperands(self):
-    return list(self.read_operands)
-
-  def getWriteOperands(self):
-    return list(self.write_operands)
-
-  def getReadRegOperands(self):
-    return filter(lambda o: o |iss| RegOp, self.read_operands)
-
-  def getWriteRegOperands(self):
-    return filter(lambda o: o |iss| RegOp, self.write_operands)
-  
-  def getReadVarOperands(self):
-    return filter(lambda o: o.isVar(), self.read_operands)
-
-  def getWriteVarOperands(self):
-    return filter(lambda o: o.isVar(), self.write_operands)
-  
-  def getReadMemOperands(self):
-    return filter(lambda o: o.isMem(), self.read_operands)
-
-  def getWriteMemOperands(self):
-    return filter(lambda o: o.isMem(), self.write_operands)
-  
-  def getMemReg(self):
-    return self.mem_reg 
+  def __hash__(self):
+    return hash(self.__str__())
     
-  def isCall(self):
-    pass
-  def isRet(self):
-    pass
-    
-  def isJmp(self):
-    pass
-    
-  def isCJmp(self):
-    pass
+  def __int__(self, base=10):
+    assert(False)
+
+class ImmLoc(Location):
+  def __str__(self):
+    return self.name
+  
+  def __int__(self, base=10):
+  
+    if ("0x" in self.name):    
+      return int(self.name.replace("0x",""),16)
+    else:
+      return int(self.name,10)
+
+class AddrLoc(Location):
+  def __str__(self):
+    return self.name
+
+class pAddrLoc(Location):
+  pass
+
+class RegLoc(Location):
+  def __str__(self):
+    return self.name+"("+str(self.index)+")"
+
+class pRegLoc(Location):
+  pass
+
+class NoLoc(Location):
+  pass
 

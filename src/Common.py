@@ -66,7 +66,7 @@ def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = F
   val_type = None
   mvars = set()
  
-  if (op.isImm()):
+  if (op |iss| ImmOp):
     return op
   elif (op.isMem()):
     for i in range(op.size):

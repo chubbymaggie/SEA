@@ -17,6 +17,7 @@
     Copyright 2013 by neuromancer
 """
 
+from src.core import *
 import z3
 
 class SMT:
@@ -34,7 +35,7 @@ class SMT:
   #def isEmpty(self):
   #  return not (self.has_conds)
 
-  def solve(self, debug = False):
+  def solve(self, debug = True):
     if (self.solver.check() == z3.sat):
       if debug:
         print self.solver
@@ -52,12 +53,12 @@ class SMT:
   def getValue(self, op):
     assert(self.m <> None)
     
-    if (op.isReg()):
+    if (op |iss| RegOp):
       
       #if (literal):
       #  
       #
-      var = map(lambda b: z3.BitVec(b,8), op.get_bytes())
+      var = map(lambda b: z3.BitVec(str(b),8), op.getLocations())
       var = map(lambda b: self.m[b], var)
       if (len(var) > 1):
         return z3.simplify(z3.Concat(var)).as_signed_long()

@@ -27,7 +27,9 @@
 
 from Path    import Path
 from Program import Program
-from Operand import Operand, detectType, size_in_bytes
+from NewOperand import *
+from Types      import *
+#from Operand import Operand, detectType, size_in_bytes
 from Reil    import ReilParser#, ReilInstruction
 from Bap     import BapParser#, BapInstruction
 

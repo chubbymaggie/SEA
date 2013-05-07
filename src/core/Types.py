@@ -25,54 +25,16 @@
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from NewOperand import *
-
-class Instruction:
-  """An abstract instruction class"""
-  def __init__(self, raw_ins, mem_regs = True):
-    pass
-  
-  def fixMemoryAccess(mem_access):
-    pass
-
-  def getOperands(self):
-    return list(self.read_operands + self.write_operands)
-  
-  def getReadOperands(self):
-    return list(self.read_operands)
-
-  def getWriteOperands(self):
-    return list(self.write_operands)
-
-  def getReadRegOperands(self):
-    return filter(lambda o: o |iss| RegOp, self.read_operands)
-
-  def getWriteRegOperands(self):
-    return filter(lambda o: o |iss| RegOp, self.write_operands)
-  
-  def getReadVarOperands(self):
-    return filter(lambda o: o.isVar(), self.read_operands)
-
-  def getWriteVarOperands(self):
-    return filter(lambda o: o.isVar(), self.write_operands)
-  
-  def getReadMemOperands(self):
-    return filter(lambda o: o.isMem(), self.read_operands)
-
-  def getWriteMemOperands(self):
-    return filter(lambda o: o.isMem(), self.write_operands)
-  
-  def getMemReg(self):
-    return self.mem_reg 
+class Type:
+  def __init__(self, name):
+    self.name = str(name)
+  def __str__(self):
+    return str(self.name)
     
-  def isCall(self):
-    pass
-  def isRet(self):
-    pass
-    
-  def isJmp(self):
-    pass
-    
-  def isCJmp(self):
-    pass
-
+ptypes = [Type("Data32"), 
+          Type("Num32") , 
+          Type("Ptr32") , 
+          Type("SPtr32"), 
+          Type("HPtr32"), 
+          Type("GPtr32"), 
+          Type("Bot32") ]

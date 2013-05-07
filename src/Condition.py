@@ -23,18 +23,34 @@ sys.path.append("z3py/build/")
 import z3
 
 from core import *
-
-#from Instruction import *
-#from Operand import *
 from MemVars import Memvars
 
 def mkArray(name):
   return z3.Array(name, z3.BitVecSort(16), z3.BitVecSort(8))
 
+def mkByteList(op):
+  locs = op.getLocations()
+  
+  if (len(locs) > 1):
+    return map(lambda b: z3.BitVec(str(b),8), locs)
+  else:
+    return [z3.BitVec(str(locs[0]),8)]
+
+def mkByteVar(op):
+  locs = op.getLocations()
+  
+  if (len(locs) > 1):
+    return z3.Concat(map(lambda b: z3.BitVec(str(b),8), locs))
+  else:
+    return z3.BitVec(str(locs[0]),8)
+
+def mkConst(imm):
+  return z3.BitVecVal(imm.getValue(),imm.size)
+
 class Condition:
 
   def __apply_ssa(self, op):
-    if op.isReg():
+    if op |iss| RegOp:
       return self.ssa_map[str(op)]
     return op
 
@@ -57,14 +73,15 @@ class Condition:
   def getOperands(self, ops, concat = True):
    
     rops = [] 
+    
     for op in ops:
+      #print op
       if (op.isVar()):
-        if (op.size > 1):
-          rops.append(z3.Concat(map(lambda b: z3.BitVec(b,8), op.get_bytes()))) 
-        else:
-          rops.append(z3.BitVec(op.get_bytes()[0],8))
+        rops.append(mkByteVar(op))
       else:
-          rops.append(z3.BitVecVal(op.getValue(),8*op.size))
+        rops.append(mkConst(op))
+    #for r in rops:
+    #  print r, 
 
     return rops
 
@@ -75,11 +92,13 @@ class Condition:
     size = min(min(write_sizes), min(read_sizes))
     assert(size > 0)
     
+    #print "corrected size:", size
+    
     for o in self.write_operands:
-      o.size = size
+      o.resize(size)
    
     for o in self.read_operands:
-      o.size = size  
+      o.resize(size)
 
 class Call_Cond(Condition):
   def getEq(self):
@@ -138,6 +157,9 @@ class  And_Cond(Condition):
 
    src1,src2 = self.getOperands(self.read_operands)
    dst = self.getOperands(self.write_operands)[0]
+   
+   print "src1:", src1
+   print "src2:", src2
    
    return [(src1 & src2 == dst)]
 
@@ -200,8 +222,10 @@ class  Ldm_Cond(Condition):
     sname, offset = Memvars.read(self.ins.getReadMemOperands()[0])
     array = mkArray(sname)
     
-    dst = (self.write_operands)[0]
-    dsts = map(lambda b: z3.BitVec(b,8), dst.get_bytes())
+    dsts = mkByteList((self.write_operands)[0])
+    
+    #dst = (self.write_operands)[0]
+    #dsts = map(lambda b: z3.BitVec(b,8), dst.get_bytes())
     dsts.reverse()    
 
     conds = []
@@ -214,12 +238,7 @@ class  Ldm_Cond(Condition):
 class  Stm_Cond(Condition):
   def getEq(self):
     
-    src = (self.read_operands)[0]
-    if src.isVar():
-      srcs = map(lambda b: z3.BitVec(b,8), src.get_bytes())
-    else:
-      srcs = map(lambda b: z3.BitVecVal(int(b,16),8), src.get_bytes())
-      
+    src = mkByteList(self.read_operands)[0]
     srcs.reverse()
     
     conds = []

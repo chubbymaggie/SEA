@@ -25,54 +25,30 @@
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from NewOperand import *
+from Types import *
 
-class Instruction:
-  """An abstract instruction class"""
-  def __init__(self, raw_ins, mem_regs = True):
-    pass
-  
-  def fixMemoryAccess(mem_access):
-    pass
+gs = [("Data32","Num32"), ("Data32","Ptr32"), ("Data32","HPtr32"), ("Data32","SPtr32"), ("Data32","GPtr32"),
+      ("Num32", "Ptr32"), ("Num32","HPtr32"), ("Num32","SPtr32"), ("Num32","GPtr32"),
+      ("Ptr32", "SPtr32"),  ("Ptr32", "HPtr32"), ("Ptr32", "GPtr32")]
 
-  def getOperands(self):
-    return list(self.read_operands + self.write_operands)
-  
-  def getReadOperands(self):
-    return list(self.read_operands)
+mlattice = dict()
 
-  def getWriteOperands(self):
-    return list(self.write_operands)
-
-  def getReadRegOperands(self):
-    return filter(lambda o: o |iss| RegOp, self.read_operands)
-
-  def getWriteRegOperands(self):
-    return filter(lambda o: o |iss| RegOp, self.write_operands)
-  
-  def getReadVarOperands(self):
-    return filter(lambda o: o.isVar(), self.read_operands)
-
-  def getWriteVarOperands(self):
-    return filter(lambda o: o.isVar(), self.write_operands)
-  
-  def getReadMemOperands(self):
-    return filter(lambda o: o.isMem(), self.read_operands)
-
-  def getWriteMemOperands(self):
-    return filter(lambda o: o.isMem(), self.write_operands)
-  
-  def getMemReg(self):
-    return self.mem_reg 
+for t in ptypes:
+    mlattice[str(t), str(t)] = 0
+for (pt1, pt2) in gs:
+    mlattice[str(pt1), str(pt2)] = 1
+    mlattice[str(pt2), str(pt1)] = -1
     
-  def isCall(self):
-    pass
-  def isRet(self):
-    pass
-    
-  def isJmp(self):
-    pass
-    
-  def isCJmp(self):
-    pass
+#import lattice
 
+def join(pt1, pt2):
+    p = (str(pt1), str(pt2))
+    if p in mlattice:
+        if mlattice[p] >= 0:
+          return pt2
+        if mlattice[p] < 0:
+          return pt1
+    else:
+      return Type("Bot32")
+
+#print join(Type("HPtr32"), Type("GPtr32"))

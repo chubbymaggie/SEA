@@ -17,14 +17,12 @@
     Copyright 2013 by neuromancer
 """
 
+#foldr = lambda l,f,e: reduce(f, l, e)
+concatSet = lambda l: reduce(set.union, l, set())
 
 from core import *
 
-from SSA import SSA
-from Condition   import *
-from SMT         import SMT
-
-def getValueFromCode(inss, initial_values, op):
+def getType(inss, op, initial_type):
   assert(len(inss) > 0)
   
   # code should be copied and reversed
@@ -33,33 +31,35 @@ def getValueFromCode(inss, initial_values, op):
   # counter is set
   counter = len(inss)
   
-  ssa = SSA()
-  smt_conds  = SMT()
- 
   # we will track op
-  mvars = set([op])    
-  ssa.getMap(mvars, set(), set())
-
-  for ins in inss:
-    
-    ins_write_vars = set(ins.getWriteVarOperands())
-    ins_read_vars = set(ins.getReadVarOperands())
-
-    if len(ins_write_vars.intersection(mvars)) > 0: 
-      
-      ssa_map = ssa.getMap(ins_read_vars.difference(mvars), ins_write_vars, ins_read_vars.intersection(mvars))
-
-      cons = conds.get(ins.instruction, Condition)
-      condition = cons(ins, ssa_map)
-     
-      mvars = mvars.difference(ins_write_vars) 
-      mvars = ins_read_vars.union(mvars)
-      mvars = set(filter(lambda o: o.name <> "ebp", mvars))
-   
-      smt_conds.add(condition.getEq())
-      
-    counter = counter - 1
+  mlocs = set(op.getLocations())
   
+  # at first, final type is the initial type    
+  final_type = initial_type
+  
+  for ins in inss:
+    print str(ins)
+    ins_write_vars = map(lambda op: set(op.getLocations()), ins.getWriteVarOperands())
+    write_locs = concatSet(ins_write_vars)
+    
+    ins_read_vars  = map(lambda op: set(op.getLocations()), ins.getReadVarOperands())
+    read_locs  = concatSet(ins_read_vars)
+    
+    for loc in mlocs:
+      print loc
+          
+    if len(write_locs.intersection(mlocs)) > 0: 
+      
+      mlocs = mlocs.difference(write_locs) 
+      mlocs = read_locs.union(mlocs)
+      #mvars = set(filter(lambda o: o.name <> "ebp", mvars))
+      """
+      smt_conds.add(condition.getEq())
+      """
+    #counter = counter - 1
+    
+  
+  """
   for iop in initial_values.keys():
     if not (iop in ssa):
       del initial_values[iop]
@@ -74,8 +74,10 @@ def getValueFromCode(inss, initial_values, op):
   smt_conds.solve()
   
   return smt_conds.getValue(op)
+  """
+  return None
 
-
+"""
 class Callstack:
   def __init__(self, reil_code):
     
@@ -186,3 +188,4 @@ class Callstack:
     esp_op = RegOp("esp","DWORD")
     initial_values = dict([ (esp_op, ImmOp(str(0), "DWORD"))])
     return getValueFromCode(reil_code, initial_values, esp_op)+ initial_esp
+"""
