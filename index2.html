@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+    <title>SEA Web</title>
+        
+    <!--[if lt IE 9]-->
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <!--[endif]-->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"/>
+    <link href="./css/estilo.css" rel="stylesheet"/>
+  </head>
+  <body>
+	
+    <div class="generico" >
+	<a href="https://github.com/neuromancer/SEA"><img id="band" src="./images/band.png"/></a>
+	<div class="titulo">
+		
+		<h2>Symbolic Exploit Assistant</h2>
+	</div>
+    	<img id="cifasis" src="./images/cifasis_nuevo.png"/>
+	<img id="verimag" src="./images/verimag.jpg"/>
+    </div>
+	
+    <div class="hero-unit" id="description">
+      
+      <p>
+	"Symbolic Exploit Assistant" ( SEA ) is a small tool designed to assist the discovery and construction of exploits in binary programs. SEA is free software (GPL3) and includes a minimal toolkit (BSD) to quickly develop binary analisys tools in Python.
+	<div style="clear:both;"></div>
+	
+	This project is developed in colaboration between the research institutes CIFASIS (Rosario, Argentina) and VERIMAG (Grenoble, France) in an effort to improve security in binary programs.
+      
+      </p>
+      
+    </div>
+    <div class="hero-unit" id="features">
+	<h3>Features</h3>
+    	<ul>
+		<li>Fully symbolic analysis</li>	
+		<li>Assisted exploitation of stack overflow</li>
+		<li>Assisted exploitation of dangling pointers</li>
+		<li>Detection of unfeasible paths.</li>
+		<li>Detection of heap overflow, memory leaks and use-after-free.</li>
+		<li>Intra-procedual support (partial)</li>
+
+	</ul>  
+      
+      
+    </div>
+
+    <div class="hero-unit" id="quickStart">
+	<h3>Quick Start</h3>
+	<p> To get started, you should have Python 2.7. To prepare the tool, the official Z3 Python binding (z3py) should be installed. Fortunately, just executing boostrap.sh will download and compile z3py.
+	<div style="clear:both;"></div>
+After it finishes compiling, SEA is ready to be used. You can test SEA analyzing the converted code of the first example of Gera's Insecure Programming:
+		
+	</p>
+
+	
+	
+	<pre class="pre"><code>./SEA.py tests/reil/stack1_gcc.reil</code></pre>
+
+
+    	<p>  
+        The complete analysis of this example can be found here. Another interesting example to test detection of memory use is:
+	</p>
+
+	<pre class="pre"><code>./SEA.py tests/reil/uaf_1.reil</code></pre>
+
+	<p>An explained analysis of it is here.</p>
+      
+    </div>
+
+    <div class="hero-unit" id="catch">
+	<h3>There is always a catch..</h3>
+	<p>NOTE: Right now, SEA uses REIL code as input, to analyze a path. Unfortunately, REIL can be only generated from an executable file using BinNavi which runs in the top of IDA-Pro (two proprietary and expensive programs) Hopefully, this will change soon when SEA supports open frameworks for binary analysis like Bincoa or BAP.
+	<div style="clear:both;"></div>
+Documentation, examples and more can be found in the wiki. The issue tracker is available. Discusson for support or collaboration is available in #sea-tool @ irc.freenode.net
+	</p>
+      
+    </div>		
+	
+    
+   
+  </body>
+</html>
+
