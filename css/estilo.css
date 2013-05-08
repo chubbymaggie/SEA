@@ -1,12 +1,43 @@
 .titulo {
 	float: left;
 	text-align: center;
+	margin: 70px;
+	margin-right: 300px;
+	padding-left: 80px;
+	margin-bottom: 20px;
 }
 
 #band {
 	float: left;
 }
 
-#description {
-	float: left;
+#verimag {
+	float left;
+	margin-left: 300px;
+	width: 150px;
+}
+
+
+#cifasis {
+	float left;
+	margin-left: 200px;
+	width: 130px;
+}
+
+.hero-unit {
+	float:left;
+}
+
+
+#features {
+	
+	width: 100%;
+}
+
+#quickStart {
+	
+}
+
+.pre {
+	width: 100%;
 }
