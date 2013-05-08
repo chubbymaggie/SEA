@@ -28,7 +28,6 @@
 from json import *
 from NewOperand import *
 from Instruction import *
-#from Label import *
 
 class BapInstruction(Instruction):
   
@@ -54,18 +53,18 @@ class BapInstruction(Instruction):
     size = "DWORD"
     if 'inte' in d:
       name = hex(self.__getInt__(d['inte']))
-      return Addr(name, size)
+      return AddrOp(name, size)
     elif 'lab' in d:
       name = d['lab']
-      return Addr(name, size)
+      return AddrOp(name, size)
     elif 'load' in d:
       name = hex(self.__getLoad__(d['load']))
-      return pAddr(name, size)
+      return pAddrOp(name, size)
     elif 'var' in d:
       (name, t) = self.__getVar__(d['var'])
       
       if ('reg' in t):
-        return Reg(name, size)
+        return RegOp(name, size)
       else:
         print d
         print t
@@ -130,8 +129,8 @@ class BapInstruction(Instruction):
                   
          
     else:
-        print dins
-        assert(False)
+        self.ins = "xxx"
+        #assert(False)
         
         
   def isCall(self):
@@ -156,9 +155,9 @@ def BapParser(filename):
         if 'label' in dins['label_stmt']:
           label = dins['label_stmt']['label']
           if 'name' in label:
-            r.append(Addr(label['name'], size))
+            r.append(AddrOp(label['name'], size))
           else:
-            r.append(Addr(hex(int(label['addr'])), size))
+            r.append(AddrOp(hex(int(label['addr'])), size))
       else:
         r.append(BapInstruction(dins))
         

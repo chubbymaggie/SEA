@@ -26,6 +26,7 @@ from src.Prelude            import mkTrace
 from src.Common             import getPathConditions
 from src.JumpConditions     import getJumpConditions
 from src.PathSelection      import selectPath
+from src.PathGeneration     import generatePaths
 
 parser = argparse.ArgumentParser(description='Symbolic Exploit Assistant.')
 parser.add_argument('trace_filename', metavar='trace', type=str,
@@ -50,11 +51,11 @@ args = parser.parse_args()
 
 mode  = args.type
 
-if not (mode in ["jump", "path", "debug", "selection"]):
+if not (mode in ["jump", "path", "debug", "selection", "generation"]):
   print "\""+mode+"\" is an invalid type of operation for SEA"
   exit(1)
 
-if (mode <> "selection"):
+if (not(mode in ["selection","generation"])):
   address = args.address
   trace = mkTrace(args.trace_filename, args.first, args.last, args.iconditions)
 
@@ -81,6 +82,9 @@ elif (mode == 'path'):
       
 elif (mode == 'selection'): 
   selectPath(args.trace_filename)
+  
+elif (mode == 'generation'): 
+  generatePaths(args.trace_filename, 20)
     
 elif (mode == 'debug'):
   pass

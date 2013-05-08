@@ -42,9 +42,9 @@ class Program:
         #print self.all
         
         for e in self.all:
-          if (isinstance(e, Addr)):
+          if (e |iss| AddrOp):
             self.labels[str(e)] = self.current
-          elif (isinstance(e, Instruction)):
+          elif (e |iss| Instruction):
             self.code.append(e)
             self.current = self.current + 1
           else:
@@ -57,7 +57,6 @@ class Program:
         
         self.first = 0
         self.last = self.len
-        self.path = None
 
     def __iter__(self):
         return self
@@ -73,7 +72,7 @@ class Program:
       branchs = self.prev_ins.branchs
       taken = branchs[0]
       
-      if not (isinstance(taken, Addr)):
+      if not (taken |iss| AddrOp):
          print "Impossible to step into this call"
          assert(False)
       
@@ -87,6 +86,7 @@ class Program:
         
     def selectTrueBranch(self):
         #ins = self.code[self.current-1]
+        #print "true"
         assert(not (self.prev_ins == None))
         branchs = self.prev_ins.branchs
         
@@ -96,7 +96,7 @@ class Program:
         else:
             taken = branchs[0]
             
-            if not (isinstance(taken, Addr)):
+            if not (taken |iss| AddrOp):
               print "Impossible to follow jmp"
               assert(False)
             
@@ -109,8 +109,10 @@ class Program:
               assert(False)
               
         self.prev_ins = None
+        return str(taken) 
         
     def selectFalseBranch(self):
+        #print "false"
         #ins = self.code[self.current-1]
         assert(not (self.prev_ins == None))
         branchs = self.prev_ins.branchs
@@ -121,7 +123,7 @@ class Program:
         else:
             taken = branchs[-1]
             
-            if not (isinstance(taken, Addr)):
+            if not (taken |iss| AddrOp):
               print "Impossible to follow jmp"
               assert(False)
             
@@ -132,6 +134,7 @@ class Program:
               assert(False)
               
         self.prev_ins = None
+        return str(taken)
             
     
     def next(self):
@@ -150,33 +153,43 @@ class Program:
 	  self.prev_ins = ins
 	elif (ins.isJmp()):
 	  if (ins.isCall()):
-	      self.prev_ins = ins
-	      self.current += 1
+	      self.prev_ins = None
+	      self.current = self.current + 1
 	      #pass # fixme
 	  elif (ins.isRet()):
-	    print "ret"
 	    # next instruction is on the return address
 	    
 	    if self.callstack <> []:
 	      self.current = self.callstack.pop()
-	      #print "returning to", self.current
 	    else:
 	      raise StopIteration
-	    
 	    
 	    return self.next()
 	  else:
 	    # next instruction is the only possible branch
+	    
 	    taken = ins.branchs[0]
+	    
+	    if not (taken |iss| AddrOp):
+              print "Impossible to follow jmp"
+              assert(False)
+	    
 	    self.current = self.labels[str(taken)]
 	else:
 	  # next instruction is the following 
-	  self.current += 1
+	  self.current = self.current + 1
 	
-	return (addr, ins)
+	return ins
         
-    def reset(self):
-      self.current = 0
+    def reset(self, start = None):
+      if (start <> None):
+        self.current = self.labels[str(start)]
+      else:
+	self.current = 0
+      
+      self.prev_ins = None
+      self.callstack = []
+      
         
     def __getitem__(self, i):
         

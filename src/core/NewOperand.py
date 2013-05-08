@@ -136,12 +136,14 @@ class ImmOp(Operand):
 
 class AddrOp(Operand): # same as immediate
   def __str__(self):
-    fmt = "0x%0."+str(2*self.size_in_bytes)+"x"
+    return str(self.name)
+    #fmt = "0x%0."+str(2*self.size_in_bytes)+"x"
     #print fmt
-    if ("0x" in self.name):   
-      return "imm:"+(fmt % (int(self.name,16)))
-    else:
-      return "imm:"+(fmt % (int(self.name,10)))
+    #try:
+      #if ("0x" in self.name):   
+        #return "imm:"+(fmt % (int(self.name,16)))
+      #else:
+        #return "imm:"+(fmt % (int(self.name,10)))
       
   def isVar(self):
     return False

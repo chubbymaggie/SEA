@@ -43,6 +43,7 @@ def selectPath(filename):
 
   pr = BapProgram(filename)
   bap_code = []
+  branches_taken = []
   help_path(filename)
 
   #def readRelocTable(filename):
@@ -88,19 +89,22 @@ def selectPath(filename):
     #print ins.raw
       print "conditional jmp detected!" #(", ins.branchs[0], ")"
       i = ask(["t", "f", "e"])
-      
       if (i == "e"):
 	break
       elif i == "f":
-        pr.selectFalseBranch()
+        branches_taken.append(pr.selectFalseBranch())
       elif i == "t":
-        pr.selectTrueBranch()
+        branches_taken.append(pr.selectTrueBranch())
   
-  path = BapPath(0, len(bap_code), bap_code)
+  #path = BapPath(0, len(bap_code), bap_code)
   #callstack = Callstack(path)
   print "Path selected:"
-  for ins in path:
-    print ins.ins
+  
+  for label in branches_taken:
+    print label, 
+  
+  #for ins in path:
+  #  print ins.ins
 
 #path = src.core.Path(map(lambda p: p[1], bap_path),0,len(bap_path))
 #print "Path selected:"
