@@ -25,13 +25,14 @@
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from Path    import Path
-from Program import Program
+from Path       import Path
+from Program    import Program
 from NewOperand import *
 from Types      import *
+from Lattice    import *
 #from Operand import Operand, detectType, size_in_bytes
-from Reil    import ReilParser#, ReilInstruction
-from Bap     import BapParser#, BapInstruction
+from Reil       import ReilParser#, ReilInstruction
+from Bap        import BapParser#, BapInstruction
 
 ReilPath   = lambda trace_filename,first,last: Path(first, last, filename = trace_filename, parser = ReilParser)
 BapProgram = lambda program_filename: Program(program_filename, BapParser)

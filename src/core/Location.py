@@ -57,7 +57,7 @@ class ImmLoc(Location):
 
 class AddrLoc(Location):
   def __str__(self):
-    return self.name
+    return self.name+"("+str(self.index)+")"
 
 class pAddrLoc(Location):
   pass

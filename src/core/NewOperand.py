@@ -61,10 +61,21 @@ class Operand:
       self.size_in_bytes = () # bottom
 
     self.size = self.size_in_bits
-      
-  def getLocations(self):
-    sys.exit("ERROR: getLocations not implemented!")
+    
+  def getSizeInBytes(self):
+    return self.size_in_bytes
   
+  def getSizeInBits(self):
+    return self.size_in_bits
+    
+    
+  def getLocations(self):
+    assert(0)
+    sys.exit("ERROR: getLocations not implemented!")
+    
+  def getTypedLocations(self, type):
+    sys.exit("ERROR: getTypedLocations not implemented!")
+    
   def setValue(self, value):
     sys.exit("ERROR: setValue not implemented!")
   
@@ -110,7 +121,7 @@ class ImmOp(Operand):
     for i in range(0,2*self.size_in_bytes,2):
       r.append(ImmLoc("0x"+hx[i:i+2],i/2))
       
-    r.reverse() 
+    #r.reverse() 
     return r
 
   def getValue(self):
@@ -136,7 +147,7 @@ class ImmOp(Operand):
 
 class AddrOp(Operand): # same as immediate
   def __str__(self):
-    return str(self.name)
+    return "mem:"+str(self.name)
     #fmt = "0x%0."+str(2*self.size_in_bytes)+"x"
     #print fmt
     #try:
@@ -150,31 +161,19 @@ class AddrOp(Operand): # same as immediate
     
   def isMem(self):
     return False
+    
+  def getLocations(self):
+    
+    r = []   
+    for i in range(0,self.size_in_bytes):
+      r.append(AddrLoc(self.name,i))
+       
+    return r
+
 
 #class AddrOp(Operand): # same as immediate
 #  def getLocations(self):
-#    
-#    r = []
-#    fmt = "%016x"#
-    
-#    if ("0x" in self.name):
-#      hx = (fmt % int(self.name,16))
-#    else:
-#      hx = (fmt % int(self.name),10)
-
-#    hx = hx[::-1]
-    
-#    for i in range(0,self.size,2):
-#      r.append(Location.Addr("0x"+hx[i:i+2],i/2))
-#    
-#    r.reverse()
-#    return r
-#
-#  def getValue(self):
-#    if ("0x" in self.name):
-#      return int(self.name,16)
-#    else:
-#      return int(self.name,10)
+#  ...
 
 class pAddrOp(Operand):
   def __str__(self):
@@ -265,7 +264,4 @@ class Infix:
         return self.function(value1, value2)
 
 iss=Infix(isinstance)
-
-#match = lambda obj, cons: obj.__class.
-#isOp = 
 

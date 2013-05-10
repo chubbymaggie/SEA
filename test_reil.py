@@ -11,6 +11,15 @@ path = ReilPath("tests/reil/stack1_vs2005.reil",0,100)
 #    for loc in op.getLocations():
 #      print loc, "-",
 #    print ""
+callstack  = Callstack(path)  
+print "stack:",callstack
+print callstack.calls
+
+callstack.reset()
+
+for ins in path[0:9]:
+  callstack.nextInstruction(ins)
+
+path.reset()
   
-print "stack:",Callstack(path)
-print getType(path[0:8], RegOp("t1",32), Type("Data32"))
+print getType(path[0:9], callstack, RegOp("t2",32), Type("Data32", None))

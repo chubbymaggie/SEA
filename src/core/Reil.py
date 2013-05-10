@@ -139,6 +139,29 @@ class REILInstruction(Instruction):
       self.read_operands  = filter(lambda o: not (o |iss| NoOp), self.operands[0:2])
       self.write_operands = filter(lambda o: not (o |iss| NoOp), self.operands[2:3])
       
+    self.fixOperandSizes()
+      
+  def fixOperandSizes(self):
+    
+    if self.instruction in ["call", "bisz", "bsh", "stm", "ldm", "jcc"]:
+      return
+    #print self.instruction 
+    write_sizes = map(lambda o: o.size, self.write_operands)
+    read_sizes = map(lambda o: o.size, self.read_operands)
+    
+    size = min(min(write_sizes), min(read_sizes))
+    assert(size > 0)
+    
+    #print "corrected size:", size
+    
+    for o in self.write_operands:
+      o.resize(size)
+   
+    for o in self.read_operands:
+      o.resize(size)
+  
+  
+  
   def fixMemoryAccess(self, mem_access):
     assert(False)
     assert(mem_access <> None)

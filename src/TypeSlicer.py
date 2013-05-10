@@ -22,8 +22,68 @@ concatSet = lambda l: reduce(set.union, l, set())
 
 from core import *
 
-def getType(inss, op, initial_type):
+def typeLocs(ins, callstack, tlocs):
+  
+  def detectStackPtr(loc, sloc):
+    
+    if loc.name in ["esp","ebp"] and \
+       ins.instruction == "call":
+      
+      einfo = dict()
+      einfo["source.name"] = hex(callstack.currentCall())
+      einfo["source.index"] = callstack.currentCounter()
+      sloc.discard(loc)
+      sloc.add(Type("SPtr32", loc.index, einfo))
+  
+  
+  def detectImm(loc, sloc):
+    
+    if loc |iss| ImmLoc:
+      sloc.discard(loc)
+      sloc.add(Type("Data32", loc.index))
+    
+  
+  for sloc in tlocs:
+    
+    for loc in list(sloc):
+      detectImm(loc, sloc)
+      detectStackPtr(loc, sloc)
+  
+def checkType(tlocs):
+  pt_name = tlocs[0].name
+  einfo  = tlocs[0].einfo
+  
+  #FIXME: improve type detection
+  if (all(map(lambda pt: pt.name == pt_name, tlocs))):
+    return Type(pt_name, None, einfo)
+    
+  assert(False)
+    
+  
+def trackLocs(ins, tlocs, read_ops, write_ops):
+  
+  if len(write_ops) <> 1:
+    print "i don't know what to do!"
+    return
+  
+  write_locs = write_ops[0].getLocations()
+  
+  for sloc in tlocs:
+    
+    for (i,wloc) in enumerate(write_locs):
+      if (wloc in sloc):
+	sloc.discard(wloc)
+	
+	for op in read_ops:  
+	  read_locs = op.getLocations()
+	  sloc.add(read_locs[i])
+
+def getType(inss, callstack, op, initial_type):
   assert(len(inss) > 0)
+  
+  
+  if (op |iss| AddrOp):
+    return Type("Num32", None)
   
   # code should be copied and reversed
   inss.reverse()
@@ -34,21 +94,41 @@ def getType(inss, op, initial_type):
   # we will track op
   mlocs = set(op.getLocations())
   
+  tlocs = range(op.getSizeInBytes())
+  for (i,loc) in enumerate(op.getLocations()):
+    
+    pt = Type(initial_type.name, i)
+    tlocs[i] = set([loc, pt])
+  
+  
   # at first, final type is the initial type    
   final_type = initial_type
   
   for ins in inss:
-    print str(ins)
+    #print str(ins)
+    
     ins_write_vars = map(lambda op: set(op.getLocations()), ins.getWriteVarOperands())
     write_locs = concatSet(ins_write_vars)
     
     ins_read_vars  = map(lambda op: set(op.getLocations()), ins.getReadVarOperands())
     read_locs  = concatSet(ins_read_vars)
     
-    for loc in mlocs:
-      print loc
-          
+    #for loc in mlocs:
+      #print loc
+    
+    typeLocs(ins, callstack, tlocs)
+    
     if len(write_locs.intersection(mlocs)) > 0: 
+      
+      
+      #for (i,sloc) in enumerate(tlocs):
+        #print i,
+        #for loc in sloc:
+          #print loc, "-",
+      #print ""
+      
+      trackLocs(ins, tlocs, ins.getReadOperands(), ins.getWriteOperands())
+      
       
       mlocs = mlocs.difference(write_locs) 
       mlocs = read_locs.union(mlocs)
@@ -56,136 +136,19 @@ def getType(inss, op, initial_type):
       """
       smt_conds.add(condition.getEq())
       """
+    
+    callstack.prevInstruction(ins)
+    #for (i,sloc) in enumerate(tlocs):
+        #print i, "->",
+        #for loc in sloc:
+          #print loc, "-",
+    #print ""
+    
     #counter = counter - 1
+  
+  for (i,s) in enumerate(tlocs):
+    #for loc in tlocs[i]:
+      #print loc, "-",
+    tlocs[i] = joinset(s)
     
-  
-  """
-  for iop in initial_values.keys():
-    if not (iop in ssa):
-      del initial_values[iop]
-    
-  ssa_map = ssa.getMap(set(), set(), set(initial_values.keys()))
-  eq = Eq(None, None)
-    
-  for iop in initial_values:
-    smt_conds.add(eq.getEq(ssa_map[iop.name],initial_values[iop]))
-  
-  op.name = op.name+"_0"
-  smt_conds.solve()
-  
-  return smt_conds.getValue(op)
-  """
-  return None
-
-"""
-class Callstack:
-  def __init__(self, reil_code):
-    
-    # The first instruction should be a call
-    self.callstack = [None]
-    self.stack_diff = []
-    
-    self.index = 0
-    
-    # aditional information need to compute the callstack
-    self.calls = [None]
-    self.esp_diffs = [None]
-    self.reil_code = reil_code
-    reil_size = len(reil_code)
-    start = 0  
-  
-    for (end,ins) in enumerate(self.reil_code):
-      if (ins.isCall() and ins.called_function == None) or ins.isRet():
-        self.__getStackDiff__(ins, reil_code[start:end])
-        start = end
-        
-    if (start <> reil_size-1):
-      ins = reil_code[start]
-      self.__getStackDiff__(ins, reil_code[start:reil_size-1])
-      
-    self.index = len(self.callstack) - 1
-  
-  def __str__(self):
-    ret = ""
-    for (addr, sdiff) in zip(self.callstack, self.stack_diff):
-      if (addr <> None):
-        ret = ret + " " + hex(addr) + "[" +str(sdiff)+"]"
-    
-    return ret
-  
-  def reset(self):
-    self.index = 0
-  
-  def nextInstruction(self, ins):
-    if (ins.isCall() and ins.called_function == None) or ins.isRet():
-      self.index = self.index + 1
-  
-  
-  def prevInstruction(self, ins):
-    if (ins.isCall() and ins.called_function == None) or ins.isRet():
-      self.index = self.index - 1
-  
-  def currentCall(self):
-    return self.callstack[self.index]
-    
-  def currentStackDiff(self):
-    return self.stack_diff[self.index]
-  
-  def currentCounter(self):
-    return 1 # TODO!
-  
-  def firstCall(self):
-    return self.index == 1
-  
-  def convertStackMemOp(self, op):
-    self.index = self.index - 1
-    
-    mem_source =  "s."+hex(self.currentCall())+"."+str(self.currentCounter())
-    if self.index == 1:
-      mem_offset = (op.mem_offset)+self.currentStackDiff()-4#+16
-    else:
-      mem_offset = (op.mem_offset)+self.currentStackDiff()#+16
-    name = mem_source+"@"+str(mem_offset)
-    
-    self.index = self.index + 1
-    
-    return Operand(name,"BYTE", mem_source, mem_offset)
-  
-  def __getStackDiff__(self, ins, reil_code):
-    
-    addr = ins.address
-    if ins.isCall():
-      call = int(addr, 16)
-      print "addr of call:", call
-      esp_diff = self.__getESPdifference__(reil_code, 0) 
-        
-      self.calls.append(call)
-      self.callstack.append(call)
-        
-      self.stack_diff.append(esp_diff)
-      self.esp_diffs.append(esp_diff)
-      
-    elif ins.isRet():
-        
-      if (reil_code[0].isCall()):
-        self.stack_diff.append(self.__getESPdifference__(reil_code, 0))
-      else:
-        self.calls.pop()
-        self.esp_diffs.pop()
-          
-        call = self.calls[-1]
-        esp_diff = self.esp_diffs[-1]
-          
-        self.stack_diff.append(self.__getESPdifference__(reil_code, esp_diff)) 
-        self.callstack.append(call)
-    else:
-      assert(False)
-  
-  def __getESPdifference__(self, reil_code, initial_esp):
-    if len(reil_code) == 0:
-      return initial_esp
-    
-    esp_op = RegOp("esp","DWORD")
-    initial_values = dict([ (esp_op, ImmOp(str(0), "DWORD"))])
-    return getValueFromCode(reil_code, initial_values, esp_op)+ initial_esp
-"""
+  return checkType(tlocs)

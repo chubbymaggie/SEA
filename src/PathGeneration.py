@@ -36,7 +36,7 @@ def generatePaths(filename, n):
   
   for i in range(n):
     #pr.reset("0x8049463")
-    pr.reset("0x8048fbe")
+    pr.reset("0x8048414")
     path = generatePath(pr)
     print str(i)+":",
     for label in path:

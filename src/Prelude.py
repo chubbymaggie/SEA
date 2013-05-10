@@ -62,7 +62,7 @@ def mkTrace(trace_filename, first, last, raw_inputs):
       if ins.instruction in ["stm", "ldm"]:
 	
         MemAccess.detectMemAccess(reil_code[start:end+1], Callstack, Inputs, end)
-        AllocationLog.check(MemAccess.getAccess(end), end)
+        #AllocationLog.check(MemAccess.getAccess(end), end)
         
       elif ins.isCall() and ins.called_function <> None:
         ##print "detect parameters of", ins.called_function, "at", ins_str

@@ -1,0 +1,24 @@
+digraph code {
+	graph [bgcolor=white];
+	node [color=lightgray, style=filled shape=box fontname="Courier" fontsize="8"];
+	"0x08048414_0x08048414" -> "0x08048414_0x08048440" [color="blue"];
+ "0x08048414_0x08048414" [URL="sym.main/0x08048414" color="lightgray", label="/ function: sym.main (118)\l| 0x08048414  sym.main:\l| 0x08048414   push ebp\l| 0x08048415   mov ebp, esp\l| 0x08048417   and esp, 0xfffffff0\l| 0x0804841a   sub esp, 0x20\l| 0x0804841d   mov dword [esp+0x1c], 0x0\l| 0x08048425   jmp loc.08048440\l"]
+	"0x08048414_0x08048427" -> "0x08048414_0x08048440" [color="blue"];
+ "0x08048414_0x08048427" [URL="sym.main/0x08048427" color="lightgray", label="  ; CODE (JMP) XREF 0x08048445 (sym.main)\l/ loc: loc.08048427 (99)\l| 0x08048427  loc.08048427:\l| 0x08048427   mov eax, [esp+0x1c]\l| 0x0804842b   mov [esp+0x4], eax\l| 0x0804842f   mov dword [esp], 0x8048560\l| 0x08048436   call dword imp.printf\l|    ; imp.printf()\l| 0x0804843b   add dword [esp+0x1c], 0x1\l"]
+	"0x08048414_0x08048440" -> "0x08048414_0x08048427" [color="green"];
+	"0x08048414_0x08048440" -> "0x08048414_0x08048447" [color="red"];
+ "0x08048414_0x08048440" [URL="sym.main/0x08048440" color="lightgray", label="  ; CODE (JMP) XREF 0x08048425 (sym.main)\l/ loc: loc.08048440 (74)\l| 0x08048440  loc.08048440:\l| 0x08048440   cmp dword [esp+0x1c], 0x2\l| 0x08048445   jle loc.08048427\l"]
+	"0x08048414_0x08048447" -> "0x08048414_0x08048459" [color="green"];
+	"0x08048414_0x08048447" -> "0x08048414_0x0804844d" [color="red"];
+ "0x08048414_0x08048447" [URL="sym.main/0x08048447" color="lightgray", label="| 0x08048447   cmp dword [ebp+0x8], 0x1\l| 0x0804844b   jle loc.08048459\l"]
+	"0x08048414_0x0804844d" -> "0x08048414_0x08048459" [color="blue"];
+ "0x08048414_0x0804844d" [URL="sym.main/0x0804844d" color="lightgray", label="| 0x0804844d   mov dword [esp], 0x8048563\l| 0x08048454   call dword imp.puts\l|    ; imp.puts()\l"]
+	"0x08048414_0x08048459" -> "0x08048414_0x0804847c" [color="blue"];
+ "0x08048414_0x08048459" [URL="sym.main/0x08048459" color="lightgray", label="  ; CODE (JMP) XREF 0x0804844b (sym.main)\l/ loc: loc.08048459 (49)\l| 0x08048459  loc.08048459:\l| 0x08048459   mov dword [esp+0x1c], 0x0\l| 0x08048461   jmp loc.0804847c\l"]
+	"0x08048414_0x08048463" -> "0x08048414_0x0804847c" [color="blue"];
+ "0x08048414_0x08048463" [URL="sym.main/0x08048463" color="lightgray", label="  ; CODE (JMP) XREF 0x08048481 (sym.main)\l/ loc: loc.08048463 (39)\l| 0x08048463  loc.08048463:\l| 0x08048463   mov eax, [esp+0x1c]\l| 0x08048467   mov [esp+0x4], eax\l| 0x0804846b   mov dword [esp], 0x8048560\l| 0x08048472   call dword imp.printf\l|    ; imp.printf()\l| 0x08048477   add dword [esp+0x1c], 0x1\l"]
+	"0x08048414_0x0804847c" -> "0x08048414_0x08048463" [color="green"];
+	"0x08048414_0x0804847c" -> "0x08048414_0x08048483" [color="red"];
+ "0x08048414_0x0804847c" [URL="sym.main/0x0804847c" color="lightgray", label="  ; CODE (JMP) XREF 0x08048461 (sym.main)\l/ loc: loc.0804847c (14)\l| 0x0804847c  loc.0804847c:\l| 0x0804847c   cmp dword [esp+0x1c], 0x4\l| 0x08048481   jle loc.08048463\l"]
+ "0x08048414_0x08048483" [URL="sym.main/0x08048483" color="lightgray", label="| 0x08048483   mov eax, 0x0\l| 0x08048488   leave\l\ 0x08048489   ret\l"]
+}

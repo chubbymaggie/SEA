@@ -25,16 +25,31 @@
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
+import copy
+
 class Type:
-  def __init__(self, name):
+  def __init__(self, name, index, einfo = None):
     self.name = str(name)
-  def __str__(self):
-    return str(self.name)
+    self.index = index
+    self.setInfo(einfo)
     
-ptypes = [Type("Data32"), 
-          Type("Num32") , 
-          Type("Ptr32") , 
-          Type("SPtr32"), 
-          Type("HPtr32"), 
-          Type("GPtr32"), 
-          Type("Bot32") ]
+  def __str__(self):
+    
+    r = str(self.name)+"("+str(self.index)+")"
+    if (self.einfo <> None):
+      r = r + " with "
+      for k in self.einfo:
+        r = r + str(k)+"="+str(self.einfo[k])+", "
+    
+    return r
+    
+  def setInfo(self, einfo):
+    self.einfo = copy.copy(einfo)
+    
+ptypes = [Type("Data32", None), 
+          Type("Num32", None) , 
+          Type("Ptr32", None) , 
+          Type("SPtr32", None), 
+          Type("HPtr32", None), 
+          Type("GPtr32", None), 
+          Type("Bot32", None) ]

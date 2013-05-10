@@ -34,21 +34,52 @@ gs = [("Data32","Num32"), ("Data32","Ptr32"), ("Data32","HPtr32"), ("Data32","SP
 mlattice = dict()
 
 for t in ptypes:
-    mlattice[str(t), str(t)] = 0
+    mlattice[t.name, t.name] = 0
 for (pt1, pt2) in gs:
-    mlattice[str(pt1), str(pt2)] = 1
-    mlattice[str(pt2), str(pt1)] = -1
+    mlattice[pt1, pt2] = 1
+    mlattice[pt2, pt1] = -1
     
 #import lattice
 
+def propagateInfo(pt1_info, pt2_info):
+  if (pt1_info == pt2_info):
+    return pt1_info
+  
+  if (pt1_info == None):
+    return pt2_info
+  
+  if (pt2_info == None):
+    return pt1_info
+
 def join(pt1, pt2):
-    p = (str(pt1), str(pt2))
-    if p in mlattice:
+    p = (pt1.name, pt2.name)
+    
+    einfo = propagateInfo(pt1.einfo, pt2.einfo)
+    
+    if p in mlattice and pt1.index == pt2.index:
         if mlattice[p] >= 0:
+
+	  pt2.setInfo(einfo)
           return pt2
+          
         if mlattice[p] < 0:
+	  
+	  pt1.setInfo(einfo)
           return pt1
     else:
-      return Type("Bot32")
+      return Type("Bot32", None)
+      
+def joinset(s):
+  
+  assert(len(s) > 0)
+  
+  r = s.pop()
+  
+  for pt in s:
+    assert(isinstance(pt,Type))
+    r = join(r, pt)
+  
+  
+  return r
 
 #print join(Type("HPtr32"), Type("GPtr32"))

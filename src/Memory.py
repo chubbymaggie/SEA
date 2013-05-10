@@ -19,6 +19,7 @@
 
 from core        import *
 from Common      import getTypedValueFromCode
+from TypeSlicer   import getType
   
 class MemAccess:
   def getAccess(self, addr):
@@ -49,26 +50,33 @@ class MemAccessREIL(MemAccess):
     return None
 
   def detectMemAccess(self, reil_code, callstack, inputs, counter):
-    
+    index = callstack.index
     ins = reil_code[-1]
     
     assert(ins.instruction in ["stm", "ldm"])
     addr_op = ins.getMemReg()
-    val = getTypedValueFromCode(reil_code, callstack, inputs, self, addr_op)
+    print addr_op
+    pt = getType(reil_code, callstack, addr_op, Type("Num32", None)) 
+    print pt
     
-    if (val.isMem()):
+    if pt == Type("Num32", None):
+      print "global!"
+    
+    callstack.index = index
+    #assert(False)
+    
+    
+    
+    #val = getTypedValueFromCode(reil_code, callstack, inputs, self, addr_op)
+    
+    #if (pt.isMem()):
       
-      #if self.__isArgMem__(val, callstack.callstack[1]):
-      #  print "arg detected at", ins, "with", str(val)
-      #  self.access[counter] = self.__getArgMemAccess__(ins, val, callstack.callstack[1])
-      #else:
-      #print val
-      self.access[counter] = self.__getMemAccess__(ins, val)
-    elif (val.isImm):
-      self.access[counter] = self.__getGlobalMemAccess__(ins, int(val.name))
+      #self.access[counter] = self.__getMemAccess__(ins, val)
+    #elif (val.isImm):
+      #self.access[counter] = self.__getGlobalMemAccess__(ins, int(val.name))
     
-    else:
-      assert(0)
+    #else:
+      #assert(0)
       
   def __getMemAccess__(self, ins, val):
 
