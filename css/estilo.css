@@ -1,9 +1,13 @@
+.navbar-fixed-top {
+    position: absolute;
+}
+
 .titulo {
 	float: left;
 	text-align: center;
 	
 	padding-bottom:0;
-	padding-left: 30%;
+	padding-left: 26%;
 	margin-top: 10%;
 }
 
@@ -12,10 +16,12 @@
 	position:absolute;
 	margin:0;
 	padding: 0;
+	top:5%;
+	left:0;
 }
 
 #verimag {
-	float left;
+/*	float: left;*/
 	margin-left: 30%;
 	width: 30%;
 	
@@ -23,19 +29,21 @@
 
 
 #cifasis {
-	float left;
+	/*float: left;*/
 	margin-left: 10%;
 	width: 25%;
 }
 
 .hero-unit {
 	float:left;
+	
 }
 
 
 #features {
 	
-	width: 100%;
+	display: block;
+	width: 88%;
 }
 
 #quickStart {
@@ -44,6 +52,14 @@
 
 .pre {
 	width: 100%;
+}
+
+.generico {
+  
+}
+
+.brand {
+   margin-right: 50px;
 }
 
 
