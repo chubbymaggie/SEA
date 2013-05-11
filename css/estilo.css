@@ -37,14 +37,19 @@
 
 .hero-unit {
 	float:left;
+	width: 90%;
 	
 }
 
+.sep {
+
+     height: 20px; 
+}
 
 #features {
 	
 	display: block;
-	width: 88%;
+	/*width: 88%;*/
 }
 
 #quickStart {
