@@ -65,18 +65,19 @@ def mkTrace(trace_filename, first, last, raw_inputs):
         #AllocationLog.check(MemAccess.getAccess(end), end)
         
       elif ins.isCall() and ins.called_function <> None:
-        ##print "detect parameters of", ins.called_function, "at", ins_str
-        FuncParameters.detectFuncParameters(reil_code[start:end+1], MemAccess, Callstack, Inputs, end)
-        if (ins.called_function == "malloc"):
+        pass
+        #print "detect parameters of", ins.called_function, "at", ins_str
+        #FuncParameters.detectFuncParameters(reil_code[start:end+1], MemAccess, Callstack, Inputs, end)
+        #if (ins.called_function == "malloc"):
           
-          try:
-            size = int(FuncParameters.getParameters(end)[0][1].name)
-          except ValueError:
-            size = None
-          AllocationLog.alloc(ins.address, end, size)
-        elif (ins.called_function == "free"):
-          ptr = (FuncParameters.getParameters(end)[0][1].mem_source)
-          AllocationLog.free(ptr, end)
+          #try:
+            #size = int(FuncParameters.getParameters(end)[0][1].name)
+          #except ValueError:
+            #size = None
+          #AllocationLog.alloc(ins.address, end, size)
+        #elif (ins.called_function == "free"):
+          #ptr = (FuncParameters.getParameters(end)[0][1].mem_source)
+          #AllocationLog.free(ptr, end)
     
     
     print MemAccess

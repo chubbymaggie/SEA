@@ -18,7 +18,7 @@
 """
 
 from core        import *
-from Common      import getTypedValueFromCode
+from Common      import getValueFromCode
 from TypeSlicer   import getType
   
 class MemAccess:
@@ -50,24 +50,26 @@ class MemAccessREIL(MemAccess):
     return None
 
   def detectMemAccess(self, reil_code, callstack, inputs, counter):
-    index = callstack.index
+    #index = callstack.index
     ins = reil_code[-1]
     
     assert(ins.instruction in ["stm", "ldm"])
     addr_op = ins.getMemReg()
     print addr_op
-    pt = getType(reil_code, callstack, addr_op, Type("Num32", None)) 
+    pt = getType(reil_code, callstack, addr_op, Type("Ptr32", None)) 
     print pt
     
-    if pt == Type("Num32", None):
-      print "global!"
+    if str(pt) == "Num32":
+      pt = Type("GPtr32", None)
     
-    callstack.index = index
+    #callstack.index = index
     #assert(False)
     
     
     
-    #val = getTypedValueFromCode(reil_code, callstack, inputs, self, addr_op)
+    val = getValueFromCode(reil_code, callstack, inputs, self, addr_op)
+    print val
+    #self.access[counter] = self.__mkMemAccess__(ins, pt, val)
     
     #if (pt.isMem()):
       
@@ -78,22 +80,27 @@ class MemAccessREIL(MemAccess):
     #else:
       #assert(0)
       
-  def __getMemAccess__(self, ins, val):
+  def __mkMemAccess__(self, ins, ptype, val):
 
     mem_access = dict()
-    mem_access["source"] = val.mem_source
-    mem_access["offset"] = val.mem_offset
     mem_access["type"]   = ins.instruction
     mem_access["address"]   = ins.address
+    mem_access["ptype"]   = ptype
+    mem_access["offset"] = val
     
-    return mem_access
+    #mem_access["source"] = val.mem_source
+    #mem_access["offset"] = val.mem_offset
+    #mem_access["type"]   = ins.instruction
+    #mem_access["address"]   = ins.address
+    
+    #return mem_access
       
-  def __getGlobalMemAccess__(self, ins, offset):
-    mem_access = dict()
-    mem_access["source"] = "g.0x00000000.0"
-    mem_access["offset"] = offset
-    mem_access["type"]   = ins.instruction
-    mem_access["address"]   = ins.address
+  #def __getGlobalMemAccess__(self, ins, offset):
+    #mem_access = dict()
+    #mem_access["source"] = "g.0x00000000.0"
+    #mem_access["offset"] = offset
+    #mem_access["type"]   = ins.instruction
+    #mem_access["address"]   = ins.address
     
-    return mem_access
+    #return mem_access
 

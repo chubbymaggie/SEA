@@ -35,7 +35,11 @@ class Type:
     
   def __str__(self):
     
-    r = str(self.name)+"("+str(self.index)+")"
+    r = str(self.name)
+    
+    if (self.index <> None):
+      r = r +"("+str(self.index)+")"
+      
     if (self.einfo <> None):
       r = r + " with "
       for k in self.einfo:

@@ -88,6 +88,8 @@ def getType(inss, callstack, op, initial_type):
   # code should be copied and reversed
   inss.reverse()
   
+  index = callstack.index
+  
   # counter is set
   counter = len(inss)
   
@@ -145,6 +147,8 @@ def getType(inss, callstack, op, initial_type):
     #print ""
     
     #counter = counter - 1
+  
+  callstack.index = index
   
   for (i,s) in enumerate(tlocs):
     #for loc in tlocs[i]:

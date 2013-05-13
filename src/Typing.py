@@ -28,15 +28,15 @@ def getInitialConditionsCall(callstack):
     
     esp_val = 4
     
-    for i in range(0,40):
-      arg_i = Operand("argv[]@"+str(i),"BYTE", mem_source = "argv[]", mem_offset=i)
-      initial_values_at_call[arg_i] = Operand(str(0), "BYTE")
+    #for i in range(0,40):
+      #arg_i = Operand("argv[]@"+str(i),"BYTE", mem_source = "argv[]", mem_offset=i)
+      #initial_values_at_call[arg_i] = Operand(str(0), "BYTE")
     
-    name = "s."+hex(callstack.callstack[1])+".1"
+    #name = "s."+hex(callstack.callstack[1])+".1"
   
-    for i in range(12,16):
-      arg_v = Operand(name+"@"+str(i),"BYTE", mem_source = name, mem_offset=i)
-      initial_values_at_call[arg_v] = Operand(str(0), "BYTE")
+    #for i in range(12,16):
+      #arg_v = Operand(name+"@"+str(i),"BYTE", mem_source = name, mem_offset=i)
+      #initial_values_at_call[arg_v] = Operand(str(0), "BYTE")
     
     #print ""
   else:
@@ -44,20 +44,20 @@ def getInitialConditionsCall(callstack):
  
   ebp_val = 0
   
-  esp_op = Operand("esp","DWORD")
-  ebp_op = Operand("ebp","DWORD")
+  esp_op = RegOp("esp","DWORD")
+  ebp_op = RegOp("ebp","DWORD")
   
   
-  initial_values_at_call[esp_op] = Operand(str(esp_val), "DWORD")
-  initial_values_at_call[ebp_op] = Operand(str(ebp_val), "DWORD")
+  initial_values_at_call[esp_op] = RegOp(str(esp_val), "DWORD")
+  initial_values_at_call[ebp_op] = RegOp(str(ebp_val), "DWORD")
   
   return initial_values_at_call
 
 def getInitialConditionsAlloc():
-  ret_op = Operand("eax","DWORD")
+  ret_op = RegOp("eax","DWORD")
   ret_val = 0
   initial_values_at_alloc = dict()
-  initial_values_at_alloc[ret_op] = Operand(str(ret_val), "DWORD")
+  initial_values_at_alloc[ret_op] = RegOp(str(ret_val), "DWORD")
   
   return initial_values_at_alloc
 
@@ -69,65 +69,65 @@ def setInitialConditions(ssa, initial_values, smt_conds):
     
     if ":" in iop.name:
       smt_conds.add(eq.getEq(iop,initial_values[iop]))
-    elif (iop.isReg()):
+    elif (iop |iss| RegOp):
       smt_conds.add(eq.getEq(ssa_map[iop.name],initial_values[iop]))
     elif (iop.isMem()):
       smt_conds.add(eq.getEq(iop,initial_values[iop]))
     else:
       assert(False)
 
-def detectType(mvars, ins, counter, callstack):
+#def detectType(mvars, ins, counter, callstack):
   
-  if (len(mvars) == 0):
-    return None
+  #if (len(mvars) == 0):
+    #return None
   
-  # dection of parameters of main
+  ## dection of parameters of main
   
-  name = "s."+hex(callstack.callstack[1])+".1"
+  #name = "s."+hex(callstack.callstack[1])+".1"
   
-  # argv
-  argv_bytes = []
+  ## argv
+  #argv_bytes = []
   
-  for i in range(12,16):
-    argv_bytes.append(Operand(name+"@"+str(i),"BYTE"))
+  #for i in range(12,16):
+    #argv_bytes.append(Operand(name+"@"+str(i),"BYTE"))
   
-  argv_bytes = set(argv_bytes) 
+  #argv_bytes = set(argv_bytes) 
   
   
-  if argv_bytes.issubset(mvars):
-    return "argv[]"
+  #if argv_bytes.issubset(mvars):
+    #return "argv[]"
   
-  ## argc
-  #argc_bytes = []
-  #
-  #for i in range(8,12):
-  #  argc_bytes.append(Operand(name+"@"+str(i),"BYTE"))
-  #
-  #argc_bytes = set(argv_bytes) 
-  #
-  #if argc_bytes.issubset(mvars):
-  #  return "argc"
+  ### argc
+  ##argc_bytes = []
+  ##
+  ##for i in range(8,12):
+  ##  argc_bytes.append(Operand(name+"@"+str(i),"BYTE"))
+  ##
+  ##argc_bytes = set(argv_bytes) 
+  ##
+  ##if argc_bytes.issubset(mvars):
+  ##  return "argc"
   
-  # argv[0], argv[1], ... argv[10]
-  for i in range(0,40,4):
-    op = Operand("argv[]@"+str(i),"BYTE")
-    if op in mvars:
-      return "arg["+str(i / 4)+"]"
+  ## argv[0], argv[1], ... argv[10]
+  #for i in range(0,40,4):
+    #op = Operand("argv[]@"+str(i),"BYTE")
+    #if op in mvars:
+      #return "arg["+str(i / 4)+"]"
   
-  if ins.isCall() and ins.called_function == "malloc":
+  #if ins.isCall() and ins.called_function == "malloc":
     
-    # heap pointers
-    if set([Operand("eax","DWORD")]).issubset(mvars):
-      return "h."+"0x"+ins.address+"."+str(counter)
+    ## heap pointers
+    #if set([Operand("eax","DWORD")]).issubset(mvars):
+      #return "h."+"0x"+ins.address+"."+str(counter)
   
-  elif ins.isCall() and ins.called_function == None:
+  #elif ins.isCall() and ins.called_function == None:
     
-    # stack pointers
-    if mvars.issubset(set([Operand("esp", "DWORD"), Operand("ebp", "DWORD")])):
-      return "s."+hex(callstack.currentCall())+"."+str(callstack.currentCounter())
+    ## stack pointers
+    #if mvars.issubset(set([Operand("esp", "DWORD"), Operand("ebp", "DWORD")])):
+      #return "s."+hex(callstack.currentCall())+"."+str(callstack.currentCounter())
 
-  # No type deduced
-  return None 
+  ## No type deduced
+  #return None 
 
 def mkVal(val_type,val):
   if val_type == "imm":
@@ -148,10 +148,10 @@ def addAditionalConditions(mvars, ins, ssa, callstack, smt_conds):
   # if the instruction was a call
   if ins.isCall() and ins.called_function == "malloc":
 
-    if (Operand("eax","DWORD") in mvars):
+    if (RegOp("eax","DWORD") in mvars):
       initial_values_at_alloc = getInitialConditionsAlloc()
       setInitialConditions(ssa, initial_values_at_alloc, smt_conds)
-      mvars.remove(Operand("eax","DWORD"))
+      mvars.remove(RegOp("eax","DWORD"))
       
   elif ins.isCall() and ins.called_function == None:
     initial_values_at_call = getInitialConditionsCall(callstack)
@@ -167,18 +167,18 @@ def addAditionalConditions(mvars, ins, ssa, callstack, smt_conds):
     mvars = set(filter(lambda o: not (o in initial_values_at_call.keys()), mvars))
     
       
-    new_mvars = set()
-    for v in mvars:
-      # we convert stack memory variables from one frame to the previous one
-      if callstack.currentCounter()>1 and v.isStackMem() and v.mem_offset >= 4: 
-        eop = callstack.convertStackMemOp(v)
-        smt_conds.add(eq.getEq(v,eop))
-        new_mvars.add(eop)
-      else:
-        new_mvars.add(v)
+    #new_mvars = set()
+    #for v in mvars:
+      ## we convert stack memory variables from one frame to the previous one
+      #if callstack.currentCounter()>1 and v.isStackMem() and v.mem_offset >= 4: 
+        #eop = callstack.convertStackMemOp(v)
+        #smt_conds.add(eq.getEq(v,eop))
+        #new_mvars.add(eop)
+      #else:
+        #new_mvars.add(v)
       
-    mvars = set(filter(lambda o: not (o.isStackMem() and o.mem_offset >= 4), mvars))
-    mvars = mvars.union(new_mvars)
+    #mvars = set(filter(lambda o: not (o.isStackMem() and o.mem_offset >= 4), mvars))
+    #mvars = mvars.union(new_mvars)
   
   return mvars
   

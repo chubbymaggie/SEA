@@ -103,7 +103,8 @@ class SMT:
         return z3.simplify(z3.Concat(var)).as_signed_long()
       else:
         return z3.simplify(var[0]).as_signed_long()
-      
+    else:
+      assert(0)
       #print es
       #print op.mem_offset
       #print type(es[op.mem_offset][0])

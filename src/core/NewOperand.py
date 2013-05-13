@@ -86,7 +86,14 @@ class Operand:
     sys.exit("ERROR: isVar not implemented!")
     
   def isMem(self):
+    print self.name, self.__class__
+    assert(0)
     sys.exit("ERROR: isMem not implemented!")
+    
+  def isStackMem(self):
+    print self.name, self.__class__
+    assert(0)
+    sys.exit("ERROR: isStackMem not implemented!")
   
   def __str__(self):
     return self.name
@@ -135,6 +142,9 @@ class ImmOp(Operand):
     
   def isMem(self):
     return False
+    
+  def isStackMem(self):
+    return False
       
   def __str__(self):
     fmt = "0x%0."+str(2*self.size_in_bytes)+"x"
@@ -161,7 +171,10 @@ class AddrOp(Operand): # same as immediate
     
   def isMem(self):
     return False
-    
+  
+  def isStackMem(self):
+    return False
+  
   def getLocations(self):
     
     r = []   

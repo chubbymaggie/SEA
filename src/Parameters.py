@@ -60,7 +60,7 @@ class FuncParametersREIL:
     assert(ins.isCall() and ins.called_function <> None)
     
     # first we locate the stack pointer to know where the parameters are located
-    esp = Operand("esp","DWORD")
+    esp = RegOp("esp","DWORD")
     pbase = getTypedValueFromCode(reil_code, callstack, inputs, memaccess, esp)
     
     func_cons = funcs.get(ins.called_function, Function)
