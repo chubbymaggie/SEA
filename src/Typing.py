@@ -48,8 +48,8 @@ def getInitialConditionsCall(callstack):
   ebp_op = RegOp("ebp","DWORD")
   
   
-  initial_values_at_call[esp_op] = RegOp(str(esp_val), "DWORD")
-  initial_values_at_call[ebp_op] = RegOp(str(ebp_val), "DWORD")
+  initial_values_at_call[esp_op] = ImmOp(str(esp_val), "DWORD")
+  initial_values_at_call[ebp_op] = ImmOp(str(ebp_val), "DWORD")
   
   return initial_values_at_call
 
@@ -57,7 +57,7 @@ def getInitialConditionsAlloc():
   ret_op = RegOp("eax","DWORD")
   ret_val = 0
   initial_values_at_alloc = dict()
-  initial_values_at_alloc[ret_op] = RegOp(str(ret_val), "DWORD")
+  initial_values_at_alloc[ret_op] = ImmOp(str(ret_val), "DWORD")
   
   return initial_values_at_alloc
 
@@ -129,13 +129,13 @@ def setInitialConditions(ssa, initial_values, smt_conds):
   ## No type deduced
   #return None 
 
-def mkVal(val_type,val):
-  if val_type == "imm":
-    return Operand(str(val), "")
-  elif "s." in val_type or "h." in val_type or "arg" in val_type:
-    return Operand(val_type+"@"+str(val), "", mem_source = val_type, mem_offset=val)
-  else:
-    assert(0)
+#def mkVal(val_type,val):
+  #if val_type == "imm":
+    #return Operand(str(val), "")
+  #elif "s." in val_type or "h." in val_type or "arg" in val_type:
+    #return Operand(val_type+"@"+str(val), "", mem_source = val_type, mem_offset=val)
+  #else:
+    #assert(0)
     
 def addAditionalConditions(mvars, ins, ssa, callstack, smt_conds):
   

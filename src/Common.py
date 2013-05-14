@@ -44,7 +44,7 @@ def setInitialConditions(ssa, initial_values, smt_conds):
       assert(False)
       
       
-def getValueFromCode(inss, callstack, initial_values, memory, op, debug = False):
+def getValueFromCode(inss, callstack, initial_values, memory, op, debug = True):
   
   # Initialization
   
@@ -67,8 +67,8 @@ def getValueFromCode(inss, callstack, initial_values, memory, op, debug = False)
   val_type = None
   mvars = set()
  
-  #if (op |iss| ImmOp):
-    #return op
+  if (op |iss| ImmOp or op |iss| AddrOp):
+    return op.getValue()
   #elif (op.isMem()):
     #for i in range(op.size):
       #name = op.mem_source+"@"+str(op.mem_offset+i)
@@ -107,15 +107,11 @@ def getValueFromCode(inss, callstack, initial_values, memory, op, debug = False)
       mvars = ins_read_vars.union(mvars)
    
       smt_conds.add(condition.getEq())
-    
-    # simple typing
-    #new_val_type = detectType(mvars, ins, counter, callstack)
+
     
     # additional conditions
     mvars = addAditionalConditions(mvars, ins, ssa, callstack, smt_conds)
     
-    #val_type = max(val_type, new_val_type)
-
     # no more things to do
     # we update the counter 
     counter = counter - 1    
@@ -129,7 +125,7 @@ def getValueFromCode(inss, callstack, initial_values, memory, op, debug = False)
     if not (v in initial_values):
       print "#Warning__", str(v), "is free!" 
   
-  setInitialConditions(ssa, initial_values, smt_conds)
+  #setInitialConditions(ssa, initial_values, smt_conds)
   smt_conds.solve(True)
   
   if op |iss| RegOp:

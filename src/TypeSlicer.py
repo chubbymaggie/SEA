@@ -27,13 +27,25 @@ def typeLocs(ins, callstack, tlocs):
   def detectStackPtr(loc, sloc):
     
     if loc.name in ["esp","ebp"] and \
-       ins.instruction == "call":
+       ins.instruction == "call" and ins.called_function == None:
       
       einfo = dict()
       einfo["source.name"] = hex(callstack.currentCall())
       einfo["source.index"] = callstack.currentCounter()
       sloc.discard(loc)
       sloc.add(Type("SPtr32", loc.index, einfo))
+  
+  def detectHeapPtr(loc, sloc):
+    #print loc.name
+    if loc.name in ["eax"] and \
+       ins.instruction == "call" and ins.called_function == "malloc":
+     
+      assert(0)
+      einfo = dict()
+      einfo["source.name"] = hex(ins.address)
+      einfo["source.index"] = "FIXME"
+      sloc.discard(loc)
+      sloc.add(Type("HPtr32", loc.index, einfo))
   
   
   def detectImm(loc, sloc):
@@ -48,6 +60,7 @@ def typeLocs(ins, callstack, tlocs):
     for loc in list(sloc):
       detectImm(loc, sloc)
       detectStackPtr(loc, sloc)
+      detectHeapPtr(loc, sloc)
   
 def checkType(tlocs):
   pt_name = tlocs[0].name

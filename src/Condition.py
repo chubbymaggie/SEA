@@ -158,8 +158,8 @@ class  And_Cond(Condition):
    src1,src2 = self.getOperands(self.read_operands)
    dst = self.getOperands(self.write_operands)[0]
    
-   print "src1:", src1
-   print "src2:", src2
+   #print "src1:", src1
+   #print "src2:", src2
    
    return [(src1 & src2 == dst)]
 

@@ -35,7 +35,7 @@ class SMT:
   #def isEmpty(self):
   #  return not (self.has_conds)
 
-  def solve(self, debug = True):
+  def solve(self, debug = False):
     if (self.solver.check() == z3.sat):
       if debug:
         print self.solver

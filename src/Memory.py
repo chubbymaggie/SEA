@@ -38,7 +38,7 @@ class MemAccessREIL(MemAccess):
     
     for c in counters:
       ret = ret + str(c) + " -> " + str(self.access[c]["type"]) + " : " 
-      ret = ret + str(self.access[c]["source"]) + "@" + str(self.access[c]["offset"]) + "\n"
+      ret = ret + str(self.access[c]["ptype"]) + " @ " + str(self.access[c]["offset"]) + "\n"
     
     return ret
   
@@ -55,21 +55,24 @@ class MemAccessREIL(MemAccess):
     
     assert(ins.instruction in ["stm", "ldm"])
     addr_op = ins.getMemReg()
-    print addr_op
     pt = getType(reil_code, callstack, addr_op, Type("Ptr32", None)) 
-    print pt
+    
+    # we reset the path
+    reil_code.reverse()
+    reil_code.reset()
+    
+    print reil_code.first, reil_code.current, reil_code.last
+    
+    val = getValueFromCode(reil_code, callstack, inputs, self, addr_op)
+    
+    print addr_op, "::", pt,  "=", val
     
     if str(pt) == "Num32":
       pt = Type("GPtr32", None)
     
     #callstack.index = index
     #assert(False)
-    
-    
-    
-    val = getValueFromCode(reil_code, callstack, inputs, self, addr_op)
-    print val
-    #self.access[counter] = self.__mkMemAccess__(ins, pt, val)
+    self.access[counter] = self.__mkMemAccess__(ins, pt, val)
     
     #if (pt.isMem()):
       
@@ -93,7 +96,7 @@ class MemAccessREIL(MemAccess):
     #mem_access["type"]   = ins.instruction
     #mem_access["address"]   = ins.address
     
-    #return mem_access
+    return mem_access
       
   #def __getGlobalMemAccess__(self, ins, offset):
     #mem_access = dict()

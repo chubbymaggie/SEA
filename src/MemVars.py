@@ -31,6 +31,10 @@ class MemVars:
       self.sources[src] = 0
     else:
       self.sources[src] += 1
+      
+  def __extractInfoFromType(self, ptype):
+    pass
+    
 
   def write(self, mem_op):
 

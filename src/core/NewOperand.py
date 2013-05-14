@@ -83,6 +83,8 @@ class Operand:
     sys.exit("ERROR: getValue not implemented!")
   
   def isVar(self):
+    print self.name, self.__class__
+    assert(0)
     sys.exit("ERROR: isVar not implemented!")
     
   def isMem(self):
@@ -182,6 +184,12 @@ class AddrOp(Operand): # same as immediate
       r.append(AddrLoc(self.name,i))
        
     return r
+  
+  def getValue(self):
+    if ("0x" in self.name):
+      return int(self.name,16)
+    else:
+      return int(self.name,10)
 
 
 #class AddrOp(Operand): # same as immediate
@@ -202,7 +210,37 @@ class pAddrOp(Operand):
     
   def isMem(self):
     return True
-  
+
+class MemOp(Operand):
+
+  def isVar(self):
+    return True
+    
+  def isMem(self):
+    return True
+    
+  def getLocations(self):
+    
+    r = []
+    
+    for i in range(0,self.size_in_bytes):
+      r.append(RegLoc(self.name,i))
+       
+    return r
+
+  def __str__(self):
+    #return "reg:"+self.name
+    return str(self.name)
+    
+  def setValue(self, value):
+    self.value = value
+    
+  def getValue(self):
+    assert(self.value <> None)
+    return self.value
+    
+    
+    
 
 class RegOp(Operand):
 
