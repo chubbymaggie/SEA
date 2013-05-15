@@ -42,10 +42,12 @@
     <div class="hero-unit" id="description">
       
       <p>
-	"Symbolic Exploit Assistant" ( SEA ) is a small tool designed to assist the discovery and construction of exploits in binary programs. SEA is free software (GPL3) and includes a minimal toolkit (BSD) to quickly develop binary analisys tools in Python.
+	"Symbolic Exploit Assistant" ( <b>SEA</b> ) is a small tool designed to assist the discovery and construction of exploits in binary programs. SEA is free software (GPL3) and includes a minimal toolkit (BSD) to quickly develop binary analisys tools in Python.
 	<div style="clear:both;"></div>
 	
-	This project is developed in colaboration between the research institutes CIFASIS (Rosario, Argentina) and VERIMAG (Grenoble, France) in an effort to improve security in binary programs.
+	This project is developed in colaboration between the research institutes 
+	<a href="http://www.cifasis-conicet.gov.ar/">CIFASIS</a> (Rosario, Argentina) and 
+	<a href="http://www-verimag.imag.fr/">VERIMAG</a> (Grenoble, France) in an effort to improve security in binary programs.
       
       </p>
       
@@ -67,9 +69,10 @@
 
     <div class="hero-unit" id="quickStart">
 	<h3>Quick Start</h3>
-	<p> To get started, you should have Python 2.7. To prepare the tool, the official Z3 Python binding (z3py) should be installed. Fortunately, just executing boostrap.sh will download and compile z3py.
+	<p> To get started, you should have <b>Python 2.7</b> . To prepare the tool, the official Z3 Python binding 
+	(<a href="http://research.microsoft.com/en-us/um/redmond/projects/z3/">z3py</a>) should be installed. Fortunately, just executing <b>boostrap.sh</b> will download and compile z3py.
 	<div style="clear:both;"></div>
-After it finishes compiling, SEA is ready to be used. You can test SEA analyzing the converted code of the first example of Gera's Insecure Programming:
+After it finishes compiling, SEA is ready to be used. You can test SEA analyzing the converted code of the <a href="http://community.corest.com/~gera/InsecureProgramming/stack1.html">first example</a> of Gera's Insecure Programming:
 		
 	</p>
 
@@ -79,20 +82,27 @@ After it finishes compiling, SEA is ready to be used. You can test SEA analyzing
 
 
     	<p>  
-        The complete analysis of this example can be found here. Another interesting example to test detection of memory use is:
+        The <b>complete analysis</b> of this example can be found 
+        <a href="https://github.com/neuromancer/SEA/wiki/Warming-up-on-stack---1">here</a>. Another interesting example to test detection of memory use is:
 	</p>
 
 	<pre class="pre"><code>./SEA.py tests/reil/uaf_1.reil</code></pre>
 
-	<p>An explained analysis of it is here.</p>
+	<p>An <b>explained analysis</b> of it is 
+	<a href="https://github.com/neuromancer/SEA/wiki/Use-after-free-1">here</a>.</p>
       
     </div>
 
     <div class="hero-unit" id="catch">
 	<h3>There is always a catch..</h3>
-	<p>NOTE: Right now, SEA uses REIL code as input, to analyze a path. Unfortunately, REIL can be only generated from an executable file using BinNavi which runs in the top of IDA-Pro (two proprietary and expensive programs) Hopefully, this will change soon when SEA supports open frameworks for binary analysis like Bincoa or BAP.
+	<p><b>NOTE:</b> Right now, SEA uses REIL code as input, to analyze a path. Unfortunately, REIL can be 
+	<b>only</b> generated from an executable file using 
+	<a href="http://www.zynamics.com/binnavi.html">BinNavi</a> which runs in the top of 
+	<a href="https://www.hex-rays.com/products/ida/index.shtml">IDA-Pro</a> (two proprietary and expensive programs) Hopefully, this will change soon when SEA supports open frameworks for binary analysis like Bincoa or BAP.
 	<div style="clear:both;"></div>
-Documentation, examples and more can be found in the wiki. The issue tracker is available. Discusson for support or collaboration is available in #sea-tool @ irc.freenode.net
+Documentation, examples and more can be found in the 
+    <a href="https://github.com/neuromancer/SEA/wiki">wiki</a>. The 
+    <a href="https://github.com/neuromancer/SEA/issues">issue tracker</a> is available. Discusson for support or collaboration is available in #sea-tool @ irc.freenode.net
 	</p>
       
     </div>		
