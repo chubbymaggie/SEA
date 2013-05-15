@@ -1,5 +1,5 @@
 .navbar-fixed-top {
-    position: absolute;
+    position: fixed; 
 }
 
 .titulo {
