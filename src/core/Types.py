@@ -49,6 +49,19 @@ class Type:
     
   def setInfo(self, einfo):
     self.einfo = copy.copy(einfo)
+  
+  def addTag(self, tag, value):
+    if self.einfo == None:
+      self.einfo = dict()
+    
+    self.einfo[tag] = value
+    
+    
+def getMemInfo(ptype):
+    
+    mem_source = str(ptype.einfo["source.name"])+str(ptype.einfo["source.index"])
+    mem_offset = ptype.einfo["offset"]
+    return (mem_source, mem_offset)
     
 ptypes = [Type("Data32", None), 
           Type("Num32", None) , 

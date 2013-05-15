@@ -26,7 +26,7 @@
 """
 
 from pkgs.pyparsing import Word, Literal, alphas, alphanums, delimitedList
-#from Operand import *
+from Types import *
 from NewOperand import *
 from Instruction import Instruction
 
@@ -143,12 +143,14 @@ class REILInstruction(Instruction):
       self.read_operands  = filter(lambda o: not (o |iss| NoOp), self.operands[0:2])
       self.write_operands = filter(lambda o: not (o |iss| NoOp), self.operands[2:3])
       
-    self.fixOperandSizes()
+    
+    if self.instruction in ["call", "bisz", "bsh", "stm", "ldm", "jcc"]:
+      pass
+    else:
+      self.fixOperandSizes()
       
   def fixOperandSizes(self):
     
-    if self.instruction in ["call", "bisz", "bsh", "stm", "ldm", "jcc"]:
-      return
     #print self.instruction 
     write_sizes = map(lambda o: o.size, self.write_operands)
     read_sizes = map(lambda o: o.size, self.read_operands)
@@ -169,18 +171,22 @@ class REILInstruction(Instruction):
   def fixMemoryAccess(self, mem_access):
     assert(mem_access <> None)
     
+    ptype = mem_access["ptype"]
+    sname, offset = getMemInfo(ptype)
+    
     # ldm: op_2 = [op_0]
     if (self.instruction == "ldm"):
               
-      ptype = mem_access["ptype"]
-      offset = mem_access["offset"]
+      #ptype = mem_access["ptype"]
+      #offset = mem_access["offset"]
       write_operand = RegImmNoOp(self.operands[2])
       
       assert(write_operand |iss| RegOp)
       
       #print self.operands
       for i in range(write_operand.getSizeInBytes()):
-        name = str(ptype)+"@"+str(offset+i)
+        
+        name = sname+"@"+str(offset+i)
         
         op = MemOp(name, "BYTE")
         op.type = ptype
@@ -194,14 +200,14 @@ class REILInstruction(Instruction):
       
       #print self.operands
       
-      ptype = mem_access["ptype"]
-      offset = mem_access["offset"]
+      #ptype = mem_access["ptype"]
+      #offset = mem_access["offset"]
       read_operand = RegImmNoOp(self.operands[0])
       
       #assert(read_operand |iss| RegOp)
       
       for i in range(read_operand.getSizeInBytes()):
-        name = str(ptype)+"@"+str(offset+i)
+        name = sname+"@"+str(offset+i)
         
         op = MemOp(name, "BYTE")
         op.type = ptype

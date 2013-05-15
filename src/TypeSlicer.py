@@ -19,6 +19,7 @@
 
 #foldr = lambda l,f,e: reduce(f, l, e)
 concatSet = lambda l: reduce(set.union, l, set())
+concatList = lambda l: reduce(lambda a,b: a+b, l, [])
 
 from core import *
 
@@ -75,11 +76,11 @@ def checkType(tlocs):
   
 def trackLocs(ins, tlocs, read_ops, write_ops):
   
-  if len(write_ops) <> 1:
-    print "i don't know what to do!"
-    return
-  
-  write_locs = write_ops[0].getLocations()
+  if len(write_ops) > 1:
+    write_locs = concatList(map(lambda op: op.getLocation(), write_ops))
+    #print write_locs
+  else:
+    write_locs = write_ops[0].getLocations()
   
   for sloc in tlocs:
     
@@ -91,7 +92,7 @@ def trackLocs(ins, tlocs, read_ops, write_ops):
 	  read_locs = op.getLocations()
 	  sloc.add(read_locs[i])
 
-def getType(inss, callstack, op, initial_type):
+def getType(inss, callstack, memory, op, initial_type):
   assert(len(inss) > 0)
   
   
@@ -104,7 +105,7 @@ def getType(inss, callstack, op, initial_type):
   index = callstack.index
   
   # counter is set
-  counter = len(inss)
+  counter = len(inss)-1
   
   # we will track op
   mlocs = set(op.getLocations())
@@ -122,14 +123,20 @@ def getType(inss, callstack, op, initial_type):
   for ins in inss:
     #print str(ins)
     
+    if memory.getAccess(counter) <> None:
+      ins.fixMemoryAccess(memory.getAccess(counter))
+    
     ins_write_vars = map(lambda op: set(op.getLocations()), ins.getWriteVarOperands())
     write_locs = concatSet(ins_write_vars)
     
     ins_read_vars  = map(lambda op: set(op.getLocations()), ins.getReadVarOperands())
     read_locs  = concatSet(ins_read_vars)
     
-    #for loc in mlocs:
-      #print loc
+    for loc in mlocs:
+      print loc, "--",
+    
+    if (len(mlocs) > 0):
+      print "\n"
     
     typeLocs(ins, callstack, tlocs)
     
@@ -159,7 +166,7 @@ def getType(inss, callstack, op, initial_type):
           #print loc, "-",
     #print ""
     
-    #counter = counter - 1
+    counter = counter - 1
   
   callstack.index = index
   

@@ -17,6 +17,8 @@
     Copyright 2013 by neuromancer
 """
 
+from core import *
+
 class MemVars:
 
   def __init__(self):
@@ -31,15 +33,13 @@ class MemVars:
       self.sources[src] = 0
     else:
       self.sources[src] += 1
-      
-  def __extractInfoFromType(self, ptype):
-    pass
     
 
   def write(self, mem_op):
-
-    sname = mem_op.mem_source
-    offset = mem_op.mem_offset
+    
+    sname, offset = getMemInfo(mem_op.type)
+    #sname = mem_op.mem_source
+    #offset = mem_op.mem_offset
 
     if not sname in self.sources:
       self.createSource(sname)
@@ -51,8 +51,10 @@ class MemVars:
     return (old_sname, new_sname, offset)
 
   def read(self, mem_op):
-    sname = mem_op.mem_source
-    offset = mem_op.mem_offset
+  
+    sname, offset = getMemInfo(mem_op.type)
+    #sname = mem_op.mem_source
+    #offset = mem_op.mem_offset
 
     if not sname in self.sources:
       self.createSource(sname)
@@ -60,7 +62,7 @@ class MemVars:
     sname = sname + "_" +str(self.sources[sname])
     return sname, offset
   
-  def getOffset(self, mem_op):
-    return mem_op.mem_offset
+  #def getOffset(self, mem_op):
+  #  return mem_op.mem_offset
   
 Memvars = MemVars()

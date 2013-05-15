@@ -85,21 +85,6 @@ class Condition:
 
     return rops
 
-  def fixOperandSizes(self):
-    write_sizes = map(lambda o: o.size, self.write_operands)
-    read_sizes = map(lambda o: o.size, self.read_operands)
-    
-    size = min(min(write_sizes), min(read_sizes))
-    assert(size > 0)
-    
-    #print "corrected size:", size
-    
-    for o in self.write_operands:
-      o.resize(size)
-   
-    for o in self.read_operands:
-      o.resize(size)
-
 class Call_Cond(Condition):
   def getEq(self):
     return None
@@ -123,7 +108,6 @@ class  Str_Cond(Condition):
 
 class  Add_Cond(Condition):
  def getEq(self):
-   self.fixOperandSizes()
 
    src1,src2 = self.getOperands(self.read_operands)
    dst = self.getOperands(self.write_operands)[0]
@@ -134,7 +118,6 @@ class  Add_Cond(Condition):
 class  Sub_Cond(Condition):
  def getEq(self):
    
-   self.fixOperandSizes()
    src1,src2 = self.getOperands(self.read_operands)
    dst = self.getOperands(self.write_operands)[0]
    
@@ -143,7 +126,6 @@ class  Sub_Cond(Condition):
 
 class  Mul_Cond(Condition):
  def getEq(self):
-   self.fixOperandSizes()
    
    src1,src2 = self.getOperands(self.read_operands)
    dst = self.getOperands(self.write_operands)[0]
@@ -152,8 +134,6 @@ class  Mul_Cond(Condition):
 
 class  And_Cond(Condition):
  def getEq(self):
-   
-   self.fixOperandSizes()
 
    src1,src2 = self.getOperands(self.read_operands)
    dst = self.getOperands(self.write_operands)[0]
@@ -165,8 +145,6 @@ class  And_Cond(Condition):
 
 class  Or_Cond(Condition):
  def getEq(self):
-   
-   self.fixOperandSizes()
   
    src1,src2 = self.getOperands(self.read_operands)
    dst = self.getOperands(self.write_operands)[0]
@@ -176,8 +154,6 @@ class  Or_Cond(Condition):
 
 class  Xor_Cond(Condition):
  def getEq(self):
-   
-   self.fixOperandSizes()
 
    src1,src2 = self.getOperands(self.read_operands)
    dst = self.getOperands(self.write_operands)[0]
@@ -222,6 +198,7 @@ class  Ldm_Cond(Condition):
     sname, offset = Memvars.read(self.ins.getReadMemOperands()[0])
     array = mkArray(sname)
     
+    dst = (self.write_operands)[0]
     dsts = mkByteList((self.write_operands)[0])
     
     #dst = (self.write_operands)[0]
@@ -238,11 +215,11 @@ class  Ldm_Cond(Condition):
 class  Stm_Cond(Condition):
   def getEq(self):
     
-    src = mkByteList(self.read_operands)[0]
+    src = self.read_operands[0]
+    srcs = mkByteList(src)
     srcs.reverse()
     
     conds = []
-    offset = Memvars.getOffset(self.write_operands[0])
     old_sname, new_sname, offset = Memvars.write(self.write_operands[0])
       
     old_array = mkArray(old_sname)
