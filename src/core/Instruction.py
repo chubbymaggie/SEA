@@ -32,8 +32,11 @@ class Instruction:
   def __init__(self, raw_ins, mem_regs = True):
     pass
   
-  def fixMemoryAccess(mem_access):
+  def setMemoryAccess(self, mem_access):
     pass
+    
+  def getCounter(self):
+    return self.counter
 
   def getOperands(self):
     return list(self.read_operands + self.write_operands)

@@ -66,6 +66,7 @@ class REILInstruction(Instruction):
     pins = reil.parseString(raw_ins)
     self.address = pins.address
     self.instruction = pins.instruction
+    self.counter = None
     self.operands = []
     
     # for memory instructions
@@ -118,9 +119,7 @@ class REILInstruction(Instruction):
         #self.write_operands = [pRegOp(name, size)]
       else:
         assert(False)
-      
-      #self.operands = map(RegImmNoOp, self.operands)
-    #  self.mem_reg = self.operands[2]
+
       
     elif (pins.instruction == "jcc"):
       #pass
@@ -130,9 +129,6 @@ class REILInstruction(Instruction):
       
     elif (pins.instruction == "call"):
       
-      
-      #print "n:", self.operands[0].name
-      #print self.operands[0].name
       if (self.operands[0][0] <> "EMPTY"):
          self.called_function = self.operands[0][0]
       
@@ -144,7 +140,7 @@ class REILInstruction(Instruction):
       self.write_operands = filter(lambda o: not (o |iss| NoOp), self.operands[2:3])
       
     
-    if self.instruction in ["call", "bisz", "bsh", "stm", "ldm", "jcc"]:
+    if self.instruction in ["call", "ret", "bisz", "bsh", "stm", "ldm", "jcc"]:
       pass
     else:
       self.fixOperandSizes()
@@ -168,7 +164,7 @@ class REILInstruction(Instruction):
   
   
   
-  def fixMemoryAccess(self, mem_access):
+  def setMemoryAccess(self, mem_access):
     assert(mem_access <> None)
     
     ptype = mem_access["ptype"]
@@ -176,72 +172,27 @@ class REILInstruction(Instruction):
     
     # ldm: op_2 = [op_0]
     if (self.instruction == "ldm"):
-              
-      #ptype = mem_access["ptype"]
-      #offset = mem_access["offset"]
+
       write_operand = RegImmNoOp(self.operands[2])
       
       assert(write_operand |iss| RegOp)
       
-      #print self.operands
-      for i in range(write_operand.getSizeInBytes()):
-        
-        name = sname+"@"+str(offset+i)
-        
-        op = MemOp(name, "BYTE")
-        op.type = ptype
-        
-        self.read_operands.append(op)
-         
-      #self.read_operands.append(self.operands[0])
+      name = sname+"@"+str(offset)
+      op = MemOp(name, write_operand.getSizeInBits())
+      op.type = ptype
+      
+      self.read_operands.append(op)
       
     # stm: [op_2] = op_0
     elif (self.instruction == "stm"):
-      
-      #print self.operands
-      
-      #ptype = mem_access["ptype"]
-      #offset = mem_access["offset"]
+
       read_operand = RegImmNoOp(self.operands[0])
       
-      #assert(read_operand |iss| RegOp)
+      name = sname+"@"+str(offset)
+      op = MemOp(name, read_operand.getSizeInBits())
+      op.type = ptype
+      self.write_operands.append(op)
       
-      for i in range(read_operand.getSizeInBytes()):
-        name = sname+"@"+str(offset+i)
-        
-        op = MemOp(name, "BYTE")
-        op.type = ptype
-        
-        self.write_operands.append(op)
-
-    
-    #if (self.instruction == "ldm"):
-      
-      #self.write_operands = [self.operands[2]]
-      #self.mem_reg = self.operands[0]
-      
-      ##if (mem_regs):
-      ##  self.read_operands  = [self.operands[0]]
-        
-      #mem_source = mem_access["source"]
-      #mem_offset = mem_access["offset"]
-      #for i in range(self.operands[2].size):
-        #name = mem_source+"@"+str(mem_offset+i)
-        #self.read_operands.append(MemOp(name, "BYTE", mem_source, mem_offset+i))
-         
-      ##self.read_operands.append(self.operands[0])
-      
-    ## stm: [op_2] = op_0
-    #elif (self.instruction == "stm"):
-      
-      #self.read_operands.append(self.operands[0])
-      #self.mem_reg = self.operands[2]
-      
-      #mem_source = mem_access["source"]
-      #mem_offset = mem_access["offset"]
-      #for i in range(self.operands[0].size):
-        #name = mem_source+"@"+str(mem_offset+i)
-        #self.write_operands.append(Operand(name, "BYTE", mem_source, mem_offset+i))
     else:
       assert(False)
   

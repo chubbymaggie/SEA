@@ -41,10 +41,10 @@ def typeLocs(ins, callstack, tlocs):
     if loc.name in ["eax"] and \
        ins.instruction == "call" and ins.called_function == "malloc":
      
-      assert(0)
+      #assert(0)
       einfo = dict()
-      einfo["source.name"] = hex(ins.address)
-      einfo["source.index"] = "FIXME"
+      einfo["source.name"] = ins.address
+      einfo["source.index"] = ins.getCounter()
       sloc.discard(loc)
       sloc.add(Type("HPtr32", loc.index, einfo))
   
@@ -77,8 +77,7 @@ def checkType(tlocs):
 def trackLocs(ins, tlocs, read_ops, write_ops):
   
   if len(write_ops) > 1:
-    write_locs = concatList(map(lambda op: op.getLocation(), write_ops))
-    #print write_locs
+    assert(0)
   else:
     write_locs = write_ops[0].getLocations()
   
@@ -95,18 +94,17 @@ def trackLocs(ins, tlocs, read_ops, write_ops):
 def getType(inss, callstack, memory, op, initial_type):
   assert(len(inss) > 0)
   
+  if (op |iss| ImmOp):
+    return Type("Data32", None)
   
   if (op |iss| AddrOp):
-    return Type("Num32", None)
+    return Type("Ptr32", None)
   
   # code should be copied and reversed
   inss.reverse()
   
   index = callstack.index
-  
-  # counter is set
-  counter = len(inss)-1
-  
+
   # we will track op
   mlocs = set(op.getLocations())
   
@@ -116,15 +114,13 @@ def getType(inss, callstack, memory, op, initial_type):
     pt = Type(initial_type.name, i)
     tlocs[i] = set([loc, pt])
   
-  
-  # at first, final type is the initial type    
-  final_type = initial_type
-  
   for ins in inss:
     #print str(ins)
     
+    counter = ins.getCounter()
+    
     if memory.getAccess(counter) <> None:
-      ins.fixMemoryAccess(memory.getAccess(counter))
+      ins.setMemoryAccess(memory.getAccess(counter))
     
     ins_write_vars = map(lambda op: set(op.getLocations()), ins.getWriteVarOperands())
     write_locs = concatSet(ins_write_vars)
@@ -132,41 +128,23 @@ def getType(inss, callstack, memory, op, initial_type):
     ins_read_vars  = map(lambda op: set(op.getLocations()), ins.getReadVarOperands())
     read_locs  = concatSet(ins_read_vars)
     
-    for loc in mlocs:
-      print loc, "--",
+    #for loc in mlocs:
+    #  print loc, "::", loc.type, "--",
     
-    if (len(mlocs) > 0):
-      print "\n"
+    #if (len(mlocs) > 0):
+    #  print "\n"
     
     typeLocs(ins, callstack, tlocs)
     
     if len(write_locs.intersection(mlocs)) > 0: 
-      
-      
-      #for (i,sloc) in enumerate(tlocs):
-        #print i,
-        #for loc in sloc:
-          #print loc, "-",
-      #print ""
       
       trackLocs(ins, tlocs, ins.getReadOperands(), ins.getWriteOperands())
       
       
       mlocs = mlocs.difference(write_locs) 
       mlocs = read_locs.union(mlocs)
-      #mvars = set(filter(lambda o: o.name <> "ebp", mvars))
-      """
-      smt_conds.add(condition.getEq())
-      """
     
     callstack.prevInstruction(ins)
-    #for (i,sloc) in enumerate(tlocs):
-        #print i, "->",
-        #for loc in sloc:
-          #print loc, "-",
-    #print ""
-    
-    counter = counter - 1
   
   callstack.index = index
   

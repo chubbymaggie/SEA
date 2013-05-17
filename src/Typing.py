@@ -136,8 +136,16 @@ def setInitialConditions(ssa, initial_values, smt_conds):
     #return Operand(val_type+"@"+str(val), "", mem_source = val_type, mem_offset=val)
   #else:
     #assert(0)
+
+def removeTrack(ops, mvars, mlocs):
+
+  for op in ops:
+    mvars.remove(op)
+  
+    for loc in op.getLocations():
+      mlocs.remove(loc)
     
-def addAditionalConditions(mvars, ins, ssa, callstack, smt_conds):
+def addAditionalConditions(mvars, mlocs, ins, ssa, callstack, smt_conds):
   
   if len(mvars) == 0:
     return mvars
@@ -151,7 +159,8 @@ def addAditionalConditions(mvars, ins, ssa, callstack, smt_conds):
     if (RegOp("eax","DWORD") in mvars):
       initial_values_at_alloc = getInitialConditionsAlloc()
       setInitialConditions(ssa, initial_values_at_alloc, smt_conds)
-      mvars.remove(RegOp("eax","DWORD"))
+      removeTrack([RegOp("eax","DWORD")], mvars, mlocs)
+      #mvars.remove(RegOp("eax","DWORD"))
       
   elif ins.isCall() and ins.called_function == None:
     initial_values_at_call = getInitialConditionsCall(callstack)
@@ -164,7 +173,9 @@ def addAditionalConditions(mvars, ins, ssa, callstack, smt_conds):
       
       
     setInitialConditions(ssa, initial_values_at_call, smt_conds)
-    mvars = set(filter(lambda o: not (o in initial_values_at_call.keys()), mvars))
+    removeTrack(initial_values_at_call.keys(), mvars, mlocs)
+    #mvars = set(filter(lambda o: not (o in initial_values_at_call.keys()), mvars))
+    
     
       
     #new_mvars = set()

@@ -69,14 +69,22 @@ class Path:
           if self.current < self.first:
             raise StopIteration
           else:
+          
+            ins = self.code[self.current]
+            ins.counter = self.current
+          
             self.current -= 1
-            return self.code[self.current + 1]
+            return ins #self.code[self.current + 1]
         else:
           if self.current >= self.last:
             raise StopIteration
           else:
+            
+            ins = self.code[self.current]
+            ins.counter = self.current
+          
             self.current += 1
-            return self.code[self.current - 1]  
+            return ins #self.code[self.current - 1]  
           
     
     def reverse(self):

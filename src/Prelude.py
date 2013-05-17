@@ -65,9 +65,9 @@ def mkTrace(trace_filename, first, last, raw_inputs):
         #AllocationLog.check(MemAccess.getAccess(end), end)
         
       elif ins.isCall() and ins.called_function <> None:
-        pass
+        
         #print "detect parameters of", ins.called_function, "at", ins_str
-        #FuncParameters.detectFuncParameters(reil_code[start:end+1], MemAccess, Callstack, Inputs, end)
+        FuncParameters.detectFuncParameters(reil_code[start:end+1], MemAccess, Callstack, Inputs, end)
         #if (ins.called_function == "malloc"):
           
           #try:

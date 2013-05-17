@@ -135,6 +135,21 @@ class Callstack:
   def firstCall(self):
     return self.index == 1
   
+  def convertStackMemLoc(self, loc):
+    self.index = self.index - 1
+    
+    #mem_source =  "s."+hex(self.currentCall())+"."+str(self.currentCounter())
+    #if self.index == 1:
+    #  mem_offset = (op.mem_offset)+self.currentStackDiff()-4#+16
+    #else:
+    #  mem_offset = (op.mem_offset)+self.currentStackDiff()#+16
+    #name = mem_source+"@"+str(mem_offset)
+    
+    self.index = self.index + 1
+    
+    #return Operand(name,"BYTE", mem_source, mem_offset)
+  
+  
   def convertStackMemOp(self, op):
     self.index = self.index - 1
     
@@ -154,7 +169,6 @@ class Callstack:
     addr = ins.address
     if ins.isCall():
       call = int(addr, 16)
-      print "addr of call:", call
       esp_diff = self.__getESPdifference__(reil_code, 0) 
         
       self.calls.append(call)

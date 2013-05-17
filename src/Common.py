@@ -27,6 +27,8 @@ from Condition   import *
 from SMT         import SMT, Solution
 from Typing      import *
 
+concatSet = lambda l: reduce(set.union, l, set())
+
 def setInitialConditions(ssa, initial_values, smt_conds):
   ssa_map = ssa.getMap(set(), set(), set(initial_values.keys()))
   eq = Eq(None, None)
@@ -44,7 +46,7 @@ def setInitialConditions(ssa, initial_values, smt_conds):
       assert(False)
       
       
-def getValueFromCode(inss, callstack, initial_values, memory, op, debug = True):
+def getValueFromCode(inss, callstack, initial_values, memory, op, debug = False):
   
   # Initialization
   
@@ -58,27 +60,20 @@ def getValueFromCode(inss, callstack, initial_values, memory, op, debug = True):
   last_index = callstack.index  # TODO: create a better interface
   
   # we set the instruction counter
-  counter = len(inss)-1
+  #counter = len(inss)-1
   
   # ssa and smt objects
   ssa = SSA()
   smt_conds  = SMT()
   
-  val_type = None
   mvars = set()
+  mlocs = set()
  
   if (op |iss| ImmOp or op |iss| AddrOp):
     return op.getValue()
-  #elif (op.isMem()):
-    #for i in range(op.size):
-      #name = op.mem_source+"@"+str(op.mem_offset+i)
-      #mvars.add(Operand(name, "BYTE", op.mem_source, op.mem_offset+i))
-      ##print name
-  #else:
-    ## we will start tracking op
-    #mvars.add(op)
   
   mvars.add(op)
+  mlocs = set(op.getLocations())
   
   # we start without free variables
   fvars = set()
@@ -87,22 +82,31 @@ def getValueFromCode(inss, callstack, initial_values, memory, op, debug = True):
 
   for ins in inss:
     
+    counter = ins.getCounter()
+    
     if debug:
-      print ">", ins.instruction, counter ,str(ins.called_function)
+      print str(counter) + ":", ins.instruction
 
     if memory.getAccess(counter) <> None:
-      ins.fixMemoryAccess(memory.getAccess(counter))
+      ins.setMemoryAccess(memory.getAccess(counter))
   
     ins_write_vars = set(ins.getWriteVarOperands())
     ins_read_vars = set(ins.getReadVarOperands())
- 
-    if len(ins_write_vars.intersection(mvars)) > 0: 
+    
+    write_locs = concatSet(map(lambda op: set(op.getLocations()), ins.getWriteVarOperands()))
+    read_locs  = concatSet(map(lambda op: set(op.getLocations()), ins.getReadVarOperands() ))
+    
+    if len(write_locs.intersection(mlocs)) > 0: 
+    #if len(ins_write_vars.intersection(mvars)) > 0: 
       
       ssa_map = ssa.getMap(ins_read_vars.difference(mvars), ins_write_vars, ins_read_vars.intersection(mvars))
 
       cons = conds.get(ins.instruction, Condition)
       condition = cons(ins, ssa_map)
-     
+      
+      mlocs = mlocs.difference(write_locs) 
+      mlocs = read_locs.union(mlocs) 
+       
       mvars = mvars.difference(ins_write_vars) 
       mvars = ins_read_vars.union(mvars)
    
@@ -110,23 +114,18 @@ def getValueFromCode(inss, callstack, initial_values, memory, op, debug = True):
 
     
     # additional conditions
-    mvars = addAditionalConditions(mvars, ins, ssa, callstack, smt_conds)
-    
-    # no more things to do
-    # we update the counter 
-    counter = counter - 1    
+    mvars = addAditionalConditions(mvars, mlocs, ins, ssa, callstack, smt_conds)
+
     # we update the current call for next instruction
     callstack.prevInstruction(ins) 
-  
-  #if val_type == None:
-    #val_type = "imm"
-  
+    
   for v in mvars:
     if not (v in initial_values):
       print "#Warning__", str(v), "is free!" 
   
   #setInitialConditions(ssa, initial_values, smt_conds)
-  smt_conds.solve(True)
+  #print str(op)
+  smt_conds.solve(False)
   
   if op |iss| RegOp:
     op.name = op.name+"_0"
@@ -137,10 +136,6 @@ def getValueFromCode(inss, callstack, initial_values, memory, op, debug = True):
   callstack.index = last_index  # TODO: create a better interface
   return smt_conds.getValue(op)
   
-  #if (debug):
-    #print val_type, op, smt_conds.getValue(op)
-  #return mkVal(val_type, smt_conds.getValue(op))
-
 def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = False):
   assert(0)
   

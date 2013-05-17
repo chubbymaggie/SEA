@@ -69,6 +69,10 @@ class RegLoc(Location):
 class pRegLoc(Location):
   pass
 
+class MemLoc(Location):
+  def __str__(self):
+    return self.name+"("+str(self.index)+")"
+
 class NoLoc(Location):
   pass
 

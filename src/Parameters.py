@@ -20,7 +20,7 @@
 from core import *
 
 from Function    import *
-from Common      import getTypedValueFromCode
+from Common      import getValueFromCode
 
 class FuncParametersREIL:
   def __init__(self):
@@ -60,8 +60,17 @@ class FuncParametersREIL:
     assert(ins.isCall() and ins.called_function <> None)
     
     # first we locate the stack pointer to know where the parameters are located
-    esp = RegOp("esp","DWORD")
-    pbase = getTypedValueFromCode(reil_code, callstack, inputs, memaccess, esp)
+    esp_op = RegOp("esp","DWORD")
+    #pbase = getTypedValueFromCode(reil_code, callstack, inputs, memaccess, esp)
+    
+    ptbase = getType(reil_code, callstack, memaccess, esp_op, Type("Ptr32", None)) 
+    
+    val = getValueFromCode(reil_code, callstack, inputs, self, addr_op)
+    ptbase.addTag("offset", val)
+    
+    if str(ptbase) == "Ptr32":
+      print "Unable to detect arguments for", ins.called_function
+      return
     
     func_cons = funcs.get(ins.called_function, Function)
     func = func_cons(pbase = pbase)

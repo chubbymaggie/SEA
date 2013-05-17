@@ -36,9 +36,11 @@ class SMT:
   #  return not (self.has_conds)
 
   def solve(self, debug = False):
-    if (self.solver.check() == z3.sat):
-      if debug:
+    
+    if debug:
         print self.solver
+    
+    if (self.solver.check() == z3.sat):
       self.m = self.solver.model()
       
     #else:

@@ -38,6 +38,11 @@ size_in_bits = {
     "16"    : 16,
     "32"    : 32,
     "64"    : 64,
+    1       : 1,
+    8       : 8,
+    16      : 16,
+    32      : 32,
+    64      : 64,
 }
 
 class Operand:
@@ -224,7 +229,9 @@ class MemOp(Operand):
     r = []
     
     for i in range(0,self.size_in_bytes):
-      r.append(RegLoc(self.name,i))
+      loc = MemLoc(self.name,i)
+      loc.type = self.type
+      r.append(MemLoc(self.name,i))
        
     return r
 
