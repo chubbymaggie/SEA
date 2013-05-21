@@ -32,11 +32,11 @@ parser = argparse.ArgumentParser(description='Symbolic Exploit Assistant.')
 parser.add_argument('trace_filename', metavar='trace', type=str,
                     help='a sequence of REIL instruction in a trace')
 
-parser.add_argument('-first', dest='first', action='store', type=int,
-                   default=0, help='first instruction to process')
+parser.add_argument('-first', dest='first', action='store', type=str,
+                   default=str(0), help='first instruction to process')
 
-parser.add_argument('-last', dest='last', action='store', type=int,
-                   default=sys.maxint-1, help='last instruction to process')
+parser.add_argument('-last', dest='last', action='store', type=str,
+                   default=str(sys.maxint-1), help='last instruction to process')
 
 parser.add_argument('-type', dest='type', action='store', type=str,
                    default="debug", help='exploit type')
@@ -50,22 +50,35 @@ parser.add_argument('iconditions', metavar='operator,value', type=str, nargs='*'
 args = parser.parse_args()
 
 mode  = args.type
+valid_modes = ["jump", "path", "debug", "selection", "generation"]
 
-if not (mode in ["jump", "path", "debug", "selection", "generation"]):
+if not (mode in valid_modes):
   print "\""+mode+"\" is an invalid type of operation for SEA"
-  exit(1)
+  exit(1)  
 
-if (not(mode in ["selection","generation"])):
-  address = args.address
-  trace = mkTrace(args.trace_filename, args.first, args.last, args.iconditions)
-
+if (mode == 'debug'):
+  
+  first = int(args.first)
+  last  = int(args.last) 
+  
+  trace = mkTrace(args.trace_filename, first, last, args.iconditions)
+  
 if (mode == "jump"):
+  
+  first = int(args.first)
+  last  = int(args.last) 
+  
+  address = args.address
+  trace = mkTrace(args.trace_filename, first, last, args.iconditions)
+  
   if (address == None):
     print "An address to jump to should be specified!"
   else:
     getJumpConditions(trace, address)
 
 elif (mode == 'path'): 
+  
+  trace = mkTrace(args.trace_filename, args.first, args.last, args.iconditions)
   
   # TODO: move to PathConditions.py?
   sol = getPathConditions(trace)
@@ -83,8 +96,11 @@ elif (mode == 'path'):
 elif (mode == 'selection'): 
   selectPath(args.trace_filename)
   
-elif (mode == 'generation'): 
-  generatePaths(args.trace_filename, 20)
+elif (mode == 'generation'):
+  
+  if (args.first == 0):
+    print "WARNING: ..."
+  
+  generatePaths(args.trace_filename,args.first, 2000)
     
-elif (mode == 'debug'):
-  pass
+

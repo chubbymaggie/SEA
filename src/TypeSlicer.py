@@ -34,16 +34,18 @@ from core import *
 
 def typeLocs(ins, callstack, tlocs):
   
-  #def changeStackPtr(loc, sloc):
+  def detectMainParameters(loc, sloc):
     
-  #  if loc.name in ["esp","ebp"] and \
-  #     ins.instruction == "call" and ins.called_function == None:
+    i = ins.getCounter()
+    
+    if i == 0 and ("SPtr32" in str(loc.type)) and \
+       loc.index >= 12 and loc.index < 16:
       
-  #    einfo = dict()
-  #    einfo["source.name"] = hex(callstack.currentCall())
-  #    einfo["source.index"] = callstack.currentCounter()
-  #    sloc.discard(loc)
-  #    sloc.add(Type("SPtr32", loc.index, einfo))
+      einfo = dict()
+      einfo["source.name"] = "argv[]"
+      einfo["source.index"] = 0
+      sloc.discard(loc)
+      sloc.add(Type("Ptr32", loc.index-12, einfo))
   
   def detectStackPtr(loc, sloc):
     
@@ -79,9 +81,12 @@ def typeLocs(ins, callstack, tlocs):
   for sloc in tlocs:
     
     for loc in list(sloc):
-      detectImm(loc, sloc)
-      detectStackPtr(loc, sloc)
-      detectHeapPtr(loc, sloc)
+      
+      if (loc |iss| Location):
+        detectImm(loc, sloc)
+        detectStackPtr(loc, sloc)
+        detectHeapPtr(loc, sloc)
+        detectMainParameters(loc, sloc)
   
 def checkType(tlocs):
   pt_name = tlocs[0].name

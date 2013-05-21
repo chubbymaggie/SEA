@@ -50,8 +50,8 @@ class Operand:
   def __init__(self, name, size):
     self.type = None
     self.name = str(name)
-    self.mem_source = None
-    self.mem_offset = None
+    #self.mem_source = None
+    self.offset = None
     self.value      = None
     
     self.resize(size)
@@ -164,7 +164,7 @@ class ImmOp(Operand):
 
 class AddrOp(Operand): # same as immediate
   def __str__(self):
-    return "mem:"+str(self.name)
+    return str(self.name)
     #fmt = "0x%0."+str(2*self.size_in_bytes)+"x"
     #print fmt
     #try:
@@ -229,18 +229,18 @@ class MemOp(Operand):
     r = []
     
     for i in range(0,self.size_in_bytes):
-      loc = MemLoc(self.name,i)
+      loc = MemLoc(self.name,self.offset+i)
       loc.type = self.type
       
-      print self.name, "->", loc.type
+      #print self.name, "->", loc.type
       
-      r.append(MemLoc(self.name,i))
+      r.append(loc)
        
     return r
 
   def __str__(self):
     #return "reg:"+self.name
-    return str(self.name)
+    return str(self.name)+"("+str(self.offset)+")"
     
   def setValue(self, value):
     self.value = value

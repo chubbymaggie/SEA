@@ -20,23 +20,28 @@
 from core import *
 from Condition   import *
 
+def getInitialConditionsArgs(callstack):
+  
+  initial_values_at_call = dict()
+  
+  name = hex(callstack.currentCall())
+  arg_v = MemOp(name,"DWORD")
+  arg_v.offset = 12
+  initial_values_at_call[arg_v] = ImmOp(str(0), "DWORD")
+  
+  return initial_values_at_call
+
+
 def getInitialConditionsCall(callstack):
   
   initial_values_at_call = dict()
   
   if callstack.index == 1:
-    
     esp_val = 4
     
     #for i in range(0,40):
       #arg_i = Operand("argv[]@"+str(i),"BYTE", mem_source = "argv[]", mem_offset=i)
       #initial_values_at_call[arg_i] = Operand(str(0), "BYTE")
-    
-    #name = "s."+hex(callstack.callstack[1])+".1"
-  
-    #for i in range(12,16):
-      #arg_v = Operand(name+"@"+str(i),"BYTE", mem_source = name, mem_offset=i)
-      #initial_values_at_call[arg_v] = Operand(str(0), "BYTE")
     
     #print ""
   else:
@@ -153,8 +158,17 @@ def addAditionalConditions(mvars, mlocs, ins, ssa, callstack, smt_conds):
   # auxiliary eq condition
   eq = Eq(None, None)
   
+  if (ins.getCounter() == 0):
+    
+    initial_values = getInitialConditionsArgs(callstack)
+    setInitialConditions(ssa, initial_values, smt_conds)
+    #name = hex(callstack.currentCall())
+    #for i in range(12,16):
+      
+      #argv_bytes.append(MemOp(name+"@"+str(i),"BYTE"))
+  
   # if the instruction was a call
-  if ins.isCall() and ins.called_function == "malloc":
+  elif ins.isCall() and ins.called_function == "malloc":
 
     if (RegOp("eax","DWORD") in mvars):
       initial_values_at_alloc = getInitialConditionsAlloc()

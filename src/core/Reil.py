@@ -177,9 +177,11 @@ class REILInstruction(Instruction):
       
       assert(write_operand |iss| RegOp)
       
-      name = sname+"@"+str(offset)
+      name = sname#+"@"+str(offset)
       op = MemOp(name, write_operand.getSizeInBits())
+      op.offset = offset
       op.type = ptype
+      print "hola:", str(ptype)
       
       self.read_operands.append(op)
       
@@ -188,9 +190,13 @@ class REILInstruction(Instruction):
 
       read_operand = RegImmNoOp(self.operands[0])
       
-      name = sname+"@"+str(offset)
+      name = sname#+"@"+str(offset)
       op = MemOp(name, read_operand.getSizeInBits())
+      op.offset = offset
       op.type = ptype
+      
+      print "hola:", str(ptype)
+      
       self.write_operands.append(op)
       
     else:

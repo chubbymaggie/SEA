@@ -256,7 +256,7 @@ class  Eq(Condition):
       dst_array = mkArray(dst_name)
       return [src_array[src_offset] == dst_array[dst_offset]]
     
-    elif x.isMem() and y.isImm():
+    elif x.isMem() and y |iss| ImmOp:
       
       assert(y.size == 1) # y should be a BYTE
       

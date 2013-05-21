@@ -30,9 +30,10 @@ from Program    import Program
 from NewOperand import *
 from Types      import *
 from Lattice    import *
-#from Operand import Operand, detectType, size_in_bytes
 from Reil       import ReilParser#, ReilInstruction
 from Bap        import BapParser#, BapInstruction
+
+from PathGenerator import *
 
 ReilPath   = lambda trace_filename,first,last: Path(first, last, filename = trace_filename, parser = ReilParser)
 BapProgram = lambda program_filename: Program(program_filename, BapParser)

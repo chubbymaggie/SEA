@@ -25,27 +25,57 @@
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from src.core import *
-
-
-
-
-def generatePaths(filename, start, n):
+class PathGenerator:
+  def __init__(program, start, ends, max_count):
+    pass
   
-  paths = RandomPathGenerator(BapProgram(filename), start, set())
+  def __iter__(self):
+    return self 
+    
+  def next(self):
+    pass
   
-  for (i,path) in enumerate(paths):
-    #pr.reset("0x8049463")
-    #pr.reset(start)
-    #path = generatePath(pr)
-    #print str(i)+":",
-    for label in path:
-      print label+",",
-    
-    print ""
-    
-    if (i==n):
-      break
+  
+import random  
 
+class RandomPathGenerator(PathGenerator):
+  
+  def __init__(self, program, start, ends, max_count = 1000):
+    self.program = program
+    self.start = start
+    self.max_count = max_count
+  
+  def next(self):
+  
+    self.program.reset(self.start)
+    branches_taken = []
+    count = 0
+    for ins in self.program:
+      #print str(ins.raw)
+      #print ins.ins
+      if count == self.max_count:
+        break
       
-
+      #if branches_taken <> []:
+        #print "last:", branches_taken[-1]
+  
+      if ins.isCall():
+	pass
+        #if str(ins.branchs[0]) == "0x8048890":
+          #branches_taken.append("exit")
+          #break
+      
+        #if str(ins.branchs[0]) == "0x8048800":
+          #branches_taken.append("__stack_chk_fail")
+          #break
+    
+      elif ins.isCJmp():
+        count = count + 1
+        i = bool(random.randint(0,1))
+        #print "pasa"  
+        if i == False:
+          branches_taken.append(self.program.selectFalseBranch())
+        elif i == True:
+          branches_taken.append(self.program.selectTrueBranch())
+  
+    return branches_taken
