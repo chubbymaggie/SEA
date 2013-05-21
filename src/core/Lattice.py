@@ -73,10 +73,19 @@ def joinset(s):
   
   assert(len(s) > 0)
   
+  for pt in s:
+  
+    if (not isinstance(pt,Type)):
+      for e in s:
+        if (not isinstance(e,Type)):
+          print e.type, "--",
+        else:
+          print e, "--",
+      assert(0)
+  
   r = s.pop()
   
   for pt in s:
-    assert(isinstance(pt,Type))
     r = join(r, pt)
   
   

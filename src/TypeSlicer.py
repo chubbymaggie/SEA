@@ -23,7 +23,27 @@ concatList = lambda l: reduce(lambda a,b: a+b, l, [])
 
 from core import *
 
+#isStackLoc(loc):
+#  t = loc.type 
+#  if (t == None):
+#    return False
+  
+#  return (t |iss| SPtr32)
+
+
+
 def typeLocs(ins, callstack, tlocs):
+  
+  #def changeStackPtr(loc, sloc):
+    
+  #  if loc.name in ["esp","ebp"] and \
+  #     ins.instruction == "call" and ins.called_function == None:
+      
+  #    einfo = dict()
+  #    einfo["source.name"] = hex(callstack.currentCall())
+  #    einfo["source.index"] = callstack.currentCounter()
+  #    sloc.discard(loc)
+  #    sloc.add(Type("SPtr32", loc.index, einfo))
   
   def detectStackPtr(loc, sloc):
     
@@ -128,11 +148,11 @@ def getType(inss, callstack, memory, op, initial_type):
     ins_read_vars  = map(lambda op: set(op.getLocations()), ins.getReadVarOperands())
     read_locs  = concatSet(ins_read_vars)
     
-    #for loc in mlocs:
-    #  print loc, "::", loc.type, "--",
+    for loc in mlocs:
+      print loc, "::", loc.type, "--",
     
-    #if (len(mlocs) > 0):
-    #  print "\n"
+    if (len(mlocs) > 0):
+      print "\n"
     
     typeLocs(ins, callstack, tlocs)
     

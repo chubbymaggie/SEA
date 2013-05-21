@@ -231,6 +231,9 @@ class MemOp(Operand):
     for i in range(0,self.size_in_bytes):
       loc = MemLoc(self.name,i)
       loc.type = self.type
+      
+      print self.name, "->", loc.type
+      
       r.append(MemLoc(self.name,i))
        
     return r

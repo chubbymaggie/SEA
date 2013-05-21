@@ -138,6 +138,18 @@ class Callstack:
   def convertStackMemLoc(self, loc):
     self.index = self.index - 1
     
+    if self.index == 1:
+      index = (loc.index)+self.currentStackDiff()-4
+    else:
+      index = (loc.index)+self.currentStackDiff()
+    
+    new_loc = MemLoc(loc.name,index)  
+    
+    
+    print loc.type.getInfo()
+    assert(0)
+    new_loc.type = Type(loc.type.name, loc.type.index, loc.type.getInfo())
+    
     #mem_source =  "s."+hex(self.currentCall())+"."+str(self.currentCounter())
     #if self.index == 1:
     #  mem_offset = (op.mem_offset)+self.currentStackDiff()-4#+16
@@ -146,6 +158,7 @@ class Callstack:
     #name = mem_source+"@"+str(mem_offset)
     
     self.index = self.index + 1
+    return new_loc
     
     #return Operand(name,"BYTE", mem_source, mem_offset)
   

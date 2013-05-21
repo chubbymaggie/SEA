@@ -46,6 +46,9 @@ class Type:
         r = r + str(k)+"="+str(self.einfo[k])+", "
     
     return r
+  
+  def getInfo(self):
+    return copy.copy(einfo)
     
   def setInfo(self, einfo):
     self.einfo = copy.copy(einfo)
