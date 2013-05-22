@@ -60,12 +60,19 @@ class Function:
   
   def __locateParameter__(self, disp, size):
     
-    #assert(disp<=0)
+    assert(0)
+    #WIP
     
-    mem_source = self.pbase.mem_source
-    mem_offset = self.pbase.mem_offset + disp
+    #assert(disp<=0)
+    einfo = dict()
+    
+    
+    mem_source, mem_offset = getMemInfo(ptype), ptype.einfo["offset"] + disp
+    
+    #mem_source = self.pbase.mem_source
+    #mem_offset = self.pbase.mem_offset 
     name = mem_source + "@" + str(mem_offset)
-    return Operand(name, size, mem_source, mem_offset)
+    return Operand(name, size, einfo)
   
 class Skip_Func(Function):
   pass
@@ -89,10 +96,6 @@ class Gets_Func(Function):
       
       self.read_operands.append(self.parameter_locs[0])
       
-      # it is not necesary, since these locations won't be modified!
-      #for i in range(self.internal_size):
-      #  self.read_operands.append(Operand("stdin:"+str(i), "BYTE"))
-        
       # populate write operands
       
       for i in range(self.internal_size):

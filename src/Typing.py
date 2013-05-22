@@ -81,6 +81,8 @@ def setInitialConditions(ssa, initial_values, smt_conds):
     if ":" in iop.name:
       smt_conds.add(eq.getEq(iop,initial_values[iop]))
     elif (iop |iss| RegOp):
+      #assert(0)
+      
       smt_conds.add(eq.getEq(ssa_map[iop.name],initial_values[iop]))
     elif (iop.isMem()):
       smt_conds.add(eq.getEq(iop,initial_values[iop]))
@@ -164,17 +166,14 @@ def addAditionalConditions(mvars, mlocs, ins, ssa, callstack, smt_conds):
   # auxiliary eq condition
   eq = Eq(None, None)
   
-  if (ins.getCounter() == 0):
-    
-    initial_values = getInitialConditionsArgs(callstack)
-    setInitialConditions(ssa, initial_values, smt_conds)
+ 
     #name = hex(callstack.currentCall())
     #for i in range(12,16):
       
       #argv_bytes.append(MemOp(name+"@"+str(i),"BYTE"))
   
   # if the instruction was a call
-  elif ins.isCall() and ins.called_function == "malloc":
+  if ins.isCall() and ins.called_function == "malloc":
 
     if (RegOp("eax","DWORD") in mvars):
       initial_values_at_alloc = getInitialConditionsAlloc()
@@ -194,6 +193,12 @@ def addAditionalConditions(mvars, mlocs, ins, ssa, callstack, smt_conds):
       
     setInitialConditions(ssa, initial_values_at_call, smt_conds)
     removeTrack(initial_values_at_call.keys(), mvars, mlocs)
+    
+    if (ins.getCounter() == 0):
+    
+      initial_values = getInitialConditionsArgs(callstack)
+      setInitialConditions(ssa, initial_values, smt_conds)
+    
     #mvars = set(filter(lambda o: not (o in initial_values_at_call.keys()), mvars))
     
     

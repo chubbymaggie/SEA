@@ -230,8 +230,6 @@ class  Ldm_Cond(Condition):
 
 class  Stm_Cond(Condition):
   def getEq(self):
-    assert(0)
-    #WIP
     
     src = self.read_operands[0]
     srcs = mkByteList(src)
@@ -242,13 +240,12 @@ class  Stm_Cond(Condition):
     
     conds = []
     
+    old_sname, new_sname = Memvars.write(dsts[0])
 
-    for (src,dst) in zip(srcs, dsts):
-      old_sname, new_sname = Memvars.write(self.write_operands[0])
-      
-      old_array = mkArray(old_sname)
-      array = mkArray(new_sname)
+    old_array = mkArray(old_sname)
+    array = mkArray(new_sname)
     
+    for (src,dst) in zip(srcs, dsts):
       array = z3.Store(array, dst.getIndex(), src)
       
     conds = [(old_array == array)]
@@ -276,13 +273,27 @@ class  Eq(Condition):
     conds = []
     
     if x.isMem() and y.isMem():
-      assert(0)
-      src_name, src_offset = Memvars.read(x)
-      src_array = mkArray(src_name)
       
-      dst_name, dst_offset = Memvars.read(y)
-      dst_array = mkArray(dst_name)
-      return [src_array[src_offset] == dst_array[dst_offset]]
+      srcs = x.getLocations()
+      dsts = y.getLocations()
+      
+      for (src,dst) in zip(srcs, dsts):
+        sname = Memvars.read(src)
+        src_array = mkArray(sname)
+        
+        sname = Memvars.read(dst)
+        dst_array = mkArray(sname)
+        
+        conds.append(src_array[src.getIndex()] == dst_array[dst.getIndex()])
+      
+      return conds
+      
+      #src_name, src_offset = Memvars.read(x)
+      #src_array = mkArray(src_name)
+      
+      #dst_name, dst_offset = Memvars.read(y)
+      #dst_array = mkArray(dst_name)
+      #return [src_array[src_offset] == dst_array[dst_offset]]
     
     elif x.isMem() and y |iss| ImmOp:
       
@@ -290,7 +301,7 @@ class  Eq(Condition):
       dsts = mkByteList(y)
     
       for (src,dst) in zip(srcs, dsts):
-        print str(x)
+        #print str(x)
         sname = Memvars.read(src)
         src_array = mkArray(sname)
         conds.append(src_array[src.getIndex()] == dst)

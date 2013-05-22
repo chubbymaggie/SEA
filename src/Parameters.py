@@ -21,6 +21,7 @@ from core import *
 
 from Function    import *
 from Common      import getValueFromCode
+from TypeSlicer   import getType
 
 class FuncParametersREIL:
   def __init__(self):
@@ -65,7 +66,11 @@ class FuncParametersREIL:
     
     ptbase = getType(reil_code, callstack, memaccess, esp_op, Type("Ptr32", None)) 
     
-    val = getValueFromCode(reil_code, callstack, inputs, self, addr_op)
+     # we reset the path
+    reil_code.reverse()
+    reil_code.reset()
+    
+    val = getValueFromCode(reil_code, callstack, inputs, memaccess, esp_op)
     ptbase.addTag("offset", val)
     
     if str(ptbase) == "Ptr32":
@@ -73,7 +78,7 @@ class FuncParametersREIL:
       return
     
     func_cons = funcs.get(ins.called_function, Function)
-    func = func_cons(pbase = pbase)
+    func = func_cons(pbase = ptbase)
     
     parameters = []
     
