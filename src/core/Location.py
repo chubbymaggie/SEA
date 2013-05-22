@@ -31,6 +31,9 @@ class Location:
     self.type = None
     self.name = str(name)
     self.index = index
+    
+  def getIndex(self):
+    return self.index
 
   def __str__(self):
     assert(False)

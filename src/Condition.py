@@ -195,38 +195,61 @@ class  Bisz_Cond(Condition):
 
 class  Ldm_Cond(Condition):
   def getEq(self):
-    sname, offset = Memvars.read(self.ins.getReadMemOperands()[0])
-    array = mkArray(sname)
     
-    dst = (self.write_operands)[0]
-    dsts = mkByteList((self.write_operands)[0])
-    
-    #dst = (self.write_operands)[0]
-    #dsts = map(lambda b: z3.BitVec(b,8), dst.get_bytes())
-    dsts.reverse()    
-
     conds = []
     
-    for (i,dst) in zip(range(dst.size), dsts):
-      conds.append(array[offset+i] == dst)
-
+    src = self.ins.getReadMemOperands()[0]
+    srcs = src.getLocations()
+    
+    dst = (self.write_operands)[0]
+    dsts = mkByteList(dst)
+    
+    for (src,dst) in zip(srcs, dsts):
+      sname = Memvars.read(src)
+      array = mkArray(sname)
+      conds.append(array[src.getIndex()] == dst)
+    
     return conds
+    
+    #sname, offset = Memvars.read(self.ins.getReadMemOperands()[0])
+    #array = mkArray(sname)
+    
+    #dst = (self.write_operands)[0]
+    #dsts = mkByteList((self.write_operands)[0])
+    
+    ##dst = (self.write_operands)[0]
+    ##dsts = map(lambda b: z3.BitVec(b,8), dst.get_bytes())
+    #dsts.reverse()    
+
+    #conds = []
+    
+    #for (i,dst) in zip(range(dst.size), dsts):
+    #  conds.append(array[offset+i] == dst)
+
+    #return conds
 
 class  Stm_Cond(Condition):
   def getEq(self):
+    assert(0)
+    #WIP
     
     src = self.read_operands[0]
     srcs = mkByteList(src)
     srcs.reverse()
     
+    dst = self.write_operands[0]
+    dsts = dst.getLocations()
+    
     conds = []
-    old_sname, new_sname, offset = Memvars.write(self.write_operands[0])
-      
-    old_array = mkArray(old_sname)
-    array = mkArray(new_sname)
+    
 
-    for (i,src) in zip(range(src.size), srcs):
-      array = z3.Store(array, offset + i, src)
+    for (src,dst) in zip(srcs, dsts):
+      old_sname, new_sname = Memvars.write(self.write_operands[0])
+      
+      old_array = mkArray(old_sname)
+      array = mkArray(new_sname)
+    
+      array = z3.Store(array, dst.getIndex(), src)
       
     conds = [(old_array == array)]
 
@@ -248,7 +271,12 @@ class  Eq(Condition):
     pass
   def getEq(self, x, y):
     
+    assert(x.getSizeInBytes() == y.getSizeInBytes())
+    
+    conds = []
+    
     if x.isMem() and y.isMem():
+      assert(0)
       src_name, src_offset = Memvars.read(x)
       src_array = mkArray(src_name)
       
@@ -258,15 +286,27 @@ class  Eq(Condition):
     
     elif x.isMem() and y |iss| ImmOp:
       
-      assert(y.size == 1) # y should be a BYTE
+      srcs = x.getLocations()
+      dsts = mkByteList(y)
+    
+      for (src,dst) in zip(srcs, dsts):
+        print str(x)
+        sname = Memvars.read(src)
+        src_array = mkArray(sname)
+        conds.append(src_array[src.getIndex()] == dst)
+    
+      return conds
       
-      src_name, src_offset = Memvars.read(x)
-      src_array = mkArray(src_name)
+      #assert(y.size == 1) # y should be a BYTE
       
-      dst = self.getOperands([y])
-      return [src_array[src_offset] == dst[0]]
+      #src_name, src_offset = Memvars.read(x)
+      #src_array = mkArray(src_name)
+      
+      #dst = self.getOperands([y])
+      #return [src_array[src_offset] == dst[0]]
     else:
-      src, dst = self.getOperands([x,y])
+
+      src, dst = self.getOperands([x,y])      
       return [src == dst]  
 
 

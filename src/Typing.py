@@ -25,8 +25,14 @@ def getInitialConditionsArgs(callstack):
   initial_values_at_call = dict()
   
   name = hex(callstack.currentCall())
-  arg_v = MemOp(name,"DWORD")
-  arg_v.offset = 12
+  
+  einfo = dict() 
+  einfo["source.name"]=name
+  einfo["source.index"]=callstack.currentCounter()
+  
+  arg_v = MemOp(name,"DWORD", offset=12)
+  arg_v.type = Type("Ptr32",None, einfo=einfo)
+  
   initial_values_at_call[arg_v] = ImmOp(str(0), "DWORD")
   
   return initial_values_at_call

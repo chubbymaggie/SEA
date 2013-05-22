@@ -47,12 +47,12 @@ size_in_bits = {
 
 class Operand:
 
-  def __init__(self, name, size):
+  def __init__(self, name, size, offset = 0):
     self.type = None
     self.name = str(name)
     #self.mem_source = None
-    self.offset = None
-    self.value      = None
+    self.offset = offset
+    self.value  = None
     
     self.resize(size)
   
@@ -73,6 +73,8 @@ class Operand:
   def getSizeInBits(self):
     return self.size_in_bits
     
+  def getOffset(self):
+    return self.offset
     
   def getLocations(self):
     assert(0)

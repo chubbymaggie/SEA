@@ -37,7 +37,8 @@ class MemVars:
 
   def write(self, mem_op):
     
-    sname, offset = getMemInfo(mem_op.type)
+    #sname, offset = getMemInfo(mem_op.type)
+    sname = getMemInfo(mem_op.type)
     #sname = mem_op.mem_source
     #offset = mem_op.mem_offset
 
@@ -48,11 +49,14 @@ class MemVars:
     self.createSource(sname)
     
     new_sname = sname + "_" +str(self.sources[sname])
-    return (old_sname, new_sname, offset)
+    #return (old_sname, new_sname, offset)
+    return (old_sname, new_sname)
 
   def read(self, mem_op):
   
-    sname, offset = getMemInfo(mem_op.type)
+    #sname, offset = getMemInfo(mem_op.type)
+    sname = getMemInfo(mem_op.type)
+    
     #sname = mem_op.mem_source
     #offset = mem_op.mem_offset
 
@@ -60,7 +64,7 @@ class MemVars:
       self.createSource(sname)
     
     sname = sname + "_" +str(self.sources[sname])
-    return sname, offset
+    return sname
   
   #def getOffset(self, mem_op):
   #  return mem_op.mem_offset
