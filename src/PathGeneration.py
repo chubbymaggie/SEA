@@ -29,6 +29,26 @@ import random
 
 from src.core import *
 
+class PathInfo:
+  def __init__(self, ilabels):
+    self.E_viw = dict()
+    
+    self.vi = dict()
+    labels = list(ilabels)
+    labels.insert(0,"start")
+    labels.append("end")
+    
+    for label in labels:
+      self.vi[label] = 0
+    
+    for (i, label) in enumerate(labels[:-1]):
+      self.vi[label] = self.vi[label] + 1 
+      self.E_viw[(label, self.vi[label], labels[i+1])] = True
+      
+  def E(self, v,i, w, j):
+    
+    return ((v, i, w) in self.E_viw) and j <= self.vi[w] 
+
 
 class EXISTPathGenerator(PathGenerator):
   
@@ -37,56 +57,60 @@ class EXISTPathGenerator(PathGenerator):
     self.start = start
     self.epsilon = epsilon
     
-    # for all possible labels
-    self.max_counts = dict()
+    ## for all possible labels
+    #self.max_counts = dict()
     
-    # label population
-    for (s, y) in self.epsilon:
-      for label in s:
-        self.max_counts[label] = 0
+    ## label population
+    #for (s, y) in self.epsilon:
+      #for label in s:
+        #self.max_counts[label] = 0
         
     self.train()
     
   def count(self, seq, labels):
+    pass
+    #res = dict()
     
-    res = dict()
-    
-    for label in labels:
-      res[label] = seq.count(label)
+    #for label in labels:
+      #res[label] = seq.count(label)
 	
-    return res
+    #return res
   
   def train(self):
     
-    labels = self.max_counts.keys()
-    #self.max_counts = self.count(self.epsilon[0], self.labels)
+    self.pathinfos = []
     
-    for (s, y) in self.epsilon:
+    for (i, (labels, y)) in enumerate(self.epsilon):
       if y:
-	res = self.count(s,labels)
-	
-	for label in res.keys():
-	  if (res[label] > self.max_counts[label]):
-	    self.max_counts[label] = res[label]
-    
-    for label in self.max_counts.keys():
-      print label, self.max_counts[label]
+	pi = PathInfo(labels)
+	self.pathinfos.append(pi)
+	#print pi.E_viw
   
-  def prob(self, k, res):
+  def prob(self, v,i, w,j):
     
-    if self.max_counts[k] == 0: 
-      return 0
-    return float(self.max_counts[k] - res[k])/float(self.max_counts[k])
+    count = 0
+    for pi in self.pathinfos:
+      
+      if pi.E(v,i, w, j):
+        count = count + 1
+    
+    if count == 0:
+      return 1.0
+    
+    return float(count)/float(len(self.pathinfos))
+    #if self.max_counts[k] == 0: 
+      #return 0
+    #return float(self.max_counts[k] - res[k])/float(self.max_counts[k])
   
   def select(self, seq, states):
     
-    res = self.count(seq, states)
+    v = seq[-1]
     
-    probs = map(lambda k: self.prob(k,res), states) 
+    probs = map(lambda w: self.prob(v, seq.count(v) ,w , seq.count(w)+1), states) 
     m = max(probs)
     
-    if (m == 0.0):
-      return None
+    #if (m == 0.0):
+    #  return None
     
     indexes = [i for i, j in enumerate(probs) if j == m]
     
@@ -95,9 +119,9 @@ class EXISTPathGenerator(PathGenerator):
   
   def next(self):
     self.program.reset(self.start)
-    seq = []
+    seq = ["start"]
     count = 0
-    max_count = 10
+    max_count = 20
     
     for ins in self.program:
       ##print str(ins.raw)
@@ -134,6 +158,8 @@ class EXISTPathGenerator(PathGenerator):
         else:
 	  assert(False)
 	
+	if seq[-1] == "end":
+	  break
         
     
     return seq
@@ -150,35 +176,63 @@ def detectFeasible(path):
       x = x + 1
     if l == "0x804845d":
       y = y + 1
-        
-  return (x > 0 and 2*x == y and z == 1)
+  return (x,y,z)      
+  #return (x > 0 and 2*x == y and z == 1)
   
 
 def generatePaths(filename, start, n):
   
   program = BapProgram(filename)
   random_paths = RandomPathGenerator(program, start, set())
-  epsilon = list()
+  epsilon = dict()#list()
+  
+  rand_count = 0
+  gen_count = 0
   
   for (i,path) in enumerate(random_paths):
-    epsilon.append((path, detectFeasible(path)))
+    
+    (x,y,z) = detectFeasible(path)
+    
+    
+    if (x > 0 and 2*x == y and z == 1):
+      epsilon[(x,y,z)] = (path, True)
+      rand_count = rand_count + 1
+    #epsilon.append((path, detectFeasible(path)))
         
     if (i==10000):
       break
-      
-  gen_paths = EXISTPathGenerator(program, start, set(), epsilon)
+  
+  print float(rand_count)/10000
+  
+  #print epsilon
+  
+  gen_paths = EXISTPathGenerator(program, start, set(), epsilon.values())
   paths = []
   
+  
+  
   for (i,path) in enumerate(gen_paths):
-    paths.append((path, detectFeasible(path)))
     
-    print paths[-1]
     
-    if (i==n):
+    (x,y,z) = detectFeasible(path)
+    
+    
+    #paths.append((path,(x > 0 and 2*x == y and z == 1)))
+    
+    
+    if ((x > 0 and 2*x == y and z == 1)):
+      gen_count = gen_count + 1
+    
+    #print paths[-1]
+    #if :
+      
+    
+    
+    if (i==10000):
       break
   
   #print paths
-  
+  print float(gen_count)/10000
 
       
 
