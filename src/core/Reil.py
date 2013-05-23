@@ -167,8 +167,8 @@ class REILInstruction(Instruction):
   def setMemoryAccess(self, mem_access):
     assert(mem_access <> None)
     
-    ptype = mem_access["ptype"]
-    sname, offset = getMemInfo(ptype), ptype.einfo["offset"]
+    ptype, offset = mem_access["access"]
+    sname = getMemInfo(ptype)#, ptype.einfo["offset"]
     
     # ldm: op_2 = [op_0]
     if (self.instruction == "ldm"):
@@ -182,7 +182,7 @@ class REILInstruction(Instruction):
       op.type = ptype
       #print "hola:", str(ptype)
       
-      self.read_operands.append(op)
+      self.read_operands = [op]
       
     # stm: [op_2] = op_0
     elif (self.instruction == "stm"):
@@ -195,7 +195,7 @@ class REILInstruction(Instruction):
       
       #print "hola:", str(ptype)
       
-      self.write_operands.append(op)
+      self.write_operands = [op]
       
     else:
       assert(False)

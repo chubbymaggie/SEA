@@ -67,7 +67,7 @@ class SMT:
       else:
         return z3.simplify(var[0]).as_signed_long()
     elif (op.isMem()):
-      array = z3.Array(op.mem_source, z3.BitVecSort(16), z3.BitVecSort(8))
+      array = z3.Array(op.name, z3.BitVecSort(16), z3.BitVecSort(8))
       #print "debug getValue:"
       #print op, op.mem_offset ,"->", array
       f = self.m[array]
@@ -87,10 +87,10 @@ class SMT:
       
       var = []
       
-      for i in range(op.size):
+      for loc in op.getLocations():
         byte = None
         for entry in es:
-          if op.mem_offset + i == entry[0].as_signed_long():
+          if loc.getIndex() == entry[0].as_signed_long():
             byte = entry[1]#.as_signed_long()
             break
         

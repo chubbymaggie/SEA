@@ -40,9 +40,9 @@ class FuncParametersREIL:
       fname = param_info["function"]
       ret = ret + fname + "("
       
-      for (l,p) in param_info["parameters"]:
+      for (l,t,p) in param_info["parameters"]:
         #print self.parameters[c]#["function"]
-        ret = ret  + " " +  str(l) + " := " + str(p) + ","
+        ret = ret  + " " +  str(l) + " := " + str(t)+"@" + str(p) + ","
       ret = ret + ")"
     
     return ret
@@ -62,7 +62,6 @@ class FuncParametersREIL:
     
     # first we locate the stack pointer to know where the parameters are located
     esp_op = RegOp("esp","DWORD")
-    #pbase = getTypedValueFromCode(reil_code, callstack, inputs, memaccess, esp)
     
     ptbase = getType(reil_code, callstack, memaccess, esp_op, Type("Ptr32", None)) 
     
@@ -71,26 +70,35 @@ class FuncParametersREIL:
     reil_code.reset()
     
     val = getValueFromCode(reil_code, callstack, inputs, memaccess, esp_op)
-    ptbase.addTag("offset", val)
+    #ptbase.addTag("offset", val)
     
     if str(ptbase) == "Ptr32":
       print "Unable to detect arguments for", ins.called_function
       return
     
     func_cons = funcs.get(ins.called_function, Function)
-    func = func_cons(pbase = ptbase)
-    
+    func = func_cons(pbase = (ptbase, val))
+    #assert(0)
     parameters = []
     
-    for (par_type, location, needed) in func.getParameterLocations():
+    for (par_type, memop, needed) in func.getParameterLocations():
       if needed:
+      
         reil_code.reverse()
         reil_code.reset()
-        val = getTypedValueFromCode(reil_code, callstack, inputs, memaccess, location)
+        
+        print "mem:", str(memop)
+        
+        pt = getType(reil_code, callstack, memaccess, memop, Type("Data32", None))
+        
+        reil_code.reverse()
+        reil_code.reset()
+        
+        val = getValueFromCode(reil_code, callstack, inputs, memaccess, memop)
         #print  "parameter of",ins.called_function, "at", str(location) , "has value:", val.name
-        parameters.append((location, val))
+        parameters.append((memop, pt, val))
       else:
-        parameters.append((None, None))
+        parameters.append((None, None, None))
     
     if parameters <> []:
       self.parameters[counter] = self.__getParameters__(ins, parameters)

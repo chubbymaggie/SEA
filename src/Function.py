@@ -60,19 +60,23 @@ class Function:
   
   def __locateParameter__(self, disp, size):
     
-    assert(0)
-    #WIP
+    
+    
+    ptype, offset = self.pbase
+    
+    op = MemOp(getMemInfo(ptype), size, offset=offset+disp)
+    op.type = ptype
     
     #assert(disp<=0)
-    einfo = dict()
+    #einfo = dict()
     
     
-    mem_source, mem_offset = getMemInfo(ptype), ptype.einfo["offset"] + disp
+    #mem_source, mem_offset = getMemInfo(ptype), ptype.einfo["offset"] + disp
     
     #mem_source = self.pbase.mem_source
     #mem_offset = self.pbase.mem_offset 
-    name = mem_source + "@" + str(mem_offset)
-    return Operand(name, size, einfo)
+    #name = mem_source + "@" + str(mem_offset)
+    return op
   
 class Skip_Func(Function):
   pass
@@ -90,6 +94,7 @@ class Gets_Func(Function):
       for (ptype, size, disp, needed) in self.parameter_typs:
         self.parameter_locs.append((ptype, self.__locateParameter__(disp, size), needed))
     else:
+      assert(0)
       self.__loadParameters__(pars)
       
       # populate read operands

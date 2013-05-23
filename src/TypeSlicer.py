@@ -125,6 +125,7 @@ def getType(inss, callstack, memory, op, initial_type):
   if (op |iss| AddrOp):
     return Type("Ptr32", None)
   
+  #print "hola"
   # code should be copied and reversed
   inss.reverse()
   
@@ -153,11 +154,11 @@ def getType(inss, callstack, memory, op, initial_type):
     ins_read_vars  = map(lambda op: set(op.getLocations()), ins.getReadVarOperands())
     read_locs  = concatSet(ins_read_vars)
     
-    for loc in mlocs:
-      print loc, "::", loc.type, "--",
+    #for loc in mlocs:
+    #  print loc, "::", loc.type, "--",
     
-    if (len(mlocs) > 0):
-      print "\n"
+    #if (len(mlocs) > 0):
+    #  print "\n"
     
     typeLocs(ins, callstack, tlocs)
     

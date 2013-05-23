@@ -233,7 +233,7 @@ class  Stm_Cond(Condition):
     
     src = self.read_operands[0]
     srcs = mkByteList(src)
-    srcs.reverse()
+    #srcs.reverse()
     
     dst = self.write_operands[0]
     dsts = dst.getLocations()
@@ -253,13 +253,13 @@ class  Stm_Cond(Condition):
     return conds
 
 
-# exploit conditions
+## exploit conditions
 
-class  Write_with_stm(Condition):
-  def getEq(self, value, address):
-    op_val,op_addr = self.getOperands(self.read_operands)
-    print [op_val == value, op_addr == address]
-    return [op_val == value, op_addr == address]
+#class  Write_with_stm(Condition):
+#  def getEq(self, value, address):
+#    op_val,op_addr = self.getOperands(self.read_operands)
+#    print [op_val == value, op_addr == address]
+#    return [op_val == value, op_addr == address]
   
 # generic conditions  
   

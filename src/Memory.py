@@ -37,8 +37,9 @@ class MemAccessREIL(MemAccess):
     ret = "Memory accesses detected:\n"
     
     for c in counters:
+      pt, offset = self.access[c]["access"]
       ret = ret + str(c) + " -> " + str(self.access[c]["type"]) + " : " 
-      ret = ret + str(self.access[c]["ptype"]) + "\n"#+ " @ " + str(self.access[c]["offset"]) + "\n"
+      ret = ret + str(pt) + "@" + str(offset) + "\n"#+ " @ " + str(self.access[c]["offset"]) + "\n"
     
     return ret
   
@@ -67,16 +68,15 @@ class MemAccessREIL(MemAccess):
     reil_code.reset()
     
     val = getValueFromCode(reil_code, callstack, inputs, self, addr_op)
-    pt.addTag("offset", val)
+    #pt.addTag("offset", val)
     
-    self.access[counter] = self.__mkMemAccess__(ins, pt)
+    self.access[counter] = self.__mkMemAccess__(ins, pt, val)
       
-  def __mkMemAccess__(self, ins, ptype):
+  def __mkMemAccess__(self, ins, ptype, offset):
 
     mem_access = dict()
     mem_access["type"]    = ins.instruction
     mem_access["address"] = ins.address
-    #print ptype
-    mem_access["ptype"]   = ptype
+    mem_access["access"]   = (ptype, offset)
     
     return mem_access

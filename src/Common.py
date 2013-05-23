@@ -127,11 +127,11 @@ def getValueFromCode(inss, callstack, initial_values, memory, op, debug = False)
   #print str(op)
   smt_conds.solve(False)
   
-  if op |iss| RegOp:
-    op.name = op.name+"_0"
+  #if op |iss| RegOp:
+  op.name = op.name+"_0"
     
-  elif op.isMem():
-    op.mem_source = op.mem_source+"_0"
+  #elif op.isMem():
+  #  op.mem_source = op.mem_source+"_0"
   
   callstack.index = last_index  # TODO: create a better interface
   return smt_conds.getValue(op)
