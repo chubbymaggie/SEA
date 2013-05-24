@@ -124,15 +124,10 @@ def getValueFromCode(inss, callstack, initial_values, memory, op, debug = False)
       print "#Warning__", str(v), "is free!" 
   
   #setInitialConditions(ssa, initial_values, smt_conds)
-  #print str(op)
   smt_conds.solve(debug)
   
-  #if op |iss| RegOp:
   op.name = op.name+"_0"
     
-  #elif op.isMem():
-  #  op.mem_source = op.mem_source+"_0"
-  
   callstack.index = last_index  # TODO: create a better interface
   return smt_conds.getValue(op)
   
@@ -141,104 +136,6 @@ def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = F
   
 def getPathConditions(trace):
   assert(0)
-  
-#def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = False):
-  
-  ## Initialization
-  
-  ## we reverse the code order
-  #inss.reverse()
-  
-  ## we reset the used memory variables
-  #Memvars.reset()
-  
-  ## we save the current callstack
-  #last_index = callstack.index  # TODO: create a better interface
-  
-  ## we set the instruction counter
-  #counter = len(inss)-1
-  
-  ## ssa and smt objects
-  #ssa = SSA()
-  #smt_conds  = SMT()
-  
-  #val_type = None
-  #mvars = set()
- 
-  #if (op |iss| ImmOp):
-    #return op
-  #elif (op.isMem()):
-    #for i in range(op.size):
-      #name = op.mem_source+"@"+str(op.mem_offset+i)
-      #mvars.add(Operand(name, "BYTE", op.mem_source, op.mem_offset+i))
-      ##print name
-  #else:
-    ## we will start tracking op
-    #mvars.add(op)
-    
-  ## we start without free variables
-  #fvars = set()
-  
-  #ssa.getMap(mvars, set(), set())
-
-  #for ins in inss:
-    
-    #if debug:
-      #print ">", ins.instruction, counter ,str(ins.called_function)
-
-    #if memory.getAccess(counter) <> None:
-      #ins.fixMemoryAccess(memory.getAccess(counter))
-  
-    #ins_write_vars = set(ins.getWriteVarOperands())
-    #ins_read_vars = set(ins.getReadVarOperands())
- 
-    #if len(ins_write_vars.intersection(mvars)) > 0: 
-      
-      #ssa_map = ssa.getMap(ins_read_vars.difference(mvars), ins_write_vars, ins_read_vars.intersection(mvars))
-
-      #cons = conds.get(ins.instruction, Condition)
-      #condition = cons(ins, ssa_map)
-     
-      #mvars = mvars.difference(ins_write_vars) 
-      #mvars = ins_read_vars.union(mvars)
-   
-      #smt_conds.add(condition.getEq())
-    
-    ## simple typing
-    #new_val_type = detectType(mvars, ins, counter, callstack)
-    
-    ## additional conditions
-    #mvars = addAditionalConditions(mvars, ins, ssa, callstack, smt_conds)
-    
-    #val_type = max(val_type, new_val_type)
-
-    ## no more things to do
-    ## we update the counter 
-    #counter = counter - 1    
-    ## we update the current call for next instruction
-    #callstack.prevInstruction(ins) 
-  
-  #if val_type == None:
-    #val_type = "imm"
-  
-  #for v in mvars:
-    #if not (v in initial_values):
-      #print "#Warning__", str(v), "is free!" 
-  
-  #setInitialConditions(ssa, initial_values, smt_conds)
-  #smt_conds.solve(debug)
-  
-  #if op.isReg():
-    #op.name = op.name+"_0"
-    
-  #elif op.isMem():
-    #op.mem_source = op.mem_source+"_0"
-  
-  #callstack.index = last_index  # TODO: create a better interface
-  #if (debug):
-    #print val_type, op, smt_conds.getValue(op)
-  #return mkVal(val_type, smt_conds.getValue(op))
-
 
 #def getPathConditions(trace):
   
