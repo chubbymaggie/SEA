@@ -24,8 +24,8 @@
    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
-
-from Types import *
+from __init__ import *
+#from Types import *
 
 gs = [("Data32","Num32"), ("Data32","Ptr32"), ("Data32","HPtr32"), ("Data32","SPtr32"), ("Data32","GPtr32"),
       ("Num32", "Ptr32"), ("Num32","HPtr32"), ("Num32","SPtr32"), ("Num32","GPtr32"),
@@ -78,8 +78,9 @@ def joinset(s):
     if (not isinstance(pt,Type)):
       for e in s:
         if (not isinstance(e,Type)):
-          print e.type, "--",
+          print e.__class__, "--",
         else:
+	  
           print e, "--",
       assert(0)
   

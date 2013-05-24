@@ -29,6 +29,16 @@ from json import *
 from NewOperand import *
 from Instruction import *
 
+class BinOp:
+  def __init__(self, name, op1, op2):
+    self.name = name
+    self.op1 = op1
+    self.op2 = op2
+  
+  def __str__(self):
+    return str(self.name)+"("+str(self.op1)+","+str(self.op2)+")"
+
+
 class BapInstruction(Instruction):
   
   def __readAttributes__(self, d):
@@ -40,11 +50,39 @@ class BapInstruction(Instruction):
         if 'strattr' in att:
           self.isRetV = ('ret' == att['strattr'])
   
+  def __getBinOp__(self, d):
+    
+    name = d["binop_type"]
+    op1  = self.__getExp__(d["lexp"])
+    op2  = self.__getExp__(d["rexp"])
+    
+    return BinOp(name, op1, op2)
+  
+  def __getExp__(self, d):
+    
+    if 'var' in d:
+      return self.__getVar__(d['var'])
+    if 'inte' in d:
+      return self.__getInt__(d['inte'])
+    elif 'binop' in d:
+      return self.__getBinOp__(d['binop'])
+    
+    else:
+      pass
+      #print d
+      #assert(0)
+  
   def __getInt__(self, d):
     return int(d['int'])
 
   def __getVar__(self, d):
-    return (d['name'], d['typ'])
+    
+    if ('reg' in d['typ']):
+      return RegOp(d['name'], d['typ'])
+    else:
+      pass
+      #print d['name'], d['typ']
+      #assert(False)
 
   def __getLoad__(self, d):
     return self.__getInt__(d['address']['inte'])
@@ -61,15 +99,7 @@ class BapInstruction(Instruction):
       name = hex(self.__getLoad__(d['load']))
       return pAddrOp(name, size)
     elif 'var' in d:
-      (name, t) = self.__getVar__(d['var'])
-      
-      if ('reg' in t):
-        return RegOp(name, size)
-      else:
-        print d
-        print t
-        assert(False)
-        
+      return self.__getVar__(d['var'])
     else:
       print d
       assert(False)
@@ -99,8 +129,13 @@ class BapInstruction(Instruction):
     elif ('move' in dins):
         #pass
         self.ins = 'move'
-        self.read_operands = [dins['move']['exp']]
-        self.write_operands = [dins['move']['var']]
+        exp = self.__getExp__(dins['move']['exp'])
+        
+        self.read_operands = [exp]
+        
+        self.write_operands = [self.__getVar__(dins['move']['var'])]
+        
+        #print self.write_operands[0], "=", self.read_operands[0]
         #var = dins['move']['var']
         #exp = dins['move']['exp']
         #print 'dst', var['name']

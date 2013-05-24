@@ -59,6 +59,9 @@ class Type:
     
     self.einfo[tag] = value
     
+  def copy(self):
+    return copy.copy(self)
+    
     
 def getMemInfo(ptype):
     

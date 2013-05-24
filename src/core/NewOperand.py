@@ -234,7 +234,10 @@ class MemOp(Operand):
     
     for i in range(0,self.size_in_bytes):
       loc = MemLoc(self.name,self.offset+i)
-      loc.type = self.type
+      
+      if (self.type <> None):
+        loc.type = self.type.copy()
+        loc.type.index = i
       
       #print self.name, "->", loc.type
       

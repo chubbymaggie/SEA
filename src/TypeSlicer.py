@@ -17,23 +17,41 @@
     Copyright 2013 by neuromancer
 """
 
-#foldr = lambda l,f,e: reduce(f, l, e)
 concatSet = lambda l: reduce(set.union, l, set())
 concatList = lambda l: reduce(lambda a,b: a+b, l, [])
 
 from core import *
 
-#isStackLoc(loc):
-#  t = loc.type 
-#  if (t == None):
-#    return False
-  
-#  return (t |iss| SPtr32)
-
-
 
 def typeLocs(ins, callstack, tlocs):
   
+  def detectStackChange(loc, sloc):
+    
+    i = ins.getCounter()
+    
+    print loc,loc.type
+    
+    #if (loc.type <> None):
+    #  print loc.type.index
+   
+    if i > 0 and ins.instruction == "call" and ins.called_function == None and \
+       ("SPtr32" in str(loc.type)) and loc.index >= 8:
+      #assert(0)
+      callstack.prevInstruction(ins)
+      
+      einfo = dict()
+      einfo["source.name"] = hex(callstack.currentCall())
+      einfo["source.index"] = callstack.currentCounter()
+      
+      index = (loc.index)+callstack.currentStackDiff()
+      cloc = MemLoc(loc.name,index) 
+      cloc.type = Type("SPtr32", loc.type.index, einfo)
+      
+      sloc.discard(loc)
+      sloc.add(cloc)
+      
+      callstack.nextInstruction(ins)
+      
   def detectMainParameters(loc, sloc):
     
     i = ins.getCounter()
@@ -84,6 +102,7 @@ def typeLocs(ins, callstack, tlocs):
       
       if (loc |iss| Location):
         detectImm(loc, sloc)
+        detectStackChange(loc, sloc)
         detectStackPtr(loc, sloc)
         detectHeapPtr(loc, sloc)
         detectMainParameters(loc, sloc)
