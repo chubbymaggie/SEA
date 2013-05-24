@@ -131,12 +131,14 @@ class ImmOp(Operand):
       hx = fmt % int(self.name,16)
     else:
       hx = fmt % int(self.name,10)
-
-    hx = hx[::-1]
+    
+    
+    #hx = hx[::-1]
+    #print "hx",hx
     
     for i in range(0,2*self.size_in_bytes,2):
       r.append(ImmLoc("0x"+hx[i:i+2],i/2))
-      
+    
     #r.reverse() 
     return r
 

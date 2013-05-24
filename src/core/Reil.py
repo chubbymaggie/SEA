@@ -61,7 +61,7 @@ def RegImmNoOp((name,size)):
 
 
 class REILInstruction(Instruction):
-  def __init__(self, raw_ins, mem_regs = True):
+  def __init__(self, raw_ins):
     
     pins = reil.parseString(raw_ins)
     self.address = pins.address

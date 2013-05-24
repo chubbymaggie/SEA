@@ -29,7 +29,7 @@ from NewOperand import *
 
 class Instruction:
   """An abstract instruction class"""
-  def __init__(self, raw_ins, mem_regs = True):
+  def __init__(self, raw_ins):
     pass
   
   def setMemoryAccess(self, mem_access):

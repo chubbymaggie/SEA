@@ -81,15 +81,13 @@ class FuncParametersREIL:
     #assert(0)
     parameters = []
     
-    for (par_type, memop, needed) in func.getParameterLocations():
+    for (par_pt, memop, needed) in func.getParameterLocations():
       if needed:
       
         reil_code.reverse()
         reil_code.reset()
         
-        print "mem:", str(memop)
-        
-        pt = getType(reil_code, callstack, memaccess, memop, Type("Data32", None))
+        pt = getType(reil_code, callstack, memaccess, memop, par_pt)
         
         reil_code.reverse()
         reil_code.reset()

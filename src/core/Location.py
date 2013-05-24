@@ -49,7 +49,7 @@ class Location:
 
 class ImmLoc(Location):
   def __str__(self):
-    return self.name
+    return str(self.__int__(self.name))
   
   def __int__(self, base=10):
   

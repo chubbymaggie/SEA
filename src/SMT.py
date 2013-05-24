@@ -32,22 +32,13 @@ class SMT:
       #print c
       self.solver.add(c)
 
-  #def isEmpty(self):
-  #  return not (self.has_conds)
-
-  def solve(self, debug = True):
+  def solve(self, debug = False):
     
-    if True:
-        print self.solver
+    if debug:
+      print self.solver
     
     if (self.solver.check() == z3.sat):
       self.m = self.solver.model()
-      
-    #else:
-    #  print "unsat :("
-    #  #print self.solver
-    #  assert(0)
-    
   
   def is_sat(self):
     return (self.solver.check() == z3.sat)
@@ -57,9 +48,6 @@ class SMT:
     
     if (op |iss| RegOp):
       
-      #if (literal):
-      #  
-      #
       var = map(lambda b: z3.BitVec(str(b),8), op.getLocations())
       var = map(lambda b: self.m[b], var)
       if (len(var) > 1):
@@ -68,28 +56,18 @@ class SMT:
         return z3.simplify(var[0]).as_signed_long()
     elif (op.isMem()):
       array = z3.Array(op.name, z3.BitVecSort(16), z3.BitVecSort(8))
-      #print "debug getValue:"
-      #print op, op.mem_offset ,"->", array
       f = self.m[array]
-      #print f
-      #
-      #var = map(lambda b: z3.BitVec(b,8), op.get_bytes())
-      #var = map(lambda b: self.m[b], var)
-      #
-      ##if (self.m):
-      #print "eax:"
-      #print "%x" % self.m[eax].as_unsigned()
-      #assert(0)
-      ##print op.mem_source
-      ##print op.mem_offset
+      
+      #print self.m
       
       es = f.as_list()[:-1]
-      
+
       var = []
       
       for loc in op.getLocations():
         byte = None
         for entry in es:
+          #print entry
           if loc.getIndex() == entry[0].as_signed_long():
             byte = entry[1]#.as_signed_long()
             break
@@ -99,7 +77,7 @@ class SMT:
           
         var.append(byte)
         
-      var.reverse()
+      #var.reverse()
       
       if (len(var) > 1):  
         return z3.simplify(z3.Concat(var)).as_signed_long()
@@ -107,14 +85,6 @@ class SMT:
         return z3.simplify(var[0]).as_signed_long()
     else:
       assert(0)
-      #print es
-      #print op.mem_offset
-      #print type(es[op.mem_offset][0])
-      
-      #if (len(es) > op.mem_offset):
-      #  return es[op.mem_offset][1]
-      #else:
-      #  return f.else_value()
 
 
   def write_sol_file(self,filename):

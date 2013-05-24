@@ -39,7 +39,7 @@ class MemAccessREIL(MemAccess):
     for c in counters:
       pt, offset = self.access[c]["access"]
       ret = ret + str(c) + " -> " + str(self.access[c]["type"]) + " : " 
-      ret = ret + str(pt) + "@" + str(offset) + "\n"#+ " @ " + str(self.access[c]["offset"]) + "\n"
+      ret = ret + str(pt) + "@" + str(offset) + "\n"
     
     return ret
   

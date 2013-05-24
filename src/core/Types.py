@@ -62,10 +62,9 @@ class Type:
     
 def getMemInfo(ptype):
     
-    mem_source = str(ptype.einfo["source.name"])+str(ptype.einfo["source.index"])
-    #mem_offset = ptype.einfo["offset"]
-    return (mem_source)
-    
+  name = str(ptype.einfo["source.name"])+"."+str(ptype.einfo["source.index"])
+  return name
+
 ptypes = [Type("Data32", None), 
           Type("Num32", None) , 
           Type("Ptr32", None) , 

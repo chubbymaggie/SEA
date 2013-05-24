@@ -82,7 +82,7 @@ class Skip_Func(Function):
   pass
 
 class Gets_Func(Function):
-  parameter_typs = [("char * str", "DWORD", 0, True)]
+  parameter_typs = [(Type("Ptr32",None), "DWORD", 0, True)]
   return_type    = "void"
   
   def __init__(self, pbase = None, pars = None):
@@ -113,7 +113,7 @@ class Gets_Func(Function):
 
 
 class Strlen_Func(Function):
-  parameter_typs = [("char * str", "DWORD", 0, True)]
+  parameter_typs = [(Type("Ptr32",None), "DWORD", 0, True)]
   return_type    = "int"
   
   def __init__(self, pbase = None, pars = None):
@@ -135,7 +135,7 @@ class Strlen_Func(Function):
       self.write_operands.append(Operand("eax", "DWORD"))  
       
 class Strcpy_Func(Function):
-  parameter_typs = [("char * str", "DWORD", 0, True), ("char * str", "DWORD", 4, True)]
+  parameter_typs = [(Type("Ptr32",None), "DWORD", 0, True), (Type("Ptr32",None), "DWORD", 4, True)]
   return_type    = "void"
   
   def __init__(self, pbase = None, pars = None):
@@ -171,7 +171,7 @@ class Strcpy_Func(Function):
         self.write_operands.append(Operand(name, "BYTE", mem_source, mem_offset))
 
 class Alloc_Func(Function):
-  parameter_typs = [("int", "DWORD", 0, True)]
+  parameter_typs = [(Type("Num32",None), "DWORD", 0, True)]
   return_type    = "void *"
   
   def __init__(self, pbase = None, pars = None):
@@ -189,7 +189,7 @@ class Alloc_Func(Function):
       self.__loadParameters__(pars)
 
 class Free_Func(Function):
-  parameter_typs = [("void *", "DWORD", 0, True)]
+  parameter_typs = [(Type("Ptr32",None), "DWORD", 0, True)]
   return_type    = "void"
   
   def __init__(self, pbase = None, pars = None):

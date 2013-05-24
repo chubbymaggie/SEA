@@ -125,7 +125,7 @@ def getValueFromCode(inss, callstack, initial_values, memory, op, debug = False)
   
   #setInitialConditions(ssa, initial_values, smt_conds)
   #print str(op)
-  smt_conds.solve(False)
+  smt_conds.solve(debug)
   
   #if op |iss| RegOp:
   op.name = op.name+"_0"
