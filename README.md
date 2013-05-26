@@ -4,15 +4,23 @@
 
 This project is developed in colaboration between the research institutes [CIFASIS](http://www.cifasis-conicet.gov.ar/) (Rosario, Argentina) and [VERIMAG](http://www-verimag.imag.fr) (Grenoble, France) in an effort to improve security in binary programs.
 
-
 ### Features
 
-* Fully symbolic analysis
-* Assisted exploitation of stack overflow
-* Assisted exploitation of dangling pointers
+* Fully symbolic analysis.
+* Assisted exploitation of stack overflow.
+* Assisted exploitation of dangling pointers.
 * Detection of unfeasible paths.
 * Detection of heap overflow, memory leaks and use-after-free.
-* Intra-procedual support (partial)
+* Intra-procedual support (wip).
+
+### Development
+
+The master branch represents a POC of SEA. A cleaned and extensible version of this tool is being developed 
+in the work in progress (wip) branch as well as the toolkit for binary analysis in Python. Some of the 
+features are broken in the wip branch right now. 
+
+Documentation, examples and more can be found in the [wiki](https://github.com/neuromancer/SEA/wiki). The [issue tracker](https://github.com/neuromancer/SEA/issues) is available.
+Discusson for support or collaboration is available in #sea-tool @ irc.freenode.net
 
 ### Quick Start
 
@@ -29,10 +37,5 @@ Another interesting example to test detection of memory use is:
 
 An **explained analysis** of it is [here](https://github.com/neuromancer/SEA/wiki/Use-after-free-1).
 
-### There is always a catch..
-
 **NOTE**: Right now, SEA uses REIL code as input, to analyze a path. Unfortunately, REIL can be **only** generated from an executable file using [BinNavi](http://www.zynamics.com/binnavi.html) which runs in the top of [IDA-Pro](https://www.hex-rays.com/products/ida/index.shtml) (two proprietary and expensive programs)
-Hopefully, this will change soon when SEA supports open frameworks for binary analysis like Bincoa or BAP.
-
-Documentation, examples and more can be found in the [wiki](https://github.com/neuromancer/SEA/wiki). The [issue tracker](https://github.com/neuromancer/SEA/issues) is available.
-Discusson for support or collaboration is available in #sea-tool @ irc.freenode.net
+In the wip branch, the support of BAP aims to fix this issue.
