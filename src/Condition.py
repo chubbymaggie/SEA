@@ -18,9 +18,14 @@
 """
 
 import sys
-sys.path.append("z3py/build/")
 
-import z3
+try:
+
+  sys.path.append("z3py/build/")
+  import z3
+
+except:
+  sys.exit("You should run bootstrap.sh to download and compile z3 support") 
 
 from core import *
 from MemVars import Memvars
