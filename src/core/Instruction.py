@@ -29,34 +29,45 @@ from NewOperand import *
 
 class Instruction:
   """An abstract instruction class"""
+
   def __init__(self, raw_ins):
+    """Creates a new instruction from raw data"""
     pass
   
   def setMemoryAccess(self, mem_access):
+    """Set the memory address accessed by the instruction updating its read/write operands"""
     pass
     
   def getCounter(self):
+    """Returns the counter set by an instruction path"""
     return self.counter
 
   def getOperands(self):
+    """Returns the list of all operands"""
     return list(self.read_operands + self.write_operands)
   
   def getReadOperands(self):
+    """Returns the list of read operands"""
     return list(self.read_operands)
 
   def getWriteOperands(self):
+    """Returns the list of written operands"""
     return list(self.write_operands)
 
   def getReadRegOperands(self):
+    """Returns the list of operand that are read registers"""
     return filter(lambda o: o |iss| RegOp, self.read_operands)
 
   def getWriteRegOperands(self):
+    """Returns the list of operands that are written registers"""
     return filter(lambda o: o |iss| RegOp, self.write_operands)
   
   def getReadVarOperands(self):
+    """Returns the list of read operands that are not constant"""
     return filter(lambda o: o.isVar(), self.read_operands)
 
   def getWriteVarOperands(self):
+    """Returns the list of written operand that are not constants""" 
     return filter(lambda o: o.isVar(), self.write_operands)
   
   def getReadMemOperands(self):
@@ -66,16 +77,26 @@ class Instruction:
     return filter(lambda o: o.isMem(), self.write_operands)
   
   def getMemReg(self):
+    """Returns the register operand used for memory addressing (or None)"""
     return self.mem_reg 
-    
+  
+  def isReadWrite(self):
+    """Returns if the instruction is reading or writting the memory"""
+    #print self.mem_reg
+    return self.mem_reg <> None  
+  
   def isCall(self):
+    """Returns if the instruction is a call"""
     pass
   def isRet(self):
+    """Returns if the instruction is a ret"""
     pass
     
   def isJmp(self):
+    """Returns if the instruction is an unconditional jmp"""
     pass
     
   def isCJmp(self):
+    """Returns if the instruction is a conditional jmp"""
     pass
 

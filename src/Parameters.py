@@ -23,7 +23,7 @@ from Function    import *
 from Common      import getValueFromCode
 from TypeSlicer   import getType
 
-class FuncParametersREIL:
+class FuncParameters:
   def __init__(self):
     self.parameters = dict()
     

@@ -102,10 +102,10 @@ def typeLocs(ins, callstack, tlocs):
       
       if (loc |iss| Location):
         detectImm(loc, sloc)
-        detectStackChange(loc, sloc)
+        #detectStackChange(loc, sloc)
         detectStackPtr(loc, sloc)
         detectHeapPtr(loc, sloc)
-        detectMainParameters(loc, sloc)
+        #detectMainParameters(loc, sloc)
   
 def checkType(tlocs):
   pt_name = tlocs[0].name
@@ -136,6 +136,9 @@ def trackLocs(ins, tlocs, read_ops, write_ops):
 	  sloc.add(read_locs[i])
 
 def getType(inss, callstack, memory, op, initial_type):
+  
+  #print inss.first, inss.last
+  #print inss[-2] 
   assert(len(inss) > 0)
   
   if (op |iss| ImmOp):

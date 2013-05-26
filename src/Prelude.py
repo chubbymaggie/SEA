@@ -19,55 +19,61 @@
 
 from core        import *
 from Inputs      import parse_inputs
-from Memory      import MemAccessREIL
-from Parameters  import FuncParametersREIL
-from Callstack   import Callstack as CS
+from Memory      import MemAccess
+from Parameters  import FuncParameters
+from Callstack   import Callstack
 from Allocation  import Allocation
 
-def mkTrace(trace_filename, first, last, raw_inputs):
+
+def mkPath(pathf, first, last):
+  if (".reil" in pathf):
+    return ReilPath(pathf, first, last)
+  else:
+    print "I don't know how to read "+pathf+"."
+    assert(0)
+
+
+def mkTrace(pathf, first, last, raw_inputs):
     
     print "Loading trace.."
-    reil_code = ReilPath(trace_filename, first, last)
+    path = mkPath(pathf, first, last)
     
-    Inputs = parse_inputs(raw_inputs)
+    inputs = parse_inputs(raw_inputs)
     
-    if (raw_inputs <> []):
-      print "Using these inputs.."
+    #if (raw_inputs <> []):
+    #  print "Using these inputs.."
     
-      for op in Inputs:
-        print op,"=", Inputs[op]
+    #  for op in Inputs:
+    #    print op,"=", Inputs[op]
     
     print "Detecting callstack layout..."
-    Callstack = CS(reil_code)#, Inputs) #TODO: it should recieve inputs also!
+    callstack = Callstack(path)#, Inputs) #TODO: it should recieve inputs also!
+    print callstack
     
-    reil_code.reset()
+    allocationLog = Allocation()
+    memAccess = MemAccess()
+    funcParameters = FuncParameters()
     
-    print Callstack
-    
-    AllocationLog = Allocation()
-    MemAccess = MemAccessREIL()
-    FuncParameters = FuncParametersREIL()
-    
-    reil_size = len(reil_code)
+    path_size = len(path)
     start = 0  
-  
-    Callstack.reset()
+    
+    # we reset path iterator and callstack
+    path.reset()
+    callstack.reset()
     
     print "Detecting memory accesses and function parameters.."
   
-    for (end,ins) in enumerate(reil_code):
+    for ins in path:
       
-      Callstack.nextInstruction(ins)
-      
-      if ins.instruction in ["stm", "ldm"]:
-	
-        MemAccess.detectMemAccess(reil_code[start:end+1], Callstack, Inputs, end)
+      counter = ins.getCounter()
+      callstack.nextInstruction(ins)
+      #print ins,counter
+      if ins.isReadWrite():
+        memAccess.detectMemAccess(path[0:counter+1], callstack, inputs, counter)
         #AllocationLog.check(MemAccess.getAccess(end), end)
         
       elif ins.isCall() and ins.called_function <> None:
-        
-        #print "detect parameters of", ins.called_function, "at", ins.getCounter()
-        FuncParameters.detectFuncParameters(reil_code[start:end+1], MemAccess, Callstack, Inputs, end)
+        funcParameters.detectFuncParameters(path[0:counter+1], memAccess, callstack, inputs, counter)
         pass
         #if (ins.called_function == "malloc"):
           
@@ -81,22 +87,22 @@ def mkTrace(trace_filename, first, last, raw_inputs):
           #AllocationLog.free(ptr, end)
     
     
-    print MemAccess
-    print FuncParameters
-    AllocationLog.report()
+    print memAccess
+    print funcParameters
+    allocationLog.report()
     
     
-    Callstack.reset()
-    reil_code.reset()
+    callstack.reset()
+    path.reset()
     
     # trace definition
     trace = dict()
-    trace["code"] = reil_code
-    trace["initial_conditions"] = Inputs
+    trace["code"] = path
+    trace["initial_conditions"] = inputs
     trace["final_conditions"] = dict()
-    trace["callstack"] = Callstack
-    trace["mem_access"] = MemAccess
-    trace["func_parameters"] = FuncParameters
+    trace["callstack"] = callstack
+    trace["mem_access"] = memAccess
+    trace["func_parameters"] = funcParameters
     
     return trace
 

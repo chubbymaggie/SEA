@@ -108,6 +108,11 @@ class Operand:
     return self.name
 
   def __cmp__(self, op):
+    
+    if op == None:
+      #print op
+      return -1
+    
     return cmp(self.name,op.name)
   
   def __hash__(self):

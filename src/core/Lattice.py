@@ -24,8 +24,8 @@
    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
+
 from __init__ import *
-#from Types import *
 
 gs = [("Data32","Num32"), ("Data32","Ptr32"), ("Data32","HPtr32"), ("Data32","SPtr32"), ("Data32","GPtr32"),
       ("Num32", "Ptr32"), ("Num32","HPtr32"), ("Num32","SPtr32"), ("Num32","GPtr32"),
@@ -39,8 +39,6 @@ for (pt1, pt2) in gs:
     mlattice[pt1, pt2] = 1
     mlattice[pt2, pt1] = -1
     
-#import lattice
-
 def propagateInfo(pt1_info, pt2_info):
   if (pt1_info == pt2_info):
     return pt1_info
@@ -52,25 +50,27 @@ def propagateInfo(pt1_info, pt2_info):
     return pt1_info
 
 def join(pt1, pt2):
-    p = (pt1.name, pt2.name)
+  """ 
+     Select the supremum of two primitive types
+     combining their addition information
+  """
+  p = (pt1.name, pt2.name)
     
-    einfo = propagateInfo(pt1.einfo, pt2.einfo)
+  einfo = propagateInfo(pt1.einfo, pt2.einfo)
     
-    if p in mlattice and pt1.index == pt2.index:
-        if mlattice[p] >= 0:
-
-	  pt2.setInfo(einfo)
-          return pt2
+  if p in mlattice and pt1.index == pt2.index:
+    if mlattice[p] >= 0:
+      pt2.setInfo(einfo)
+      return pt2
           
-        if mlattice[p] < 0:
-	  
-	  pt1.setInfo(einfo)
-          return pt1
-    else:
-      return Type("Bot32", None)
+    if mlattice[p] < 0:
+      pt1.setInfo(einfo)
+      return pt1
+  else:
+    return Type("Bot32", None)
       
 def joinset(s):
-  
+  """ Perform join of all the elements in a set """ 
   assert(len(s) > 0)
   
   for pt in s:
@@ -91,5 +91,3 @@ def joinset(s):
   
   
   return r
-
-#print join(Type("HPtr32"), Type("GPtr32"))

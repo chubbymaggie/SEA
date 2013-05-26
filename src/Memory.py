@@ -22,10 +22,6 @@ from Common      import getValueFromCode
 from TypeSlicer   import getType
   
 class MemAccess:
-  def getAccess(self, addr):
-    pass  
-
-class MemAccessREIL(MemAccess):
   def __init__(self):
     self.access = dict()
   
@@ -51,10 +47,10 @@ class MemAccessREIL(MemAccess):
     return None
 
   def detectMemAccess(self, reil_code, callstack, inputs, counter):
-    #index = callstack.index
+    #print reil_code.first, reil_code.last
     ins = reil_code[-1]
     
-    assert(ins.instruction in ["stm", "ldm"])
+    assert(ins.isReadWrite()) 
     addr_op = ins.getMemReg()
     pt = getType(reil_code, callstack, self, addr_op, Type("Ptr32", None)) 
     
@@ -68,7 +64,6 @@ class MemAccessREIL(MemAccess):
     reil_code.reset()
     
     val = getValueFromCode(reil_code, callstack, inputs, self, addr_op)
-    #pt.addTag("offset", val)
     
     self.access[counter] = self.__mkMemAccess__(ins, pt, val)
       
