@@ -129,7 +129,7 @@ class BapInstruction(Instruction):
     
     # # for call instructions
     self.called_function = None
-    self.ins = None
+    self.instruction = None
     self.raw = str(dins)
     self.isCallV = False
     self.isRetV  = False
@@ -139,7 +139,7 @@ class BapInstruction(Instruction):
       assert(False)
     elif ('move' in dins):
         #pass
-        self.ins = 'move'
+        self.instruction = 'move'
         
         print "moving to:", self.__getVar__(dins['move']['var']) 
         
@@ -155,7 +155,7 @@ class BapInstruction(Instruction):
         #print 'dst', var['name']
         #print 'src', exp
     elif ('jmp' in dins):
-        self.ins = 'jmp'
+        self.instruction = 'jmp'
         #self.isJmp = True
         self.__readAttributes__(dins['jmp'])
         
@@ -164,7 +164,7 @@ class BapInstruction(Instruction):
             
         #print 'jmp:', dins['jmp']
     elif ('cjmp' in dins):
-        self.ins = 'cjmp'
+        self.instruction = 'cjmp'
         #self.isJmp = True
         self.__readAttributes__(dins['cjmp'])
         
@@ -178,7 +178,7 @@ class BapInstruction(Instruction):
                   
          
     else:
-        self.ins = "xxx"
+        self.instruction = "xxx"
         #assert(False)
         
         
@@ -188,10 +188,10 @@ class BapInstruction(Instruction):
     return self.isRetV
     
   def isJmp(self):
-    return self.ins == "jmp"
+    return self.instruction == "jmp"
     
   def isCJmp(self):
-    return self.ins == "cjmp"
+    return self.instruction == "cjmp"
     
 
 def BapParser(filename):

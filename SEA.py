@@ -27,6 +27,7 @@ from src.Common             import getPathConditions
 from src.JumpConditions     import getJumpConditions
 from src.PathSelection      import selectPath
 from src.PathGeneration     import generatePaths
+from src.Lifting            import mkPath, mkProgram
 
 parser = argparse.ArgumentParser(description='Symbolic Exploit Assistant.')
 parser.add_argument('trace_filename', metavar='trace', type=str,
@@ -60,8 +61,8 @@ if (mode == 'debug'):
   
   first = int(args.first)
   last  = int(args.last) 
-  
-  trace = mkTrace(args.trace_filename, first, last, args.iconditions)
+  path = mkPath(args.trace_filename, first, last)
+  trace = mkTrace(path, args.iconditions)
   
 if (mode == "jump"):
   
@@ -69,16 +70,28 @@ if (mode == "jump"):
   last  = int(args.last) 
   
   address = args.address
-  trace = mkTrace(args.trace_filename, first, last, args.iconditions)
-  
+  path = mkPath(args.trace_filename, first, last)
+
+  trace = mkTrace(path, args.iconditions)
+
+  assert(0)
+
   if (address == None):
     print "An address to jump to should be specified!"
   else:
     getJumpConditions(trace, address)
 
 elif (mode == 'path'): 
+
+  first = int(args.first)
+  last  = int(args.last) 
   
-  trace = mkTrace(args.trace_filename, args.first, args.last, args.iconditions)
+  address = args.address
+  path = mkPath(args.trace_filename, first, last)
+
+  trace = mkTrace(path, args.iconditions)
+  
+  assert(0)
   
   # TODO: move to PathConditions.py?
   sol = getPathConditions(trace)
@@ -100,7 +113,8 @@ elif (mode == 'generation'):
   
   if (args.first == 0):
     print "WARNING: ..."
-  
-  generatePaths(args.trace_filename,args.first, 2000)
+
+  program = mkProgram(args.trace_filename) 
+  generatePaths(program,args.first, 2000)
     
 

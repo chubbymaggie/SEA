@@ -25,64 +25,22 @@
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from __init__ import *
+from src.core import *
 
-class PathGenerator:
-  def __init__(program, start, ends, max_count):
-    pass
-  
-  def __iter__(self):
-    return self 
-    
-  def next(self):
-    pass
-  
-  
-import random  
+def mkPath(pathf, first, last):
+  if (".reil" in pathf):
+    return ReilPath(pathf, first, last)
+  else:
+    print "I don't know how to read "+pathf+"."
+    assert(0)
 
-class RandomPathGenerator(PathGenerator):
-  
-  def __init__(self, program, start, ends, max_count = 1000):
-    self.program = program
-    self.start = start
-    self.max_count = max_count
-  
-  def next(self):
-  
-    self.program.reset(self.start)
-    branches_taken = []
-    code = []
-    count = 0
-    for ins in self.program:
-      #print str(ins.ins_raw)
-      #print ins
-      code.append(ins)
-      if count == self.max_count:
-        break
-      
-      #if branches_taken <> []:
-        #print "last:", branches_taken[-1]
-  
-      if ins.isJmp():
-	#print ins.branchs[0]
-        pass
-        #if str(ins.branchs[0]) == "0x8048890":
-          #branches_taken.append("exit")
-          #break
-      
-        #if str(ins.branchs[0]) == "0x8048800":
-          #branches_taken.append("__stack_chk_fail")
-          #break
-    
-      elif ins.isCJmp():
-        count = count + 1
-        i = bool(random.randint(0,1))
-        #print ins.branchs[0], ins.branchs[1]  
-        if i == False:
-          branches_taken.append(self.program.selectFalseBranch())
-        elif i == True:
-          branches_taken.append(self.program.selectTrueBranch())
-    
-    path = AbsPath(0, len(code), code)
+def mkProgram(pathf):
+  if (".reil" in pathf):
+     return ReilProgram(pathf)
+  elif (".json" in pathf):
+    return BapProgram(pathf)
+  else:
+    print "I don't know how to lift "+pathf+"."
+    assert(0)
 
-    return (path, branches_taken)
+

@@ -59,13 +59,13 @@ def RegImmNoOp((name,size)):
   except ValueError:
     return RegOp(name,size)
 
-
 class REILInstruction(Instruction):
   def __init__(self, raw_ins):
     
     pins = reil.parseString(raw_ins)
     self.address = pins.address
     self.instruction = pins.instruction
+    self.branchs = []
     self.counter = None
     self.operands = []
     
@@ -125,6 +125,19 @@ class REILInstruction(Instruction):
       #pass
       self.operands = map(RegImmNoOp, self.operands)
       self.read_operands  = filter(lambda o: not (o |iss| NoOp), self.operands[0:3])
+      addr_size = "DWORD"      
+      #print self.address, self.read_operands[0], self.read_operands[0].__class__ 
+      
+      if ( self.read_operands[-1] |iss| ImmOp): # jmp to a constant address
+
+        self.branchs = [self.__mkReilAddr__(self.read_operands[-1])]
+
+        if (self.read_operands[0] |iss| ImmOp):
+          # cjmp
+          #print "cjmp!"
+          pass
+          #self.branchs.append(NoOp("EMPTY",0))
+
       self.write_operands = []
       
     elif (pins.instruction == "call"):
@@ -199,6 +212,11 @@ class REILInstruction(Instruction):
       
     else:
       assert(False)
+  def __mkReilAddr__(self, op):
+    addr_size = "DWORD"
+    name = hex(op.getValue())+"0000"
+    return AddrOp(name,addr_size)
+
   
   def isCall(self):
     return self.instruction == "call"
@@ -217,10 +235,28 @@ class REILInstruction(Instruction):
     
     return r
   
+  def isJmp(self):
+    return self.instruction == "jcc" and self.read_operands[0] |iss| ImmOp
+    
+  def isCJmp(self):
+    return self.instruction == "jcc" and not(self.read_operands[0] |iss| ImmOp)
+ 
 def ReilParser(filename):
     openf = open(filename)
     r = []
     for raw_ins in openf.readlines():
+      
+      # TODO: create REILLabel class
+      pins = reil.parseString(raw_ins)
+      label = hex(int(pins.address,16))      
+      addr_op = AddrOp(label, size)
+      
+      if (r <> []):
+        if r[-1].isCJmp(): # if last was conditional jmp
+          assert(r[-1].branchs <> [])
+          r[-1].branchs.append(addr_op) # next instruction is the missing label in branchs
+
+      r.append(addr_op)
       r.append(REILInstruction(raw_ins))
     
     return r

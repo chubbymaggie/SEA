@@ -27,7 +27,11 @@
 
 import random
 
-from src.core import *
+from core import *
+
+from Lifting import *
+from Prelude import *
+
 
 class PathInfo:
   def __init__(self, ilabels):
@@ -180,28 +184,34 @@ def detectFeasible(path):
   #return (x > 0 and 2*x == y and z == 1)
   
 
-def generatePaths(filename, start, n):
-  
-  program = BapProgram(filename)
+def generatePaths(program, start, n):
+
+  #assert(0)
   random_paths = RandomPathGenerator(program, start, set())
   epsilon = dict()#list()
-  
   rand_count = 0
   gen_count = 0
   
-  for (i,path) in enumerate(random_paths):
+  for (i,(path, labels)) in enumerate(random_paths):
+    #print "hola" 
+    #for ins in path:
+    #  print ins,
+    #print "end"
+    #(x,y,z) = detectFeasible(path)
     
-    (x,y,z) = detectFeasible(path)
     
-    
-    if (x > 0 and 2*x == y and z == 1):
-      epsilon[(x,y,z)] = (path, True)
-      rand_count = rand_count + 1
+    #if (x > 0 and 2*x == y and z == 1):
+    #  epsilon[(x,y,z)] = (path, True)
+    #  rand_count = rand_count + 1
     #epsilon.append((path, detectFeasible(path)))
-        
-    if (i==10000):
+    print len(path)
+    path.reset()
+    mkTrace(path, [])
+    
+    if (i==3):
       break
-  
+ 
+  assert(0) 
   print float(rand_count)/10000
   
   #print epsilon

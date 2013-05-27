@@ -23,20 +23,13 @@ from Memory      import MemAccess
 from Parameters  import FuncParameters
 from Callstack   import Callstack
 from Allocation  import Allocation
+from Lifting     import *
 
 
-def mkPath(pathf, first, last):
-  if (".reil" in pathf):
-    return ReilPath(pathf, first, last)
-  else:
-    print "I don't know how to read "+pathf+"."
-    assert(0)
-
-
-def mkTrace(pathf, first, last, raw_inputs):
+def mkTrace(path, raw_inputs):
     
-    print "Loading trace.."
-    path = mkPath(pathf, first, last)
+    #print "Loading trace.."
+    #path = mkPath(pathf, first, last)
     
     inputs = parse_inputs(raw_inputs)
     

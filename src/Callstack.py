@@ -181,7 +181,7 @@ class Callstack:
     return Operand(name,"BYTE", mem_source, mem_offset)
   
   def __getStackDiff__(self, ins, reil_code):
-    
+    print ins 
     addr = ins.address
     if ins.isCall():
       call = int(addr, 16)

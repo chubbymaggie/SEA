@@ -33,8 +33,12 @@ from Lattice    import *
 from Reil       import ReilParser#, ReilInstruction
 from Bap        import BapParser#, BapInstruction
 
+ReilProgram = lambda trace_filename: Program(trace_filename,ReilParser) 
+ReilPath    = lambda trace_filename,first,last: Path(first, last, filename = trace_filename, parser = ReilParser)
+AbsPath     = lambda first, last,code: Path(first, last, code = code)
+BapProgram  = lambda program_filename: Program(program_filename, BapParser)
+BapPath     = lambda first, last, program_code: Path(first, last, code = program_code)
+
 from PathGenerator import *
 
-ReilPath   = lambda trace_filename,first,last: Path(first, last, filename = trace_filename, parser = ReilParser)
-BapProgram = lambda program_filename: Program(program_filename, BapParser)
-BapPath    = lambda first, last, program_code: Path(first, last, code = program_code)
+
