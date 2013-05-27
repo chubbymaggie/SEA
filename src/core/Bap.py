@@ -58,6 +58,15 @@ class BapInstruction(Instruction):
     
     return BinOp(name, op1, op2)
   
+  def __getStore__(self, d):
+    address = self.__getExp__(d['address'])
+    value = self.__getExp__(d['value'])
+ 
+    print address, "->", value
+    endian = d['endian']
+    assert(0)
+
+
   def __getExp__(self, d):
     
     if 'var' in d:
@@ -66,11 +75,13 @@ class BapInstruction(Instruction):
       return self.__getInt__(d['inte'])
     elif 'binop' in d:
       return self.__getBinOp__(d['binop'])
-    
+    elif 'store' in d:
+      return self.__getStore__(d['store'])
     else:
-      pass
-      #print d
-      #assert(0)
+      #pass
+      print "exp:"
+      print d
+      assert(0)
   
   def __getInt__(self, d):
     return int(d['int'])
@@ -80,9 +91,9 @@ class BapInstruction(Instruction):
     if ('reg' in d['typ']):
       return RegOp(d['name'], d['typ'])
     else:
-      pass
-      #print d['name'], d['typ']
-      #assert(False)
+      #pass
+      print d['name'], d['typ']
+      assert(False)
 
   def __getLoad__(self, d):
     return self.__getInt__(d['address']['inte'])
@@ -129,6 +140,9 @@ class BapInstruction(Instruction):
     elif ('move' in dins):
         #pass
         self.ins = 'move'
+        
+        print "moving to:", self.__getVar__(dins['move']['var']) 
+        
         exp = self.__getExp__(dins['move']['exp'])
         
         self.read_operands = [exp]
