@@ -126,16 +126,129 @@ def getValueFromCode(inss, callstack, initial_values, memory, op, debug = False)
   #setInitialConditions(ssa, initial_values, smt_conds)
   smt_conds.solve(debug)
   
-  op.name = op.name+"_0"
+  renamed_name = op.getName()+"_0"
+  renamed_size = op.getSizeInBits()
+  renamed_offset = op.getOffset()
+  renamed_op = op.__class__(renamed_name, renamed_size, renamed_offset)
     
   callstack.index = last_index  # TODO: create a better interface
-  return smt_conds.getValue(op)
+  return smt_conds.getValue(renamed_op)
   
 def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = False):
   assert(0)
+
+      
+def getPathConditions(trace, debug = True):
   
-def getPathConditions(trace):
-  assert(0)
+  # Initialization
+  inss = trace["code"]
+  callstack = trace["callstack"]
+  
+  memory = trace["mem_access"]
+  parameters = trace["func_parameters"]
+ 
+  # we reverse the code order
+  inss.reverse()
+  
+  # we reset the used memory variables
+  Memvars.reset()
+  
+  # we save the current callstack
+  last_index = callstack.index  # TODO: create a better interface
+  
+  # we set the instruction counter
+  #counter = len(inss)-1
+  
+  # ssa and smt objects
+  ssa = SSA()
+  smt_conds  = SMT()
+  
+  mvars = set()
+  mlocs = set()
+ 
+  #if (op |iss| ImmOp or op |iss| AddrOp):
+  #  return op.getValue()
+  
+  #mvars.add(op)
+  #mlocs = set(op.getLocations())
+  
+  # we start without free variables
+  fvars = set()
+  
+  ssa.getMap(mvars, set(), set())
+
+  for ins in inss:
+    
+    counter = ins.getCounter()
+    
+    if debug:
+      print str(counter) + ":", ins.instruction
+      for v in mvars:
+        print v, "--",
+      print ""
+
+    if memory.getAccess(counter) <> None:
+      ins.setMemoryAccess(memory.getAccess(counter))
+  
+    ins_write_vars = set(ins.getWriteVarOperands())
+    ins_read_vars = set(ins.getReadVarOperands())
+    
+    write_locs = concatSet(map(lambda op: set(op.getLocations()), ins.getWriteVarOperands()))
+    read_locs  = concatSet(map(lambda op: set(op.getLocations()), ins.getReadVarOperands() ))
+    
+    if ins.isJmp() or ins.isCJmp() or len(write_locs.intersection(mlocs)) > 0: 
+      
+      ssa_map = ssa.getMap(ins_read_vars.difference(mvars), ins_write_vars, ins_read_vars.intersection(mvars))
+
+      cons = conds.get(ins.instruction, Condition)
+      condition = cons(ins, ssa_map)
+      
+      mlocs = mlocs.difference(write_locs) 
+      mlocs = read_locs.union(mlocs) 
+       
+      mvars = mvars.difference(ins_write_vars) 
+      mvars = ins_read_vars.union(mvars)
+   
+      smt_conds.add(condition.getEq())
+
+    
+    # additional conditions
+    #mvars = addAditionalConditions(mvars, mlocs, ins, ssa, callstack, smt_conds)
+
+    # we update the current call for next instruction
+    callstack.prevInstruction(ins) 
+    
+  for v in mvars:
+    print v, "--",
+    #if not (v in initial_values):
+    #  print "#Warning__", str(v), "is free!" 
+  
+  #setInitialConditions(ssa, initial_values, smt_conds)
+  #smt_conds.solve(debug)
+  
+  callstack.index = last_index  # TODO: create a better interface
+
+  if (smt_conds.is_sat()):
+    smt_conds.solve()
+    #return 1
+    smt_conds.write_smtlib_file("exp.smt2")  
+    smt_conds.write_sol_file("exp.sol")
+    return 1
+    #return Solution(smt_conds.m, fvars)
+  else: # unsat :(
+    return None
+
+  #renamed_name = op.getName()+"_0"
+  #renamed_size = op.getSizeInBits()
+  #renamed_offset = op.getOffset()
+  #renamed_op = op.__class__(renamed_name, renamed_size, renamed_offset)
+    
+    #return smt_conds.getValue(renamed_op)
+ 
+
+  
+#def getPathConditions(trace):
+#  assert(0)
 
 #def getPathConditions(trace):
   

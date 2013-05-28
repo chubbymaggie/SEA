@@ -123,7 +123,7 @@ class  Jcc_Cond(Condition):
   def getEq(self):
     src = self.getOperands(self.read_operands)[0]
     
-    if (self.read_operands[-1].name == "0"): # hack to know which branch was taken!
+    if (self.ins.getBranchTaken() == "0"): # hack to know which branch was taken!
       return [(src == 0)] # False branch
     else: 
       return [(src <> 0)] # True branch
@@ -192,7 +192,7 @@ class  Xor_Cond(Condition):
 
 class  Shift_Cond(Condition):
  def getEq(self):
-   
+   #print self.read_operands[1] 
    sdir = ""
    if self.read_operands[1].getValue()>0:
      sdir = "left"
@@ -208,9 +208,9 @@ class  Shift_Cond(Condition):
 
    #print sdir, src2.as_long()
    if sdir == "right":   
-     return [(z3.Extract(self.write_operands[0].size*8-1, 0,z3.LShR(src1,src2)) == dst)]
+     return [(z3.Extract(self.write_operands[0].getSizeInBits()-1, 0,z3.LShR(src1,src2)) == dst)]
    elif sdir == "left":
-     return [(z3.Extract(self.write_operands[0].size*8-1, 0,(src1 << src2)) == dst)]
+     return [(z3.Extract(self.write_operands[0].getSizeInBits()-1, 0,(src1 << src2)) == dst)]
    elif sdir == "null":
      return [(src1 == dst)]
    else:

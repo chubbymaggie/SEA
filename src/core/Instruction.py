@@ -37,7 +37,15 @@ class Instruction:
   def setMemoryAccess(self, mem_access):
     """Set the memory address accessed by the instruction updating its read/write operands"""
     pass
-    
+
+  def setBranchTaken(self, branch):
+    """Set the branch taken in a jmp instruction"""  
+    pass
+
+  def getBranchTaken(self):
+    """Get the branch taken in a jmp instruction"""  
+    pass
+ 
   def getCounter(self):
     """Returns the counter set by an instruction path"""
     return self.counter

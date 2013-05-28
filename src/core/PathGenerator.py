@@ -80,9 +80,86 @@ class RandomPathGenerator(PathGenerator):
         #print ins.branchs[0], ins.branchs[1]  
         if i == False:
           branches_taken.append(self.program.selectFalseBranch())
+          ins.setBranchTaken(0)
         elif i == True:
           branches_taken.append(self.program.selectTrueBranch())
+          ins.setBranchTaken(1)
+
     
     path = AbsPath(0, len(code), code)
 
     return (path, branches_taken)
+
+
+class ManualPathGenerator(PathGenerator):
+  def __init__(self, program, start, ends, max_count = 1000):
+    self.program = program
+    self.start = start
+    self.max_count = max_count
+    
+  def __help_path__(self):
+   print "To select interactively a path in this program use:"
+   print "t to continue with the true branch."
+   print "f to continue with the false branch."
+   print "i to step in."
+   print "o to step out."
+   print "e to finish recording a path."
+  
+  def __ask__(self, values):
+  
+    i = None
+  
+    while (not (i in values)):
+      if i <> None:
+        print "Invalid selection"
+      i = raw_input(">")
+  
+    return i
+ 
+
+  def next(self):
+  
+    self.program.reset(self.start)
+    branches_taken = []
+    code = []
+    count = 0
+    for ins in self.program:
+      
+      code.append(ins)
+      print ins
+      if count == self.max_count:
+        break
+      
+      if ins.isCall() and False:
+        print "call detected! (", ins.branchs[0], ")"
+        i = ask(["i", "o", "e"])
+      
+        if (i == "e"):
+	  break
+        elif (i == "i"):
+          self.program.stepIn()
+        elif (i == "o"):
+          pass
+
+
+      elif ins.isJmp():
+        pass
+    
+      elif ins.isCJmp():
+        count = count + 1
+        i = self.__ask__(["t","f","e"])#bool(random.randint(0,1))
+        if i == "f":
+          branches_taken.append(self.program.selectFalseBranch())
+          ins.setBranchTaken(0)
+        elif i == "t":
+          branches_taken.append(self.program.selectTrueBranch())
+          ins.setBranchTaken(1)
+        elif i == "e":
+          break
+
+    
+    path = AbsPath(0, len(code), code)
+
+    return (path, branches_taken)
+
+

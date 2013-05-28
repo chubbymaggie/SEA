@@ -31,7 +31,7 @@ from core import *
 
 from Lifting import *
 from Prelude import *
-
+from Common import getPathConditions
 
 class PathInfo:
   def __init__(self, ilabels):
@@ -187,7 +187,7 @@ def detectFeasible(path):
 def generatePaths(program, start, n):
 
   #assert(0)
-  random_paths = RandomPathGenerator(program, start, set())
+  random_paths = ManualPathGenerator(program, start, set())
   epsilon = dict()#list()
   rand_count = 0
   gen_count = 0
@@ -205,10 +205,11 @@ def generatePaths(program, start, n):
     #  rand_count = rand_count + 1
     #epsilon.append((path, detectFeasible(path)))
     #print len(path)
-    #path.reset()
-    mkTrace(path, [])
-    
-    if (i==3):
+    path.reset()
+    trace = mkTrace(path, [])
+    path.reset()
+    print getPathConditions(trace)
+    if (i==0):
       break
  
   assert(0) 
