@@ -66,7 +66,10 @@ class Operand:
       self.size_in_bytes = () # bottom
 
     self.size = self.size_in_bits
-    
+  
+  def getName(self):
+    return str(self.name)
+
   def getSizeInBytes(self):
     return self.size_in_bytes
   

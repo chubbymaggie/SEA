@@ -65,6 +65,7 @@ def selectPath(filename):
     bap_code.append(ins)
   
     if ins.isCall():
+      pass
       print "call detected! (", ins.branchs[0], ")"
       i = ask(["i", "o", "e"])
       

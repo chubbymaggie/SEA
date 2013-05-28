@@ -66,6 +66,7 @@ class REILInstruction(Instruction):
     self.address = pins.address
     self.instruction = pins.instruction
     self.branchs = []
+    self.branch_taken = None
     self.counter = None
     self.operands = []
     
@@ -174,9 +175,7 @@ class REILInstruction(Instruction):
    
     for o in self.read_operands:
       o.resize(size)
-  
-  
-  
+   
   def setMemoryAccess(self, mem_access):
     assert(mem_access <> None)
     
@@ -212,6 +211,14 @@ class REILInstruction(Instruction):
       
     else:
       assert(False)
+
+  def setBranchTaken(self, branch):
+    assert(self.isCJmp())
+    self.branch_taken = str(branch)
+
+  def getBranchTaken(self):
+    return str(self.branch_taken)        
+
   def __mkReilAddr__(self, op):
     addr_size = "DWORD"
     name = hex(op.getValue())+"0000"
