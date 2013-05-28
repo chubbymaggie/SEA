@@ -248,7 +248,7 @@ def ReilParser(filename):
       
       # TODO: create REILLabel class
       pins = reil.parseString(raw_ins)
-      label = hex(int(pins.address,16))      
+      label = hex(int(pins.address,16)).replace("L","")
       addr_op = AddrOp(label, size)
       
       if (r <> []):

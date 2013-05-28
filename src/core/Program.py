@@ -34,12 +34,13 @@ class Program:
         self.filename = filename
         self.parser   = parser
         self.current  = 0
+        
         self.labels   = dict()
+        self.labels['0'] = 0
+
         self.all = self.parser(self.filename)
         self.code = []
         self.callstack = []
-        
-        #print self.all
         
         for e in self.all:
           if (e |iss| AddrOp):

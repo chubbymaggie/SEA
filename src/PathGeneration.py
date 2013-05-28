@@ -194,9 +194,9 @@ def generatePaths(program, start, n):
   
   for (i,(path, labels)) in enumerate(random_paths):
     #print "hola" 
-    #for ins in path:
-    #  print ins,
-    #print "end"
+    for label in labels:
+      print label,
+    print "end"
     #(x,y,z) = detectFeasible(path)
     
     
@@ -204,8 +204,8 @@ def generatePaths(program, start, n):
     #  epsilon[(x,y,z)] = (path, True)
     #  rand_count = rand_count + 1
     #epsilon.append((path, detectFeasible(path)))
-    print len(path)
-    path.reset()
+    #print len(path)
+    #path.reset()
     mkTrace(path, [])
     
     if (i==3):
