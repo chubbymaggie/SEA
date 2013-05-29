@@ -25,7 +25,7 @@
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from NewOperand import *
+from Operand import *
 
 class Instruction:
   """An abstract instruction class"""
@@ -90,7 +90,6 @@ class Instruction:
   
   def isReadWrite(self):
     """Returns if the instruction is reading or writting the memory"""
-    #print self.mem_reg
     return self.mem_reg <> None  
   
   def isCall(self):

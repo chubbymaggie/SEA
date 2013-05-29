@@ -41,8 +41,8 @@ class Path:
         elif (code <> None):
           self.init_type = "code"
           self.code = list(code)
-          print self.code
-          assert(0)
+          #print self.code
+          #assert(0)
         
         self.code = filter(lambda i: i |iss| Instruction, self.code)
 	self.first = first

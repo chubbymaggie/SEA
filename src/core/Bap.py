@@ -26,7 +26,7 @@
 """
 
 from json import *
-from NewOperand import *
+from Operand import *
 from Instruction import *
 
 class BinOp:

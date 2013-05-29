@@ -27,7 +27,7 @@
 
 from Path       import Path
 from Program    import Program
-from NewOperand import *
+from Operand    import *
 from Types      import *
 from Lattice    import *
 from Reil       import ReilParser#, ReilInstruction

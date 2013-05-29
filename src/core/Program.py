@@ -25,7 +25,7 @@
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from NewOperand  import * 
+from Operand  import * 
 from Instruction import Instruction
 
 class Program:

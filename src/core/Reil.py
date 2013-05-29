@@ -27,7 +27,7 @@
 
 from pkgs.pyparsing import Word, Literal, alphas, alphanums, delimitedList
 from Types import *
-from NewOperand import *
+from Operand import *
 from Instruction import Instruction
 
 address         = Word( alphanums).setResultsName("address")
