@@ -24,7 +24,9 @@
    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
    THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
-    
+
+from Instruction import *
+
 class Path:
     def __init__(self, first, last, code = None, filename = None, parser = None, is_reversed = False):
         
@@ -38,14 +40,16 @@ class Path:
         
         elif (code <> None):
           self.init_type = "code"
-	  self.code = list(code)
+          self.code = list(code)
+          print self.code
+          assert(0)
         
-        
+        self.code = filter(lambda i: i |iss| Instruction, self.code)
 	self.first = first
-	if last <> first:
-	  self.last = min(first + len(self.code), last) - 1
-	else:
-	  self.last = last
+        if last <> first:
+          self.last = min(first + len(self.code), last) - 1
+        else:
+          self.last = last
 	
 	assert(self.last >= self.first)
 	self.len = self.last - self.first 
