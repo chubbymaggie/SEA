@@ -208,7 +208,7 @@ def generatePaths(program, start, n):
     path.reset()
     trace = mkTrace(path, [])
     path.reset()
-    print getPathConditions(trace)
+    print getPathConditions(trace, True)
     if (i==0):
       break
  

@@ -122,31 +122,30 @@ class ManualPathGenerator(PathGenerator):
     self.program.reset(self.start)
     branches_taken = []
     code = []
-    count = 0
+    self.__help_path__()
     for ins in self.program:
       
       code.append(ins)
       print ins
-      if count == self.max_count:
+      if ins.getCounter() == self.max_count:
         break
       
-      if ins.isCall() and False:
-        print "call detected! (", ins.branchs[0], ")"
-        i = ask(["i", "o", "e"])
+      #if ins.isCall() and False:
+      #  print "call detected! (", ins.branchs[0], ")"
+      #  i = ask(["i", "o", "e"])
       
-        if (i == "e"):
-	  break
-        elif (i == "i"):
-          self.program.stepIn()
-        elif (i == "o"):
-          pass
+      #  if (i == "e"):
+      #    break
+      #  elif (i == "i"):
+      #    self.program.stepIn()
+      #  elif (i == "o"):
+      #    pass
 
 
-      elif ins.isJmp():
-        pass
+      #elif ins.isJmp():
+      #  pass
     
-      elif ins.isCJmp():
-        count = count + 1
+      if ins.isCJmp():
         i = self.__ask__(["t","f","e"])#bool(random.randint(0,1))
         if i == "f":
           branches_taken.append(self.program.selectFalseBranch())
@@ -155,11 +154,8 @@ class ManualPathGenerator(PathGenerator):
           branches_taken.append(self.program.selectTrueBranch())
           ins.setBranchTaken(1)
         elif i == "e":
+          code.pop()
           break
-
     
     path = AbsPath(0, len(code), code)
-
     return (path, branches_taken)
-
-

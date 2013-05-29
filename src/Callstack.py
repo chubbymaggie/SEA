@@ -30,9 +30,6 @@ def getValueFromCode(inss, initial_values, op):
   # code should be copied and reversed
   inss.reverse()
   
-  # counter is set
-  counter = len(inss)
-  
   ssa = SSA()
   smt_conds  = SMT()
  
@@ -41,7 +38,8 @@ def getValueFromCode(inss, initial_values, op):
   ssa.getMap(mvars, set(), set())
 
   for ins in inss:
-    
+
+    #counter = ins.getCounter() 
     ins_write_vars = set(ins.getWriteVarOperands())
     ins_read_vars = set(ins.getReadVarOperands())
 
@@ -58,8 +56,6 @@ def getValueFromCode(inss, initial_values, op):
    
       smt_conds.add(condition.getEq())
       
-    counter = counter - 1
-  
   for iop in initial_values.keys():
     if not (iop in ssa):
       del initial_values[iop]
@@ -69,11 +65,16 @@ def getValueFromCode(inss, initial_values, op):
     
   for iop in initial_values:
     smt_conds.add(eq.getEq(ssa_map[iop.name],initial_values[iop]))
+    
+  #op.name = op.name+"_0"
+  smt_conds.solve(True)
   
-  op.name = op.name+"_0"
-  smt_conds.solve()
-  
-  return smt_conds.getValue(op)
+  renamed_name = op.getName()+"_0"
+  renamed_size = op.getSizeInBits()
+  renamed_offset = op.getOffset()
+  renamed_op = op.__class__(renamed_name, renamed_size, renamed_offset)
+    
+  return smt_conds.getValue(renamed_op)
 
 
 class Callstack:
@@ -211,7 +212,7 @@ class Callstack:
   def __getESPdifference__(self, reil_code, initial_esp):
     if len(reil_code) == 0:
       return initial_esp
-    
+    print reil_code[0],reil_code[-1]
     esp_op = RegOp("esp","DWORD")
     initial_values = dict([ (esp_op, ImmOp(str(0), "DWORD"))])
     return getValueFromCode(reil_code, initial_values, esp_op)+ initial_esp

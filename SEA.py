@@ -106,14 +106,8 @@ elif (mode == 'path'):
     for filename in dumped:
       print filename, "dumped."
       
-elif (mode == 'selection'): 
-  selectPath(args.trace_filename)
-  
 elif (mode == 'generation'):
   
-  if (args.first == 0):
-    print "WARNING: ..."
-
   program = mkProgram(args.trace_filename) 
   generatePaths(program,args.first, 2000)
     

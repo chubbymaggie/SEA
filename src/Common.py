@@ -149,7 +149,7 @@ def getPathConditions(trace, debug = True):
  
   # we reverse the code order
   inss.reverse()
-  
+  #print inss[0]
   # we reset the used memory variables
   Memvars.reset()
   
@@ -227,11 +227,11 @@ def getPathConditions(trace, debug = True):
   #smt_conds.solve(debug)
   
   callstack.index = last_index  # TODO: create a better interface
-
+  smt_conds.write_smtlib_file("exp.smt2")  
+  
   if (smt_conds.is_sat()):
     smt_conds.solve()
     #return 1
-    smt_conds.write_smtlib_file("exp.smt2")  
     smt_conds.write_sol_file("exp.sol")
     return 1
     #return Solution(smt_conds.m, fvars)

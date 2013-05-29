@@ -75,7 +75,7 @@ class Path:
           else:
           
             ins = self.code[self.current]
-            ins.counter = self.current
+            ins.setCounter(self.current)
           
             self.current -= 1
             return ins #self.code[self.current + 1]
@@ -85,7 +85,7 @@ class Path:
           else:
             
             ins = self.code[self.current]
-            ins.counter = self.current
+            ins.setCounter(self.current)
           
             self.current += 1
             return ins #self.code[self.current - 1]  
@@ -94,13 +94,13 @@ class Path:
     def reverse(self):
         self.is_reversed = not (self.is_reversed)
         if (self.is_reversed):
-          self.current = self.last-1
+          self.current = self.last
         else:
           self.current = self.first
         
     def reset(self):
         if (self.is_reversed):
-          self.current = self.last-1
+          self.current = self.last
         else:
           self.current = self.first
         

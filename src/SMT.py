@@ -47,7 +47,6 @@ class SMT:
     assert(self.m <> None)
     
     if (op |iss| RegOp):
-      
       var = map(lambda b: z3.BitVec(str(b),8), op.getLocations())
       var = map(lambda b: self.m[b], var)
       if (len(var) > 1):

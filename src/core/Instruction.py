@@ -50,6 +50,10 @@ class Instruction:
     """Returns the counter set by an instruction path"""
     return self.counter
 
+  def setCounter(self, counter):
+    """Sets the instructions counter in a path"""
+    self.counter = counter
+
   def getOperands(self):
     """Returns the list of all operands"""
     return list(self.read_operands + self.write_operands)
