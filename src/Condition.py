@@ -194,23 +194,27 @@ class  Shift_Cond(Condition):
  def getEq(self):
    #print self.read_operands[1] 
    sdir = ""
-   if self.read_operands[1].getValue()>0:
+   
+   src1,src2 = self.getOperands(self.read_operands)
+   dst = self.getOperands(self.write_operands)[0]
+   n =  self.read_operands[1].getValue()
+
+   if n > 0:
      sdir = "left"
-   elif self.read_operands[1].getValue()<0:
+   elif n < 0:
      sdir = "right"
-     self.read_operands[1].name = self.read_operands[1].name.replace("-","") #ugly hack!
+     #self.read_operands[1].name = self.read_operands[1].name.replace("-","") #ugly hack!
    else:
      sdir = "null"
    
    #print self.read_operands[1].name
-   src1,src2 = self.getOperands(self.read_operands)
-   dst = self.getOperands(self.write_operands)[0]
+  
 
    #print sdir, src2.as_long()
-   if sdir == "right":   
-     return [(z3.Extract(self.write_operands[0].getSizeInBits()-1, 0,z3.LShR(src1,src2)) == dst)]
+   if sdir == "right": 
+     return [(z3.Extract(self.write_operands[0].getSizeInBits()-1, 0,z3.LShR(src1,-n)) == dst)]
    elif sdir == "left":
-     return [(z3.Extract(self.write_operands[0].getSizeInBits()-1, 0,(src1 << src2)) == dst)]
+     return [(z3.Extract(self.write_operands[0].getSizeInBits()-1, 0,(src1 << n)) == dst)]
    elif sdir == "null":
      return [(src1 == dst)]
    else:
@@ -262,9 +266,12 @@ class  Stm_Cond(Condition):
     
     old_sname, new_sname = Memvars.write(dsts[0])
 
+    #array = mkArray(old_sname)
+    #new_array = mkArray(new_sname)
+
     old_array = mkArray(old_sname)
     array = mkArray(new_sname)
-    
+
     for (src,dst) in zip(srcs, dsts):
       array = z3.Store(array, dst.getIndex(), src)
       

@@ -24,16 +24,20 @@ class SMT:
 
   def __init__(self):
     self.solver = z3.Solver()
+    #self.solver.set(unsat_core=True)
     self.m = None
-
+  
   def add(self, cs):
     for c in cs:
       c = z3.simplify(c)
       #print c
-      self.solver.add(c)
+      #if (self.c <= self.max_c):
+      self.solver.add(c)#.assert_and_track(c, str(c))
+
+      #self.c = self.c + 1
 
   def solve(self, debug = False):
-    
+
     if debug:
       print self.solver
     
@@ -41,6 +45,10 @@ class SMT:
       self.m = self.solver.model()
   
   def is_sat(self):
+
+    #if not (self.solver.check() == z3.sat):
+    #  print self.solver.unsat_core()
+
     return (self.solver.check() == z3.sat)
       
   def getValue(self, op):
@@ -107,13 +115,61 @@ class SMT:
     
     
 class Solution:
-  def __init__(self, model, fvars = set()):
+  def __init__(self, model):
     self.m = model
-    self.vars = dict()
-    self.fvars = set(fvars)
-    for d in self.m.decls():
-      self.vars[d.name()] = d
-  
+    #self.vars = dict()
+    #self.fvars = set(fvars)
+    #for d in self.m.decls():
+    #  self.vars[d.name()] = d
+
+  def __getitem__(self, op):
+    
+    if (op |iss| RegOp):
+      var = map(lambda b: z3.BitVec(str(b),8), op.getLocations())
+      var = map(lambda b: self.m[b], var)
+      if (len(var) > 1):
+        return z3.simplify(z3.Concat(var)).as_signed_long()
+      else:
+        return z3.simplify(var[0]).as_signed_long()
+    elif (op.isMem()):
+      array = z3.Array(op.name, z3.BitVecSort(16), z3.BitVecSort(8))
+      f = self.m[array]
+      
+      #print self.m
+      
+      es = f.as_list()[:-1]
+
+      var = []
+      
+      for loc in op.getLocations():
+        byte = None
+        for entry in es:
+          #print entry
+          if loc.getIndex() == entry[0].as_signed_long():
+            byte = entry[1]#.as_signed_long()
+            break
+        
+        if (byte == None):
+          byte = f.else_value()
+          
+        var.append(byte)
+        
+      #var.reverse()
+      
+      if (len(var) > 1):  
+        return z3.simplify(z3.Concat(var)).as_signed_long()
+      else:
+        return z3.simplify(var[0]).as_signed_long()
+    else:
+      assert(0)
+
+
+
+    r = []
+    for loc in i.getLocations():
+      r.append(self.vars[str(loc)])
+    return r
+  """
   def __contains__(self, var):
     #print var
     #print filter(lambda v: var in v, self.vars.keys())
@@ -142,3 +198,4 @@ class Solution:
         out.write(self.getString(var))
         dumped.append(filename)
     return dumped
+  """

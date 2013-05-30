@@ -108,11 +108,12 @@ class ManualPathGenerator(PathGenerator):
   def __ask__(self, values):
   
     i = None
+    prompt = ",".join(values)+">"
   
     while (not (i in values)):
       if i <> None:
         print "Invalid selection"
-      i = raw_input(">")
+      i = raw_input(prompt)
   
     return i
  
@@ -158,6 +159,15 @@ class ManualPathGenerator(PathGenerator):
         elif i == "e":
           code.pop()
           break
+      else:
+        pass
+	#i = self.__ask__(["s","e"])
+	#if i == "s":
+	#  pass
+	#elif i == "e":
+	#  code.pop()
+	#  break
+
     
     path = AbsPath(0, len(code), code)
     return (path, branches_taken)

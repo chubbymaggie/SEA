@@ -67,7 +67,7 @@ def getValueFromCode(inss, initial_values, op):
     smt_conds.add(eq.getEq(ssa_map[iop.name],initial_values[iop]))
     
   #op.name = op.name+"_0"
-  smt_conds.solve(True)
+  smt_conds.solve()
   
   renamed_name = op.getName()+"_0"
   renamed_size = op.getSizeInBits()
@@ -212,7 +212,6 @@ class Callstack:
   def __getESPdifference__(self, reil_code, initial_esp):
     if len(reil_code) == 0:
       return initial_esp
-    print reil_code[0],reil_code[-1]
     esp_op = RegOp("esp","DWORD")
     initial_values = dict([ (esp_op, ImmOp(str(0), "DWORD"))])
     return getValueFromCode(reil_code, initial_values, esp_op)+ initial_esp

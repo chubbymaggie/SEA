@@ -39,9 +39,9 @@ def mkTrace(path, raw_inputs):
     #  for op in Inputs:
     #    print op,"=", Inputs[op]
     
-    print "Detecting callstack layout..."
+    #print "Detecting callstack layout..."
     callstack = Callstack(path)#, Inputs) #TODO: it should recieve inputs also!
-    print callstack
+    #print callstack
     
     allocationLog = Allocation()
     memAccess = MemAccess()
@@ -54,7 +54,7 @@ def mkTrace(path, raw_inputs):
     path.reset()
     callstack.reset()
     
-    print "Detecting memory accesses and function parameters.."
+    #print "Detecting memory accesses and function parameters.."
   
     for ins in path:
       
@@ -80,8 +80,8 @@ def mkTrace(path, raw_inputs):
           #AllocationLog.free(ptr, end)
     
     
-    print memAccess
-    print funcParameters
+    #print memAccess
+    #print funcParameters
     allocationLog.report()
     
     

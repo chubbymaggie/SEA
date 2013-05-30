@@ -138,7 +138,7 @@ def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = F
   assert(0)
 
       
-def getPathConditions(trace, debug = True):
+def getPathConditions(trace, debug = False):
   
   # Initialization
   inss = trace["code"]
@@ -217,26 +217,31 @@ def getPathConditions(trace, debug = True):
 
     # we update the current call for next instruction
     callstack.prevInstruction(ins) 
-    
-  for v in mvars:
-    print v, "--",
+  
+  fvars = set()
+  for var in mvars:
+    #print v, "--",
     #if not (v in initial_values):
-    #  print "#Warning__", str(v), "is free!" 
+    print "#Warning__", str(var), "is free!" 
+    
+    if var |iss| MemOp:
+      fvars.add(MemOp(Memvars.read(var), var.getSizeInBits(), var.getOffset())) 
+    else:
+      # perform SSA
+      assert(0)
   
   #setInitialConditions(ssa, initial_values, smt_conds)
   #smt_conds.solve(debug)
   
   callstack.index = last_index  # TODO: create a better interface
   smt_conds.write_smtlib_file("exp.smt2")  
-  
+  smt_conds.write_sol_file("exp.sol")
+
   if (smt_conds.is_sat()):
     smt_conds.solve()
-    #return 1
-    smt_conds.write_sol_file("exp.sol")
-    return 1
-    #return Solution(smt_conds.m, fvars)
+    return (fvars, Solution(smt_conds.m))
   else: # unsat :(
-    return None
+    return (set(), None)
 
   #renamed_name = op.getName()+"_0"
   #renamed_size = op.getSizeInBits()
