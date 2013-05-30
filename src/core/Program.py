@@ -180,7 +180,7 @@ class Program:
 	  # next instruction is the following 
 	  self.current = self.current + 1
 	
-	return ins
+	return ins.copy()
         
     def reset(self, start = None):
       if (start <> None):

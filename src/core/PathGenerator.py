@@ -122,12 +122,14 @@ class ManualPathGenerator(PathGenerator):
     self.program.reset(self.start)
     branches_taken = []
     code = []
+    counter = 0
     self.__help_path__()
     for ins in self.program:
       
       code.append(ins)
-      print ins
-      if ins.getCounter() == self.max_count:
+      print "(%.4d)" % counter, ins
+      counter = counter + 1
+      if counter == self.max_count:
         break
       
       #if ins.isCall() and False:

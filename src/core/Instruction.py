@@ -26,6 +26,7 @@
 """
 
 from Operand import *
+from copy    import copy
 
 class Instruction:
   """An abstract instruction class"""
@@ -110,4 +111,8 @@ class Instruction:
   def isCJmp(self):
     """Returns if the instruction is a conditional jmp"""
     pass
+
+  def copy(self):
+    """Returns a copy of current instance of Instruction"""
+    return copy(self)
 

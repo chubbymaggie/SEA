@@ -39,7 +39,8 @@ class Location:
     assert(False)
 
   def __cmp__(self, op):
-    return cmp(self.name,op.name) * cmp(self.index,op.index)
+    #return cmp(self.name,op.name) * cmp(self.index,op.index)
+    return cmp(str(self), str(op))
   
   def __hash__(self):
     return hash(self.__str__())

@@ -26,7 +26,8 @@
 """
 
 from Location import *
-import sys, copy
+from copy     import copy
+import sys
   
 size_in_bits = {
     "BYTE"  : 8,
@@ -116,13 +117,13 @@ class Operand:
       #print op
       return -1
     
-    return cmp(self.name,op.name)
+    return cmp(str(self),str(op)) 
   
   def __hash__(self):
     return hash(self.name)
     
   def copy(self):
-    return copy.copy(self)
+    return copy(self)
     
   
   #def __contains__(self, obj):

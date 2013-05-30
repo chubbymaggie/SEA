@@ -181,14 +181,14 @@ def getPathConditions(trace, debug = True):
     
     counter = ins.getCounter()
     
+    if memory.getAccess(counter) <> None:
+      ins.setMemoryAccess(memory.getAccess(counter))
+
     if debug:
-      print str(counter) + ":", ins.instruction
+      print "(%.4d)" % counter, ins
       for v in mvars:
         print v, "--",
       print ""
-
-    if memory.getAccess(counter) <> None:
-      ins.setMemoryAccess(memory.getAccess(counter))
   
     ins_write_vars = set(ins.getWriteVarOperands())
     ins_read_vars = set(ins.getReadVarOperands())
