@@ -70,6 +70,11 @@ class RegLoc(Location):
   def __str__(self):
     return self.name+"("+str(self.index)+")"
 
+
+class InputLoc(Location):
+  def __str__(self):
+    return self.name+"("+str(self.index)+")"
+
 class pRegLoc(Location):
   pass
 

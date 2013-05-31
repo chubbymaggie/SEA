@@ -179,37 +179,77 @@ def getPathConditions(trace, debug = False):
 
   for ins in inss:
     
-    counter = ins.getCounter()
     
+    counter = ins.getCounter()
+    func_cons = funcs.get(ins.called_function, Function)
+
     if memory.getAccess(counter) <> None:
       ins.setMemoryAccess(memory.getAccess(counter))
+
+    ins.clearMemRegs() 
+    func = func_cons(None, parameters.getParameters(counter))
 
     if debug:
       print "(%.4d)" % counter, ins
       for v in mvars:
         print v, "--",
       print ""
+     
+      for l in mlocs:
+        print l, "--",
+      print ""
   
     ins_write_vars = set(ins.getWriteVarOperands())
     ins_read_vars = set(ins.getReadVarOperands())
+   
+    func_write_vars = set(func.getWriteVarOperands())
+    func_read_vars = set(func.getReadVarOperands())
+
+    ins_write_locs = concatSet(map(lambda op: set(op.getLocations()), ins.getWriteVarOperands()))
+    ins_read_locs  = concatSet(map(lambda op: set(op.getLocations()), ins.getReadVarOperands()))
     
-    write_locs = concatSet(map(lambda op: set(op.getLocations()), ins.getWriteVarOperands()))
-    read_locs  = concatSet(map(lambda op: set(op.getLocations()), ins.getReadVarOperands() ))
+    func_write_locs = concatSet(map(lambda op: set(op.getLocations()), func.getWriteVarOperands()))
+    func_read_locs  = concatSet(map(lambda op: set(op.getLocations()), func.getReadVarOperands()))
     
-    if ins.isJmp() or ins.isCJmp() or len(write_locs.intersection(mlocs)) > 0: 
+    #if (func_write_vars <> set()):
+      #x =  func_write_vars.pop()
+      #print x, x.getLocations()
+      #assert(0)
+    #print func, parameters.getParameters(counter), func_write_vars, func_write_locs 
+
+    if (not ins.isCall()) and (ins.isJmp() or ins.isCJmp() or len(ins_write_locs.intersection(mlocs)) > 0): 
       
       ssa_map = ssa.getMap(ins_read_vars.difference(mvars), ins_write_vars, ins_read_vars.intersection(mvars))
 
       cons = conds.get(ins.instruction, Condition)
       condition = cons(ins, ssa_map)
       
-      mlocs = mlocs.difference(write_locs) 
-      mlocs = read_locs.union(mlocs) 
+      mlocs = mlocs.difference(ins_write_locs) 
+      mlocs = ins_read_locs.union(mlocs) 
        
       mvars = mvars.difference(ins_write_vars) 
       mvars = ins_read_vars.union(mvars)
    
       smt_conds.add(condition.getEq())
+      
+    elif (len(func_write_locs.intersection(mlocs)) > 0):
+      # TODO: clean-up here!
+      #ssa_map = ssa.getMap(func_read_vars.difference(mvars), func_write_vars, func_read_vars.intersection(mvars))
+        
+      cons = conds.get(ins.called_function, Condition)
+      condition = cons(func, None)
+        
+      c = condition.getEq(func_write_locs.intersection(mlocs))
+      
+      mlocs = mlocs.difference(func_write_locs) 
+      mlocs = func_read_locs.union(mlocs) 
+  
+      mvars = mvars.difference(func_write_vars) 
+      mvars = func_read_vars.union(mvars)
+
+      smt_conds.add(c)
+      #print c
+      #assert(0)
 
     
     # additional conditions
@@ -224,7 +264,9 @@ def getPathConditions(trace, debug = False):
     #if not (v in initial_values):
     print "#Warning__", str(var), "is free!" 
     
-    if var |iss| MemOp:
+    if (var |iss| InputOp):
+      fvars.add(var)
+    elif var |iss| MemOp:
       fvars.add(MemOp(Memvars.read(var), var.getSizeInBits(), var.getOffset())) 
     else:
       # perform SSA

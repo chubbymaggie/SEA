@@ -88,13 +88,16 @@ elif (mode == 'path'):
   
   address = args.address
   path = mkPath(args.trace_filename, first, last)
-  trace = mkTrace(path, args.iconditions)
+  trace = mkTrace(path, args.iconditions, debug = True)
   fvars, sol = getPathConditions(trace, False)
 
   if sol <> None:
     print "SAT!"
     for var in fvars:
       print "sol["+str(var)+"] =", sol[var]
+    #for var in sol.m.decls():
+    #  if "stdin" in str(var):
+    #    print "sol["+var.name()+"] =", sol[var]  
   else:
     print "UNSAT!"
 

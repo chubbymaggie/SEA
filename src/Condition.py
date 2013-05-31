@@ -336,31 +336,58 @@ class  Eq(Condition):
 # Func conditions
 class  Call_Gets_Cond(Condition):
   def __init__(self, funcs, ssa):
-    self.dst = funcs.parameter_vals[0]
+    self.dst = funcs.write_operands[0]
     self.size = funcs.internal_size
   
-  def getEq(self, mvars):
+  def getEq(self, mlocs):
     
-    r = []
+    src = InputOp("stdin", 1)
+    src.size_in_bytes = self.size
 
-    old_sname, new_sname, offset = Memvars.write(self.dst)
-      
+    srcs = mkByteListVar(src)    
+       
+    dst = self.dst #self.func.write_operands[0]
+    dsts = dst.getLocations()
+    
+    conds = []
+    
+    old_sname, new_sname = Memvars.write(dsts[0])
+
+    #array = mkArray(old_sname)
+    #new_array = mkArray(new_sname)
+
     old_array = mkArray(old_sname)
     array = mkArray(new_sname)
 
-    for i in range(self.size):
+    for (src,dst) in zip(srcs, dsts):
+      if dst in mlocs:
+        array = z3.Store(array, dst.getIndex(), src)
       
-      op = Operand(self.dst.mem_source+"@"+str(offset+i), "BYTE")
-      
-      if (op in mvars):
-        array = z3.Store(array, offset+i, z3.BitVec("stdin:"+str(i)+"(0)",8))
-        
-      r.append(z3.BitVec("stdin:"+str(i)+"(0)",8) <> 10)
-      r.append(z3.BitVec("stdin:"+str(i)+"(0)",8) <> 0)
-      
-    r.append((old_array == array))
+      conds.append(src <> 10)
+      conds.append(src <> 0)
+ 
+    conds.append((old_array == array))
+    return conds
+    #r = []
 
-    return r
+    #old_sname, new_sname, offset = Memvars.write(self.dst)
+      
+    #old_array = mkArray(old_sname)
+    #array = mkArray(new_sname)
+
+    #for i in range(self.size):
+      
+      #op = Operand(self.dst.mem_source+"@"+str(offset+i), "BYTE")
+      
+      #if (op in mvars):
+      #  array = z3.Store(array, offset+i, z3.BitVec("stdin:"+str(i)+"(0)",8))
+        
+      #r.append(z3.BitVec("stdin:"+str(i)+"(0)",8) <> 10)
+      #r.append(z3.BitVec("stdin:"+str(i)+"(0)",8) <> 0)
+      
+    #r.append((old_array == array))
+
+    #return r
 
 
 class  Call_Strlen_Cond(Condition):

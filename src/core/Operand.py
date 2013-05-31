@@ -47,18 +47,19 @@ size_in_bits = {
 }
 
 class Operand:
-
+  """ Abstract class of an operand used in the abstract instructions """
   def __init__(self, name, size, offset = 0):
+    """ Creates a new operand with name, size and offset """
     self.type = None
     self.name = str(name)
-    #self.mem_source = None
     self.offset = offset
     self.value  = None
     
     self.resize(size)
   
   def resize(self, new_size):
-  
+    """ Change the size of an operand"""
+
     self.size_in_bits = size_in_bits.get(str(new_size), 0)
     
     if (self.size_in_bits % 8 == 0):
@@ -69,16 +70,26 @@ class Operand:
     self.size = self.size_in_bits
   
   def getName(self):
+    """ The name of an operand """
     return str(self.name)
 
   def getSizeInBytes(self):
+    """ The size of an operand in bytes """
     return self.size_in_bytes
   
   def getSizeInBits(self):
+    """ The size of an operand in bits """
     return self.size_in_bits
     
   def getOffset(self):
+    """ The offset of an operand """
     return self.offset
+
+  def getType(self):
+    return self.type
+ 
+  def setType(self, t):
+    self.type = t
     
   def getLocations(self):
     assert(0)
@@ -125,11 +136,6 @@ class Operand:
   def copy(self):
     return copy(self)
     
-  
-  #def __contains__(self, obj):
-    #print "x", str(obj)
-    #return isinstance(obj,self.__class__)
-
 class ImmOp(Operand):
   def getLocations(self):
     
@@ -141,14 +147,9 @@ class ImmOp(Operand):
     else:
       hx = fmt % int(self.name,10)
     
-    
-    #hx = hx[::-1]
-    #print "hx",hx
-    
     for i in range(0,2*self.size_in_bytes,2):
       r.append(ImmLoc("0x"+hx[i:i+2],i/2))
     
-    #r.reverse() 
     return r
 
   def getValue(self):
@@ -178,13 +179,6 @@ class ImmOp(Operand):
 class AddrOp(Operand): # same as immediate
   def __str__(self):
     return str(self.name)
-    #fmt = "0x%0."+str(2*self.size_in_bytes)+"x"
-    #print fmt
-    #try:
-      #if ("0x" in self.name):   
-        #return "imm:"+(fmt % (int(self.name,16)))
-      #else:
-        #return "imm:"+(fmt % (int(self.name,10)))
       
   def isVar(self):
     return False
@@ -209,10 +203,6 @@ class AddrOp(Operand): # same as immediate
     else:
       return int(self.name,10)
 
-
-#class AddrOp(Operand): # same as immediate
-#  def getLocations(self):
-#  ...
 
 class pAddrOp(Operand):
   def __str__(self):
@@ -265,9 +255,6 @@ class MemOp(Operand):
     assert(self.value <> None)
     return self.value
     
-    
-    
-
 class RegOp(Operand):
 
   def isVar(self):
@@ -317,6 +304,33 @@ class NoOp(Operand):
     
   def isMem(self):
     sys.exit("Oh no!")
+
+class InputOp(Operand):
+
+  def isVar(self):
+    return True
+    
+  def isMem(self):
+    return False
+    
+  def getLocations(self):
+    
+    r = []
+    
+    for i in range(0,self.size_in_bytes):
+      r.append(InputLoc(self.name,i))
+       
+    return r
+
+  def __str__(self):
+    return str(self.name)
+    
+  def setValue(self, value):
+    self.value = value
+    
+  def getValue(self):
+    assert(self.value <> None)
+    return self.value
 
 # taken from http://code.activestate.com/recipes/384122/
 # definition of an Infix operator class

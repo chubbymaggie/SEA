@@ -27,7 +27,7 @@ class Function:
   write_operands = []
   return_type    = None
   
-  def __init__(self, pins = None, pbase = None):
+  def __init__(self, pbase = None, pars = None):
     self.parameter_typs = []
     self.parameter_locs = []
     self.parameter_vals = []
@@ -52,30 +52,19 @@ class Function:
   def __loadParameters__(self, pars):
     self.parameter_locs = []
     self.parameter_vals = []
-    
-    for (loc, val) in pars:
+    #print pars
+    for (loc, ptype, offset) in pars:
+      
       self.parameter_locs.append(loc)
-      self.parameter_vals.append(val)
+      self.parameter_vals.append((ptype,offset))
     
   
   def __locateParameter__(self, disp, size):
-    
-    
-    
     ptype, offset = self.pbase
     
     op = MemOp(getMemInfo(ptype), size, offset=offset+disp)
     op.type = ptype
     
-    #assert(disp<=0)
-    #einfo = dict()
-    
-    
-    #mem_source, mem_offset = getMemInfo(ptype), ptype.einfo["offset"] + disp
-    
-    #mem_source = self.pbase.mem_source
-    #mem_offset = self.pbase.mem_offset 
-    #name = mem_source + "@" + str(mem_offset)
     return op
   
 class Skip_Func(Function):
@@ -94,20 +83,33 @@ class Gets_Func(Function):
       for (ptype, size, disp, needed) in self.parameter_typs:
         self.parameter_locs.append((ptype, self.__locateParameter__(disp, size), needed))
     else:
-      assert(0)
       self.__loadParameters__(pars)
+      #assert(0)
       
       # populate read operands
       
-      self.read_operands.append(self.parameter_locs[0])
+      #self.read_operands.append(self.parameter_locs[0])
       
+      ptype,offset = self.parameter_vals[0]
+      op = MemOp(getMemInfo(ptype), 1, offset)
+      op.size_in_bytes = self.internal_size
+      op.setType(ptype)
+
       # populate write operands
-      
-      for i in range(self.internal_size):
-        mem_source = self.parameter_vals[0].mem_source
-        mem_offset = self.parameter_vals[0].mem_offset + i
-        name = mem_source + "@" + str(mem_offset)
-        self.write_operands.append(Operand(name, "BYTE", mem_source, mem_offset))
+      self.write_operands = [op]
+     
+      # populate read operands
+     
+      op = InputOp("stdin", 1)
+      op.size_in_bytes = self.internal_size
+
+      self.read_operands = [op]
+ 
+      #for i in range(self.internal_size):
+      #  mem_source = self.parameter_vals[0].mem_source
+      #  mem_offset = self.parameter_vals[0].mem_offset + i
+      #  name = mem_source + "@" + str(mem_offset)
+      #  self.write_operands.append(Operand(name, "BYTE", mem_source, mem_offset))
         
       #print len(self.write_operands)
 
@@ -120,7 +122,7 @@ class Strlen_Func(Function):
     
     self.internal_size = 10
     
-    if (type(pbase) <> type(None)):
+    if (pbase <> None):
       self.pbase = pbase
       for (ptype, size, disp, needed) in self.parameter_typs:
         self.parameter_locs.append((ptype, self.__locateParameter__(disp, size), needed))

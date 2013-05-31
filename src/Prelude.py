@@ -26,10 +26,10 @@ from Allocation  import Allocation
 from Lifting     import *
 
 
-def mkTrace(path, raw_inputs):
+def mkTrace(path, raw_inputs, debug = False):
     
-    #print "Loading trace.."
-    #path = mkPath(pathf, first, last)
+    if debug:
+      print "Loading trace.."
     
     inputs = parse_inputs(raw_inputs)
     
@@ -38,17 +38,18 @@ def mkTrace(path, raw_inputs):
     
     #  for op in Inputs:
     #    print op,"=", Inputs[op]
-    
-    #print "Detecting callstack layout..."
+    if debug:
+      print "Detecting callstack layout..."
     callstack = Callstack(path)#, Inputs) #TODO: it should recieve inputs also!
-    #print callstack
+    
+    if debug:
+      print callstack
     
     allocationLog = Allocation()
     memAccess = MemAccess()
     funcParameters = FuncParameters()
     
     path_size = len(path)
-    start = 0  
     
     # we reset path iterator and callstack
     path.reset()
@@ -67,7 +68,6 @@ def mkTrace(path, raw_inputs):
         
       elif ins.isCall() and ins.called_function <> None:
         funcParameters.detectFuncParameters(path[0:counter+1], memAccess, callstack, inputs, counter)
-        pass
         #if (ins.called_function == "malloc"):
           
           #try:
@@ -79,11 +79,10 @@ def mkTrace(path, raw_inputs):
           #ptr = (FuncParameters.getParameters(end)[0][1].mem_source)
           #AllocationLog.free(ptr, end)
     
-    
-    #print memAccess
-    #print funcParameters
-    allocationLog.report()
-    
+    if debug:      
+      print memAccess
+      print funcParameters
+      allocationLog.report()
     
     callstack.reset()
     path.reset()

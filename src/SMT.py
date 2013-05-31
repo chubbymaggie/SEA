@@ -124,6 +124,14 @@ class Solution:
 
   def __getitem__(self, op):
     
+    if (op |iss| InputOp):
+      r = ""
+      for loc in op.getLocations():
+        var = z3.BitVec(str(loc),8)
+        var = self.m[var]
+	r = r +("\\0x%.2x" % var.as_signed_long())
+      return r
+
     if (op |iss| RegOp):
       var = map(lambda b: z3.BitVec(str(b),8), op.getLocations())
       var = map(lambda b: self.m[b], var)

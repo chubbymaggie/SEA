@@ -123,6 +123,8 @@ class REILInstruction(Instruction):
 
       
     elif (pins.instruction == "jcc"):
+      
+      
       #pass
       self.operands = map(RegImmNoOp, self.operands)
       self.read_operands  = filter(lambda o: not (o |iss| NoOp), self.operands[0:3])
@@ -133,13 +135,14 @@ class REILInstruction(Instruction):
 
         self.branchs = [self.__mkReilAddr__(self.read_operands[-1])]
 
-        if (self.read_operands[0] |iss| ImmOp):
-          # cjmp
-          #print "cjmp!"
-          pass
-          #self.branchs.append(NoOp("EMPTY",0))
+        #if (self.read_operands[0] |iss| ImmOp):
+        #  pass
 
       self.write_operands = []
+
+      if len(self.read_operands) == 3:
+        self.setBranchTaken(self.read_operands[1].getValue())
+	return
       
     elif (pins.instruction == "call"):
       
@@ -224,6 +227,9 @@ class REILInstruction(Instruction):
     name = hex(op.getValue())+"0000"
     return AddrOp(name,addr_size)
 
+  def clearMemRegs(self):
+    self.read_operands = filter(lambda op: op <> self.mem_reg, self.read_operands)
+    #self.write_operands = filter(lambda op: op <> mem_reg, self.read_operads)
   
   def isCall(self):
     return self.instruction == "call"
@@ -231,6 +237,12 @@ class REILInstruction(Instruction):
     return self.instruction == "ret"
     
   def __str__(self):
+
+    if self.isCall() and self.called_function <> None:
+      r = self.instruction + " "+ self.called_function
+      return r
+
+
     r = self.instruction + "-> "
     for op in self.read_operands:
       r = r + str(op) + ", "
