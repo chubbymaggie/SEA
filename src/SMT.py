@@ -24,7 +24,7 @@ class SMT:
 
   def __init__(self):
     self.solver = z3.Solver()
-    #self.solver.set(unsat_core=True)
+    self.solver.set(unsat_core=True)
     self.m = None
   
   def add(self, cs):
@@ -32,17 +32,20 @@ class SMT:
       c = z3.simplify(c)
       #print c
       #if (self.c <= self.max_c):
-      self.solver.add(c)#.assert_and_track(c, str(c))
+      self.solver.assert_and_track(c, str(c))
 
       #self.c = self.c + 1
 
   def solve(self, debug = False):
 
-    if debug:
-      print self.solver
+    #if debug:
+    #  print self.solver
     
     if (self.solver.check() == z3.sat):
       self.m = self.solver.model()
+    elif debug:
+      print "unsat core:"
+      print self.solver.unsat_core()
   
   def is_sat(self):
 

@@ -27,6 +27,10 @@
 
 from __init__ import *
 
+class PathInfo:
+  def __init__(self, ilabels):
+    pass
+
 class PathGenerator:
   def __init__(program, start, ends, max_count):
     pass
@@ -171,3 +175,12 @@ class ManualPathGenerator(PathGenerator):
     
     path = AbsPath(0, len(code), code)
     return (path, branches_taken)
+
+class MarkovianPathGenerator(PathGenerator):
+  def __init__(self, program, start, ends, train_labels, max_count = 1000):
+    pass
+    
+    
+
+
+

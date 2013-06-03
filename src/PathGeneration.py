@@ -179,7 +179,7 @@ def detectFeasible(path):
 def generatePaths(program, start, n):
 
   #assert(0)
-  random_paths = RandomPathGenerator(program, start, set())
+  random_paths = ManualPathGenerator(program, start, set())
   epsilon = dict()#list()
   rand_count = 0
   gen_count = 0
@@ -198,9 +198,9 @@ def generatePaths(program, start, n):
     #epsilon.append((path, detectFeasible(path)))
     #print len(path)
     path.reset()
-    trace = mkTrace(path, [])
+    trace = mkTrace(path, [], True)
     path.reset()
-    fvars, sol = getPathConditions(trace, False)
+    fvars, sol = getPathConditions(trace, True)
 
     if sol <> None:
       print "SAT!"

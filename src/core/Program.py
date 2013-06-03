@@ -50,7 +50,7 @@ class Program:
             self.current = self.current + 1
           else:
             assert(False)
-        #print self.labels 
+        print self.labels 
         self.current = 0
         #self.code = map(cons, self.code)
         

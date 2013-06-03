@@ -278,9 +278,10 @@ def getPathConditions(trace, debug = False):
   callstack.index = last_index  # TODO: create a better interface
   smt_conds.write_smtlib_file("exp.smt2")  
   smt_conds.write_sol_file("exp.sol")
+  smt_conds.solve(debug)  
 
   if (smt_conds.is_sat()):
-    smt_conds.solve()
+    #smt_conds.solve(debug)
     return (fvars, Solution(smt_conds.m))
   else: # unsat :(
     return (set(), None)

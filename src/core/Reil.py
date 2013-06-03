@@ -224,7 +224,7 @@ class REILInstruction(Instruction):
 
   def __mkReilAddr__(self, op):
     addr_size = "DWORD"
-    name = hex(op.getValue())+"0000"
+    name = hex(op.getValue())+"00"
     return AddrOp(name,addr_size)
 
   def clearMemRegs(self):
