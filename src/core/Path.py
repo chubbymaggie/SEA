@@ -28,98 +28,100 @@
 from Instruction import *
 
 class Path:
-    def __init__(self, first, last, code = None, filename = None, parser = None, is_reversed = False):
+  """An abstract path class"""
+  def __init__(self, first, last, code = None, filename = None, parser = None, is_reversed = False):
         
+    if (filename <> None and parser <> None):
         
-        if (filename <> None and parser <> None):
+      self.init_type = "file"
+      self.filename = filename
+      self.parser   = parser
+      self.code = self.parser(self.filename)
         
-          self.init_type = "file"
-          self.filename = filename
-          self.parser   = parser
-          self.code = self.parser(self.filename)
+    elif (code <> None):
+      self.init_type = "code"
+      self.code = list(code)
         
-        elif (code <> None):
-          self.init_type = "code"
-          self.code = list(code)
-          #print self.code
-          #assert(0)
-        
-        self.code = filter(lambda i: i |iss| Instruction, self.code)
-	self.first = first
-        if last <> first:
-          self.last = min(first + len(self.code), last) - 1
-        else:
-          self.last = last
-	
-	assert(self.last >= self.first)
-	self.len = self.last - self.first 
-        
-	self.is_reversed = is_reversed
-        
-	if (self.is_reversed):
-	  self.current = self.last
-	else:
-	  self.current = first
+    self.code = filter(lambda i: i |iss| Instruction, self.code)
+    self.first = first
+    if last <> first:
+      self.last = min(first + len(self.code), last) - 1
+    else:
+      self.last = last
 
-    def __iter__(self):
-        return self
-    
-    def __len__(self):
-        return self.len
+    assert(self.last >= self.first)
+    self.len = self.last - self.first 
 
-    def next(self):
-        #print self.current, self.is_reversed, self.len
-        if (self.is_reversed):
-          if self.current < self.first:
-            raise StopIteration
-          else:
-          
-            ins = self.code[self.current]
-            ins.setCounter(self.current)
-          
-            self.current -= 1
-            return ins #self.code[self.current + 1]
-        else:
-          if self.current >= self.last:
-            raise StopIteration
-          else:
-            
-            ins = self.code[self.current]
-            ins.setCounter(self.current)
-          
-            self.current += 1
-            return ins #self.code[self.current - 1]  
-          
+    self.is_reversed = is_reversed
     
-    def reverse(self):
-        self.is_reversed = not (self.is_reversed)
-        if (self.is_reversed):
-          self.current = self.last
-        else:
-          self.current = self.first
-        
-    def reset(self):
-        if (self.is_reversed):
-          self.current = self.last
-        else:
-          self.current = self.first
-        
-    def __getitem__(self, i):
-                
-        if (type(i) == slice):
-          (first, last, stride) = i.indices(self.len)
+    if (self.is_reversed):
+      self.current = self.last
+    else:
+      self.current = first
+
+  def __iter__(self):
+    """Returns the iterator of the path"""
+    return self
+    
+  def __len__(self):
+    """Returns the size of the path"""
+    return self.len
+
+  def next(self):
+    """Returns the next instruction or the previous, depending if the path is reversed"""
+
+    #print self.current, self.is_reversed, self.len
+    if (self.is_reversed):
+      if self.current < self.first:
+        raise StopIteration
+      else:
+        ins = self.code[self.current]
+        ins.setCounter(self.current)
           
-          if self.init_type == "file":
-	    
-	    # slice of reversed path not supported!
-	    assert(not self.is_reversed)
-	    
-	    
-            return Path(first, last, filename = self.filename, parser = self.parser, is_reversed = self.is_reversed) 
-          if self.init_type == "code":
-	    return Path(first, last, code = self.code)
-        else:
-	  
-	  if (i<0):
-	    i = self.last + 1 + i
-          return self.code[i]
+        self.current -= 1
+        return ins
+    else:
+       if self.current >= self.last:
+         raise StopIteration
+       else:
+         ins = self.code[self.current]
+         ins.setCounter(self.current)
+          
+         self.current += 1
+         return ins        
+    
+  def reverse(self):
+    """Reverse the path, changing the order of the instructions"""
+
+    self.is_reversed = not (self.is_reversed)
+    if (self.is_reversed):
+      self.current = self.last
+    else:
+      self.current = self.first
+        
+  def reset(self):
+    """Resets the path to the first or the last instruction, depending if the path is reversed"""
+
+    if (self.is_reversed):
+      self.current = self.last
+    else:
+      self.current = self.first
+        
+  def __getitem__(self, i):
+    """Returns an instruction of the path or an slice of the path"""
+        
+    if (type(i) == slice):
+     (first, last, stride) = i.indices(self.len)
+          
+     if self.init_type == "file":    
+       # slice of reversed path not supported!
+       assert(not self.is_reversed)		    
+       return Path(first, last, filename = self.filename, parser = self.parser, is_reversed = self.is_reversed) 
+
+     elif self.init_type == "code":
+       return Path(first, last, code = self.code)
+
+    else: 
+      if (i<0):
+        i = self.last + 1 + i
+      return self.code[i]
