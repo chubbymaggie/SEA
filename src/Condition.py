@@ -48,7 +48,7 @@ def mkByteListVar(op):
   if (len(locs) > 1):
     return (map(lambda b: z3.BitVec(str(b),8), locs))
   else:
-    return [(str(locs[0]),8)]
+    return [z3.BitVec(str(locs[0]),8)]
 
 def mkByteVar(op):
   locs = op.getLocations()
@@ -64,7 +64,7 @@ def mkByteListConst(imm):
   if (len(locs) > 1):
     return (map(lambda b: z3.BitVecVal(str(b),8), locs))
   else:
-    return [(str(locs[0]),8)]
+    return [ z3.BitVecVal(str(locs[0]),8)]
 
 #def mkByteConst(imm):
 #  locs = imm.getLocations()
@@ -236,7 +236,6 @@ class  Ldm_Cond(Condition):
     srcs = src.getLocations()
     
     dst = (self.write_operands)[0]
-    
     if dst.isVar():
       dsts = mkByteListVar(dst)    
     else:
