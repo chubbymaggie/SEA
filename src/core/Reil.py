@@ -264,18 +264,18 @@ def ReilParser(filename):
     openf = open(filename)
     r = []
     for raw_ins in openf.readlines():
+      if not (raw_ins[0] == "#"):
+        # TODO: create REILLabel class
+        pins = reil.parseString(raw_ins)
+        label = hex(int(pins.address,16)).replace("L","")
+        addr_op = AddrOp(label, size)
       
-      # TODO: create REILLabel class
-      pins = reil.parseString(raw_ins)
-      label = hex(int(pins.address,16)).replace("L","")
-      addr_op = AddrOp(label, size)
-      
-      if (r <> []):
-        if r[-1].isCJmp(): # if last was conditional jmp
-          assert(r[-1].branchs <> [])
-          r[-1].branchs.append(addr_op) # next instruction is the missing label in branchs
+        if (r <> []):
+          if r[-1].isCJmp(): # if last was conditional jmp
+            assert(r[-1].branchs <> [])
+            r[-1].branchs.append(addr_op) # next instruction is the missing label in branchs
 
-      r.append(addr_op)
-      r.append(REILInstruction(raw_ins))
+        r.append(addr_op)
+        r.append(REILInstruction(raw_ins))
     
     return r
