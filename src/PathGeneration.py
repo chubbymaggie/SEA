@@ -161,19 +161,19 @@ class EXISTPathGenerator(PathGenerator):
     return seq
     #return branches_taken
         
-def detectFeasible(path):
+#def detectFeasible(path):
   
-  x,y,z = (0,0,0)
+#  x,y,z = (0,0,0)
   
-  for l in path:
-    if l == "nocjmp7":
-      z = z + 1
-    if l == "0x8048423":
-      x = x + 1
-    if l == "0x804845d":
-      y = y + 1
-  return (x,y,z)      
-  #return (x > 0 and 2*x == y and z == 1)
+#  for l in path:
+#    if l == "nocjmp7":
+#      z = z + 1
+#    if l == "0x8048423":
+#      x = x + 1
+#    if l == "0x804845d":
+#      y = y + 1
+#  return (x,y,z)      
+#  #return (x > 0 and 2*x == y and z == 1)
   
 
 def generatePaths(program, start, n):
