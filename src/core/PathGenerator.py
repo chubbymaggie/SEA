@@ -94,6 +94,7 @@ class RandomPathGenerator(PathGenerator):
 
     return (path, branches_taken)
 
+import sys
 
 class ManualPathGenerator(PathGenerator):
   def __init__(self, program, start, ends, max_count = 1000):
@@ -113,11 +114,17 @@ class ManualPathGenerator(PathGenerator):
   
     i = None
     prompt = ",".join(values)+">"
-  
-    while (not (i in values)):
-      if i <> None:
-        print "Invalid selection"
-      i = raw_input(prompt)
+    
+    try:
+      while (not (i in values)):
+        if i <> None:
+          print "Invalid selection"
+        i = raw_input(prompt)
+    except EOFError:
+      print ""
+      sys.exit(0)
+      
+
   
     return i
  
