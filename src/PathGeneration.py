@@ -18,6 +18,7 @@
 """
 
 import random
+import csv
 
 from core import *
 
@@ -176,19 +177,21 @@ class EXISTPathGenerator(PathGenerator):
 #  #return (x > 0 and 2*x == y and z == 1)
   
 
-def generatePaths(program, start, n):
+def generatePaths(program, start, end, n):
 
   #assert(0)
-  random_paths = ManualPathGenerator(program, start, set())
+  random_paths = RandomPathGenerator(program, start, set([end]))
   epsilon = dict()#list()
   rand_count = 0
   gen_count = 0
-  
+  path_set = set()
+  csv_writer = csv.writer(open('loop_bad_impos.csv', 'wb'))
+
   for (i,(path, labels)) in enumerate(random_paths):
     #print "hola" 
-    for label in labels:
-      print label,
-    print "end"
+    #for label in labels:
+    #  print label,
+    #print "end"
     #(x,y,z) = detectFeasible(path)
     
     
@@ -198,16 +201,21 @@ def generatePaths(program, start, n):
     #epsilon.append((path, detectFeasible(path)))
     #print len(path)
     path.reset()
-    trace = mkTrace(path, [], True)
+    trace = mkTrace(path, [], False)
     path.reset()
-    fvars, sol = getPathConditions(trace, True)
+    fvars, sol = getPathConditions(trace, False)
 
     if sol <> None:
       print "SAT!"
-      for var in fvars:
-        print "sol["+str(var)+"] =", sol[var]
+      #for var in fvars:
+      #  print "sol["+str(var)+"] =", sol[var]
     else:
       print "UNSAT!"
+      if not (str(labels) in path_set):
+        path_set.add(str(labels))
+        csv_writer.writerow(labels)
+        print labels
+        
     if (i==1000):
       break
  

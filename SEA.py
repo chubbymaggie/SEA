@@ -62,7 +62,7 @@ if (mode == 'debug'):
   first = int(args.first)
   last  = int(args.last) 
   path = mkPath(args.trace_filename, first, last)
-  trace = mkTrace(path, args.iconditions)
+  trace = mkTrace(path, args.iconditions, debug = True)
   
 if (mode == "jump"):
   
@@ -95,9 +95,6 @@ elif (mode == 'path'):
     print "SAT!"
     for var in fvars:
       print "sol["+str(var)+"] =", sol[var]
-    #for var in sol.m.decls():
-    #  if "stdin" in str(var):
-    #    print "sol["+var.name()+"] =", sol[var]  
   else:
     print "UNSAT!"
 
@@ -120,6 +117,6 @@ elif (mode == 'path'):
 elif (mode == 'generation'):
   
   program = mkProgram(args.trace_filename) 
-  generatePaths(program,args.first, 2000)
+  generatePaths(program,args.first, args.last, 2000)
     
 

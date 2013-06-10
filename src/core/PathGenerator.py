@@ -49,6 +49,7 @@ class RandomPathGenerator(PathGenerator):
   def __init__(self, program, start, ends, max_count = 1000):
     self.program = program
     self.start = start
+    self.ends = ends
     self.max_count = max_count
   
   def next(self):
@@ -59,13 +60,15 @@ class RandomPathGenerator(PathGenerator):
     count = 0
     for ins in self.program:
       #print str(ins.ins_raw)
-      #print ins
+      #print ins.address
       code.append(ins)
       if count == self.max_count:
         break
       
       #if branches_taken <> []:
-        #print "last:", branches_taken[-1]
+      #  if branches_taken[-1] in self.ends:
+      #    break
+         #print "last:", branches_taken[-1]
   
       if ins.isJmp():
 	#print ins.branchs[0]
