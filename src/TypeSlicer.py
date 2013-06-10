@@ -55,8 +55,12 @@ def typeLocs(ins, callstack, tlocs):
   def detectMainParameters(loc, sloc):
     
     i = ins.getCounter()
+    if i > 0:
+      return
     
-    if i == 0 and ("SPtr32" in str(loc.type)) and \
+
+
+    if ("SPtr32" in str(loc.type)) and \
        loc.index >= 8 and loc.index < 12:
       
       einfo = dict()
@@ -65,7 +69,7 @@ def typeLocs(ins, callstack, tlocs):
       sloc.discard(loc)
       sloc.add(Type("Num32", loc.index-8, einfo))
 
-    elif i == 0 and ("SPtr32" in str(loc.type)) and \
+    elif ("SPtr32" in str(loc.type)) and \
        loc.index >= 12 and loc.index < 16:
       
       einfo = dict()
@@ -73,6 +77,22 @@ def typeLocs(ins, callstack, tlocs):
       einfo["source.index"] = 0
       sloc.discard(loc)
       sloc.add(Type("Ptr32", loc.index-12, einfo))
+
+    elif ("Ptr32" in str(loc.type)) and \
+       "argv[]" in str(loc):
+      
+      #print loc
+      #print loc.index % 4
+      #assert(0)
+
+      einfo = dict()
+      einfo["source.name"] = "argv[" +str(loc.index / 4)+"]"
+      einfo["source.index"] = 0
+      sloc.discard(loc)
+      sloc.add(Type("Ptr32", loc.index % 4, einfo))
+
+      #print "ENTRE:", Type("Ptr32", loc.index-12, einfo)
+
   
   def detectStackPtr(loc, sloc):
     
@@ -110,12 +130,13 @@ def typeLocs(ins, callstack, tlocs):
     for loc in list(sloc):
       
       if (loc |iss| Location):
+        
+        detectMainParameters(loc, sloc)
         detectImm(loc, sloc)
         #detectStackChange(loc, sloc)
         detectStackPtr(loc, sloc)
         detectHeapPtr(loc, sloc)
-        #detectMainParameters(loc, sloc)
-  
+         
 def checkType(tlocs):
   pt_name = tlocs[0].name
   einfo  = tlocs[0].einfo
@@ -173,7 +194,7 @@ def getType(inss, callstack, memory, op, initial_type):
     tlocs[i] = set([loc, pt])
   
   for ins in inss:
-    #print str(ins)
+    print ins.getCounter(), str(ins)
     
     counter = ins.getCounter()
     
@@ -186,18 +207,18 @@ def getType(inss, callstack, memory, op, initial_type):
     ins_read_vars  = map(lambda op: set(op.getLocations()), ins.getReadVarOperands())
     read_locs  = concatSet(ins_read_vars)
     
-    #for loc in mlocs:
-    #  print loc, "::", loc.type, "--",
+    for loc in mlocs:
+      print loc, "::", loc.type, "--",
     
-    #if (len(mlocs) > 0):
-    #  print "\n"
+    if (len(mlocs) > 0):
+      print "\n"
     
      
-    #for loc in write_locs:
-    #  print loc, "::", loc.type, "--",
+    for loc in write_locs:
+      print loc, "::", loc.type, "--",
     
-    #if (len(mlocs) > 0):
-    #  print "\n"
+    if (len(mlocs) > 0):
+      print "\n"
  
     typeLocs(ins, callstack, tlocs)
     
@@ -212,10 +233,12 @@ def getType(inss, callstack, memory, op, initial_type):
     callstack.prevInstruction(ins)
   
   callstack.index = index
-  
+  print "finally:"
   for (i,s) in enumerate(tlocs):
-    #for loc in tlocs[i]:
-      #print loc, "-",
+    
+    for loc in tlocs[i]:
+      print loc, "-",
+    print "xxx"
     tlocs[i] = joinset(s)
     
   return checkType(tlocs)
