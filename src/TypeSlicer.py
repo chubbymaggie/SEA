@@ -55,42 +55,42 @@ def typeLocs(ins, callstack, tlocs):
       
   def detectMainParameters(loc, sloc):
     
-    i = ins.getCounter()
-    if i > 0:
-      return
+    #i = ins.getCounter()
+    #if i > 0:
+    #  return
     
 
 
-    if ("SPtr32" in str(loc.type)) and \
-       loc.index >= 8 and loc.index < 12:
-      
-      einfo = dict()
-      einfo["source.name"] = "argc"
-      einfo["source.index"] = 0
+    if ("argv" in str(loc)):
+      #print "ENTRE", str(loc)
+      #assert(0) 
+      #einfo = dict()
+      #einfo["source.name"] = "argc"
+      #einfo["source.index"] = 0
       sloc.discard(loc)
-      sloc.add(Type("Num32", loc.index-8, einfo))
+      sloc.add(loc.getType())
 
-    elif ("SPtr32" in str(loc.type)) and \
-       loc.index >= 12 and loc.index < 16:
+    #elif ("SPtr32" in str(loc.type)) and \
+    #   loc.index >= 12 and loc.index < 16:
       
-      einfo = dict()
-      einfo["source.name"] = "argv[]"
-      einfo["source.index"] = 0
-      sloc.discard(loc)
-      sloc.add(Type("Ptr32", loc.index-12, einfo))
+    #  einfo = dict()
+    #  einfo["source.name"] = "argv[]"
+    #  einfo["source.index"] = 0
+    #  sloc.discard(loc)
+    #  sloc.add(Type("Ptr32", loc.index-12, einfo))
 
-    elif ("Ptr32" in str(loc.type)) and \
-       "argv[]" in str(loc):
+    #elif ("Ptr32" in str(loc.type)) and \
+    #   "argv[]" in str(loc):
       
       #print loc
       #print loc.index % 4
       #assert(0)
 
-      einfo = dict()
-      einfo["source.name"] = "argv[" +str(loc.index / 4)+"]"
-      einfo["source.index"] = 0
-      sloc.discard(loc)
-      sloc.add(Type("Ptr32", loc.index % 4, einfo))
+    #  einfo = dict()
+    #  einfo["source.name"] = "argv[" +str(loc.index / 4)+"]"
+    #  einfo["source.index"] = 0
+    #  sloc.discard(loc)
+    #  sloc.add(Type("Ptr32", loc.index % 4, einfo))
 
       #print "ENTRE:", Type("Ptr32", loc.index-12, einfo)
 
@@ -132,7 +132,7 @@ def typeLocs(ins, callstack, tlocs):
       
       if (loc |iss| Location):
         
-        #detectMainParameters(loc, sloc)
+        detectMainParameters(loc, sloc)
         detectImm(loc, sloc)
         #detectStackChange(loc, sloc)
         detectStackPtr(loc, sloc)
@@ -195,31 +195,32 @@ def getType(inss, callstack, memory, op, initial_type):
     tlocs[i] = set([loc, pt])
   
   for ins in inss:
-    print ins.getCounter(), str(ins)
-    
+       
     counter = ins.getCounter()
     
     if memory.getAccess(counter) <> None:
       ins.setMemoryAccess(memory.getAccess(counter))
-    
+
+    #print ins.getCounter(), str(ins)
+
     ins_write_vars = map(lambda op: set(op.getLocations()), ins.getWriteVarOperands())
     write_locs = concatSet(ins_write_vars)
     
     ins_read_vars  = map(lambda op: set(op.getLocations()), ins.getReadVarOperands())
     read_locs  = concatSet(ins_read_vars)
     
-    for loc in mlocs:
-      print loc, "::", loc.type, "--",
+    #for loc in mlocs:
+    #  print loc, "::", loc.type, "--",
     
-    if (len(mlocs) > 0):
-      print "\n"
+    #if (len(mlocs) > 0):
+    #  print "\n"
     
      
-    for loc in write_locs:
-      print loc, "::", loc.type, "--",
+    #for loc in write_locs:
+    #  print loc, "::", loc.type, "--",
     
-    if (len(mlocs) > 0):
-      print "\n"
+    #if (len(mlocs) > 0):
+    #  print "\n"
  
     typeLocs(ins, callstack, tlocs)
     
@@ -234,12 +235,12 @@ def getType(inss, callstack, memory, op, initial_type):
     callstack.prevInstruction(ins)
   
   callstack.index = index
-  print "finally:"
+  #print "finally:"
   for (i,s) in enumerate(tlocs):
     
-    for loc in tlocs[i]:
-      print loc, "-",
-    print "xxx"
+    #for loc in tlocs[i]:
+    #  print loc, "-",
+    #print "xxx"
     tlocs[i] = joinset(s)
     
   return checkType(tlocs)
@@ -252,7 +253,7 @@ def getTypedValue(inss, callstack, memory, op, initial_type):
   inss.reverse()
   inss.reset()
     
-  val = getValueFromCode(inss, callstack, None, memory, op)
+  val = getValueFromCode(inss, callstack, dict(), memory, op)
 
   if ("SPtr32" in str(rtype)) and val >= 12:
    
@@ -261,9 +262,16 @@ def getTypedValue(inss, callstack, memory, op, initial_type):
     einfo["source.index"] = 0
     rtype.setInfo(einfo)
     val = val - 12
-  
 
-  elif "Ptr32" in str(rtype):
+  elif ("argv[]" in str(rtype)):
+    
+    einfo = dict()
+    einfo["source.name"] = "argv["+str(val/4)+"]"
+    einfo["source.index"] = 0
+    rtype.setInfo(einfo)
+    val = val % 4
+
+  elif "Ptr32" == str(rtype):
     rtype = Type("GPtr32", None)
     
     einfo = dict()

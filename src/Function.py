@@ -84,8 +84,6 @@ class Gets_Func(Function):
         self.parameter_locs.append((ptype, self.__locateParameter__(disp, size), needed))
     else:
       self.__loadParameters__(pars)
-      #assert(0)
-      
       # populate read operands
       
       #self.read_operands.append(self.parameter_locs[0])
@@ -105,15 +103,7 @@ class Gets_Func(Function):
 
       self.read_operands = [op]
  
-      #for i in range(self.internal_size):
-      #  mem_source = self.parameter_vals[0].mem_source
-      #  mem_offset = self.parameter_vals[0].mem_offset + i
-      #  name = mem_source + "@" + str(mem_offset)
-      #  self.write_operands.append(Operand(name, "BYTE", mem_source, mem_offset))
-        
-      #print len(self.write_operands)
-
-
+"""
 class Strlen_Func(Function):
   parameter_typs = [(Type("Ptr32",None), "DWORD", 0, True)]
   return_type    = "int"
@@ -135,7 +125,8 @@ class Strlen_Func(Function):
         
       # return value
       self.write_operands.append(Operand("eax", "DWORD"))  
-      
+"""
+
 class Strcpy_Func(Function):
   parameter_typs = [(Type("Ptr32",None), "DWORD", 0, True), (Type("Ptr32",None), "DWORD", 4, True)]
   return_type    = "void"
@@ -152,25 +143,40 @@ class Strcpy_Func(Function):
       self.__loadParameters__(pars)
       
       # populate read operands
+      ptype,offset = self.parameter_vals[1]
+      op = MemOp(getMemInfo(ptype), 1, offset)
+      op.size_in_bytes = self.internal_size
+      op.setType(ptype)
+
+      # populate write operands
+      self.write_operands = [op]
+
+      ptype,offset = self.parameter_vals[0]
+      op = MemOp(getMemInfo(ptype), 1, offset)
+      op.size_in_bytes = self.internal_size
+      op.setType(ptype)
+
+      # populate write operands
+      self.read_operands = [op]
+
+      #self.read_operands.append(self.parameter_locs[0])
+      #self.read_operands.append(self.parameter_locs[1])
       
-      self.read_operands.append(self.parameter_locs[0])
-      self.read_operands.append(self.parameter_locs[1])
-      
-      for i in range(self.internal_size):
-        msrc = self.parameter_vals[1].mem_source
-        if ("arg[" in msrc): #it's an argument!
-          self.read_operands.append(Operand(msrc+":"+str(i), "BYTE"))
-        else:
-          assert(0)
-        #self.read_operands.append(Operand("i:"+str(i), "BYTE"))
+      #for i in range(self.internal_size):
+      #  msrc = self.parameter_vals[1].mem_source
+      #  if ("arg[" in msrc): #it's an argument!
+      #    self.read_operands.append(Operand(msrc+":"+str(i), "BYTE"))
+      #  else:
+      #    assert(0)
+      #  #self.read_operands.append(Operand("i:"+str(i), "BYTE"))
         
       # populate write operands
       
-      for i in range(self.internal_size):
-        mem_source = self.parameter_vals[0].mem_source
-        mem_offset = self.parameter_vals[0].mem_offset + i
-        name = mem_source + "@" + str(mem_offset)
-        self.write_operands.append(Operand(name, "BYTE", mem_source, mem_offset))
+      #for i in range(self.internal_size):
+      #  mem_source = self.parameter_vals[0].mem_source
+      #  mem_offset = self.parameter_vals[0].mem_offset + i
+      #  name = mem_source + "@" + str(mem_offset)
+      #  self.write_operands.append(Operand(name, "BYTE", mem_source, mem_offset))
 
 class Alloc_Func(Function):
   parameter_typs = [(Type("Num32",None), "DWORD", 0, True)]
@@ -216,5 +222,5 @@ funcs = {
     "malloc" : Alloc_Func,
     "free"   : Free_Func,
     "strcpy" : Strcpy_Func,
-    "strlen" : Strlen_Func,
+#    "strlen" : Strlen_Func,
 }

@@ -31,6 +31,9 @@ class Location:
     self.type = None
     self.name = str(name)
     self.index = index
+
+  def getType(self):
+    return self.type
     
   def getIndex(self):
     return self.index

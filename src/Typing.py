@@ -35,6 +35,16 @@ def getInitialConditionsArgs(callstack):
   
   initial_values_at_call[arg_v] = ImmOp(str(0), "DWORD")
   
+  einfo = dict() 
+  einfo["source.name"]="argv[]"
+  einfo["source.index"]=0
+  
+  arg_v = MemOp(name,"DWORD")
+  arg_v.type = Type("SPtr32",None, einfo=einfo)
+  
+  initial_values_at_call[arg_v] = ImmOp(str(0), "DWORD")
+
+  
   return initial_values_at_call
 
 

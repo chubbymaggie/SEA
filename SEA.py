@@ -72,9 +72,7 @@ if (mode == "jump"):
   address = args.address
   path = mkPath(args.trace_filename, first, last)
 
-  trace = mkTrace(path, args.iconditions)
-
-  assert(0)
+  trace = mkTrace(path, args.iconditions, debug = True)
 
   if (address == None):
     print "An address to jump to should be specified!"
@@ -99,20 +97,20 @@ elif (mode == 'path'):
     print "UNSAT!"
 
   
-  assert(0)
+  #assert(0)
   
   # TODO: move to PathConditions.py?
-  sol = getPathConditions(trace)
-  if (sol <> None):
-    print "SAT conditions found!"
-    input_vars = ["stdin:", "arg[0]@0:", "arg[1]@0:", "arg[2]@0:"]
-    pos = trace["code"].last - 1
+  #sol = getPathConditions(trace)
+  #if (sol <> None):
+  #  print "SAT conditions found!"
+  #  input_vars = ["stdin:", "arg[0]@0:", "arg[1]@0:", "arg[2]@0:"]
+  #  pos = trace["code"].last - 1
     
-    filename = "path." + "[" + str(pos)  +"]"
+  #  filename = "path." + "[" + str(pos)  +"]"
     
-    dumped = sol.dump(filename,input_vars)
-    for filename in dumped:
-      print filename, "dumped."
+  #  dumped = sol.dump(filename,input_vars)
+  #  for filename in dumped:
+  #    print filename, "dumped."
       
 elif (mode == 'generation'):
   

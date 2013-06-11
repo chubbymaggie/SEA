@@ -20,8 +20,8 @@
 from core import *
 
 from Function    import *
-from Common      import getValueFromCode
-from TypeSlicer   import getType
+#from Common      import getValueFromCode
+from TypeSlicer   import getTypedValue
 
 class FuncParameters:
   def __init__(self):
@@ -62,19 +62,20 @@ class FuncParameters:
     
     # first we locate the stack pointer to know where the parameters are located
     esp_op = RegOp("esp","DWORD")
+    (val,ptbase) = getTypedValue(reil_code, callstack, memaccess, esp_op, Type("Ptr32", None))
+ 
+    #ptbase = getType(reil_code, callstack, memaccess, esp_op, Type("Ptr32", None)) 
     
-    ptbase = getType(reil_code, callstack, memaccess, esp_op, Type("Ptr32", None)) 
+    # we reset the path
+    #reil_code.reverse()
+    #reil_code.reset()
     
-     # we reset the path
-    reil_code.reverse()
-    reil_code.reset()
-    
-    val = getValueFromCode(reil_code, callstack, inputs, memaccess, esp_op)
+    #val = getValueFromCode(reil_code, callstack, inputs, memaccess, esp_op)
     #ptbase.addTag("offset", val)
     
-    if str(ptbase) == "Ptr32":
-      print "Unable to detect arguments for", ins.called_function
-      return
+    #if str(ptbase) == "Ptr32":
+    #  print "Unable to detect arguments for", ins.called_function
+    #  return
     
     func_cons = funcs.get(ins.called_function, Function)
     func = func_cons(pbase = (ptbase, val))
@@ -87,12 +88,14 @@ class FuncParameters:
         reil_code.reverse()
         reil_code.reset()
         
-        pt = getType(reil_code, callstack, memaccess, memop, par_pt)
+        (val,pt) = getTypedValue(reil_code, callstack, memaccess, memop, par_pt)
+
+        #pt = getType(reil_code, callstack, memaccess, memop, par_pt)
         
-        reil_code.reverse()
-        reil_code.reset()
+        #reil_code.reverse()
+        #reil_code.reset()
         
-        val = getValueFromCode(reil_code, callstack, inputs, memaccess, memop)
+        #val = getValueFromCode(reil_code, callstack, inputs, memaccess, memop)
         #print  "parameter of",ins.called_function, "at", str(location) , "has value:", val.name
         parameters.append((memop, pt, val))
       else:

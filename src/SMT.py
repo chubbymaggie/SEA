@@ -132,7 +132,7 @@ class Solution:
       for loc in op.getLocations():
         var = z3.BitVec(str(loc),8)
         var = self.m[var]
-	r = r +("\\0x%.2x" % var.as_signed_long())
+	r = r +("\\x%.2x" % var.as_signed_long())
       return r
 
     if (op |iss| RegOp):

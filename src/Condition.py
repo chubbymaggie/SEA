@@ -388,7 +388,7 @@ class  Call_Gets_Cond(Condition):
 
     #return r
 
-
+"""
 class  Call_Strlen_Cond(Condition):
   def __init__(self, funcs, ssa):
   
@@ -406,7 +406,8 @@ class  Call_Strlen_Cond(Condition):
     
     retreg = self.getOperands([self.retreg])
     return retreg == self.size
-  
+"""
+
 class  Call_Strcpy_Cond(Condition):
   def __init__(self, funcs, ssa):
     self.src = funcs.parameter_vals[1]
@@ -414,35 +415,61 @@ class  Call_Strcpy_Cond(Condition):
     self.size = funcs.internal_size
   
   def getEq(self, mvars):
-    
+    assert(0)
     r = []
+    src = self.src
+    srcs = src.getLocations()
+    sname = Memvars.read(srcs[0])
+
+    read_array = mkArray(sname)
+
+    dst = self.dst 
+    dsts = dst.getLocations()
     
+    conds = []
+    
+    old_sname, new_sname = Memvars.write(dsts[0])
+    
+    old_array = mkArray(old_sname)
+    array = mkArray(new_sname)
+
+    for (src,dst) in zip(srcs, dsts):
+      if dst in mlocs:
+        array = z3.Store(array, dst.getIndex(), src)
+      
+      conds.append(src <> 10)
+      conds.append(src <> 0)
+ 
+    conds.append((old_array == array))
+    return conds
+
+
     #print self.src, self.dst
     
-    if (self.src.isReg()):
-      src = self.src.name
+    #if (self.src.isReg()):
+    #  src = self.src.name
     #  self.src.size = self.size
     #  srcs = self.getOperands([self.src])
     #  print srcs
-    else:
-      assert(0)
+    #else:
+    #  assert(0)
   
-    old_sname, new_sname, offset = Memvars.write(self.dst)
+    #old_sname, new_sname, offset = Memvars.write(self.dst)
       
-    old_array = mkArray(old_sname)
-    array = mkArray(new_sname)
+    #old_array = mkArray(old_sname)
+    #array = mkArray(new_sname)
     
-    for i in range(self.size):
+    #for i in range(self.size):
       
-      dst_op = Operand(self.dst.mem_source+"@"+str(offset+i), "BYTE")
-      src_var = z3.BitVec(src+":"+str(i)+"(0)",8)
+    #  dst_op = Operand(self.dst.mem_source+"@"+str(offset+i), "BYTE")
+    #  src_var = z3.BitVec(src+":"+str(i)+"(0)",8)
       
-      if (dst_op in mvars):
-        array = z3.Store(array, offset+i, src_var)
+    #  if (dst_op in mvars):
+    #    array = z3.Store(array, offset+i, src_var)
 
-      r.append(src_var <> 0)
+    #  r.append(src_var <> 0)
       
-    r.append((old_array == array))
+    #r.append((old_array == array))
 
     return r
 

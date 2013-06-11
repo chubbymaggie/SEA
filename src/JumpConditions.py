@@ -27,7 +27,7 @@ def getJumpConditions(trace, addr):
   addr = int(addr, 16)
   pos = trace["code"].last - 1
   
-  if (last_ins.instruction == "jcc"):
+  if (last_ins.isJmp()):
     jmp_op = last_ins.operands[2]
     
     if (jmp_op.isVar()):
@@ -36,16 +36,18 @@ def getJumpConditions(trace, addr):
       trace["final_conditions"] = dict([( jmp_op , Operand(str(addr), "DWORD"))])
       sol = getPathConditions(trace)
       
-      if (sol <> None):
-        print "SAT conditions found!"
-        filename = last_ins.instruction + "[" + str(pos)  +"]"
-        dumped = sol.dump(filename,input_vars)
-        for filename in dumped:
-          print filename, "dumped!"
-      else:
-        print "Impossible to jump to", hex(addr), "from", last_ins.instruction, "at", pos
+      return sol
+
+      #if (sol <> None):
+      #  print "SAT conditions found!"
+      #  filename = last_ins.instruction + "[" + str(pos)  +"]"
+      #  dumped = sol.dump(filename,input_vars)
+      #  for filename in dumped:
+      #    print filename, "dumped!"
+      #else:
+      #  print "Impossible to jump to", hex(addr), "from", last_ins.instruction, "at", pos
     else:
-      print "Jump operand (", jmp_op.name ,") in last instruction (", last_ins.instruction, ") is not variable!" 
+      print "Jump operand (", jmp_op ,") in last instruction (", last_ins.instruction, ") is not variable!" 
       return None
     
   else:

@@ -156,9 +156,6 @@ def getPathConditions(trace, debug = False):
   # we save the current callstack
   last_index = callstack.index  # TODO: create a better interface
   
-  # we set the instruction counter
-  #counter = len(inss)-1
-  
   # ssa and smt objects
   ssa = SSA()
   smt_conds  = SMT()
@@ -166,11 +163,9 @@ def getPathConditions(trace, debug = False):
   mvars = set()
   mlocs = set()
  
-  #if (op |iss| ImmOp or op |iss| AddrOp):
-  #  return op.getValue()
-  
-  #mvars.add(op)
-  #mlocs = set(op.getLocations())
+  for op in trace["final_conditions"]:
+    mvars.add(op)
+    mlocs = mlocs.union(op.getLocations())
   
   # we start without free variables
   fvars = set()
