@@ -20,7 +20,8 @@
 concatSet = lambda l: reduce(set.union, l, set())
 concatList = lambda l: reduce(lambda a,b: a+b, l, [])
 
-from core import *
+from core        import *
+from Common      import getValueFromCode
 
 
 def typeLocs(ins, callstack, tlocs):
@@ -131,7 +132,7 @@ def typeLocs(ins, callstack, tlocs):
       
       if (loc |iss| Location):
         
-        detectMainParameters(loc, sloc)
+        #detectMainParameters(loc, sloc)
         detectImm(loc, sloc)
         #detectStackChange(loc, sloc)
         detectStackPtr(loc, sloc)
@@ -242,3 +243,33 @@ def getType(inss, callstack, memory, op, initial_type):
     tlocs[i] = joinset(s)
     
   return checkType(tlocs)
+
+def getTypedValue(inss, callstack, memory, op, initial_type):
+  
+  rtype = getType(inss, callstack, memory, op, initial_type)
+  
+  # we reset the path
+  inss.reverse()
+  inss.reset()
+    
+  val = getValueFromCode(inss, callstack, None, memory, op)
+
+  if ("SPtr32" in str(rtype)) and val >= 12:
+   
+    einfo = dict()
+    einfo["source.name"] = "argv[]"
+    einfo["source.index"] = 0
+    rtype.setInfo(einfo)
+    val = val - 12
+  
+
+  elif "Ptr32" in str(rtype):
+    rtype = Type("GPtr32", None)
+    
+    einfo = dict()
+    einfo["source.name"] = "0x00000000"
+    einfo["source.index"] = 0
+    rtype.setInfo(einfo)
+
+  return (val, rtype)
+

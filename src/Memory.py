@@ -19,7 +19,7 @@
 
 from core        import *
 from Common      import getValueFromCode
-from TypeSlicer   import getType
+from TypeSlicer  import getTypedValue
   
 class MemAccess:
   def __init__(self):
@@ -52,18 +52,18 @@ class MemAccess:
     
     assert(ins.isReadWrite()) 
     addr_op = ins.getMemReg()
-    pt = getType(reil_code, callstack, self, addr_op, Type("Ptr32", None)) 
+    #pt = getType(reil_code, callstack, self, addr_op, Type("Ptr32", None)) 
     
-    if str(pt) == "Ptr32":
-      pt = Type("GPtr32", None)
-      pt.addTag("source.name","0x00000000")
-      pt.addTag("source.index",0)
+    #if str(pt) == "Ptr32":
+    #  pt = Type("GPtr32", None)
+    #  pt.addTag("source.name","0x00000000")
+    #  pt.addTag("source.index",0)
     
     # we reset the path
-    reil_code.reverse()
-    reil_code.reset()
+    #reil_code.reverse()
+    #reil_code.reset()
     
-    val = getValueFromCode(reil_code, callstack, inputs, self, addr_op)
+    (val,pt) = getTypedValue(reil_code, callstack, self, addr_op, Type("Ptr32", None))
     
     self.access[counter] = self.__mkMemAccess__(ins, pt, val)
       
