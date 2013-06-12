@@ -1,0 +1,5 @@
+a: call [EMPTY, EMPTY, EMPTY]
+b: xor [DWORD 42, DWORD eax, DWORD t0]
+c: str [DWORD t0, EMPTY, DWORD eax]
+d: add [DWORD eax, DWORD t0, DWORD ebx]
+e: jcc [DWORD t0, DWORD 1, DWORD ebx]

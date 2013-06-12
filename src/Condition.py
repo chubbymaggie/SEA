@@ -98,6 +98,7 @@ class Condition:
     self.write_operands = map(lambda o: self.__apply_ssa(o), self.write_operands)
   
   def getEq(self):
+    assert(0)
     return []
 
   def getOperands(self, ops, concat = True):
@@ -117,7 +118,8 @@ class Condition:
 
 class Call_Cond(Condition):
   def getEq(self):
-    return None
+    assert(0)
+    return []
  
 class  Jcc_Cond(Condition):
   def getEq(self):
@@ -410,12 +412,15 @@ class  Call_Strlen_Cond(Condition):
 
 class  Call_Strcpy_Cond(Condition):
   def __init__(self, funcs, ssa):
-    self.src = funcs.parameter_vals[1]
-    self.dst = funcs.parameter_vals[0]
+    self.src =  funcs.read_operands[0]#funcs.parameter_vals[1]
+    self.dst =  funcs.write_operands[0]#funcs.parameter_vals[0]
     self.size = funcs.internal_size
   
-  def getEq(self, mvars):
-    assert(0)
+  def getEq(self, mlocs):
+    #assert(0)
+    #for loc in mlocs:
+    #  print loc, "--",
+    #print ""
     r = []
     src = self.src
     srcs = src.getLocations()
@@ -426,22 +431,23 @@ class  Call_Strcpy_Cond(Condition):
     dst = self.dst 
     dsts = dst.getLocations()
     
-    conds = []
-    
     old_sname, new_sname = Memvars.write(dsts[0])
     
     old_array = mkArray(old_sname)
     array = mkArray(new_sname)
 
-    for (src,dst) in zip(srcs, dsts):
-      if dst in mlocs:
-        array = z3.Store(array, dst.getIndex(), src)
+    for (src_loc,dst_loc) in zip(srcs, dsts):
+
+      read_val = z3.Select(read_array, src_loc.getIndex()) 
+      if dst_loc in mlocs:
+        array = z3.Store(array, dst_loc.getIndex(), read_val)
       
-      conds.append(src <> 10)
-      conds.append(src <> 0)
+      r.append(read_val <> 0)
  
-    conds.append((old_array == array))
-    return conds
+    r.append((old_array == array))
+    #print r
+    #assert(0)
+    return r
 
 
     #print self.src, self.dst

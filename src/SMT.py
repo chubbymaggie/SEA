@@ -33,6 +33,7 @@ class SMT:
       #print c
       #if (self.c <= self.max_c):
       self.solver.assert_and_track(c, str(c))
+      #self.solver.add(c)
 
       #self.c = self.c + 1
 
@@ -132,7 +133,7 @@ class Solution:
       for loc in op.getLocations():
         var = z3.BitVec(str(loc),8)
         var = self.m[var]
-	r = r +("\\x%.2x" % var.as_signed_long())
+	r = r +("\\x%.2x" % var.as_long())
       return r
 
     if (op |iss| RegOp):
@@ -164,13 +165,19 @@ class Solution:
           byte = f.else_value()
           
         var.append(byte)
-        
+      r = "" 
+      for v in var:
+	r = r +("\\x%.2x" % v.as_long())
+
+      return r
+
+
       #var.reverse()
       
-      if (len(var) > 1):  
-        return z3.simplify(z3.Concat(var)).as_signed_long()
-      else:
-        return z3.simplify(var[0]).as_signed_long()
+      #if (len(var) > 1):  
+      #  return z3.simplify(z3.Concat(var)).as_signed_long()
+      #else:
+      #  return z3.simplify(var[0]).as_signed_long()
     else:
       assert(0)
 

@@ -88,11 +88,11 @@ def setInitialConditions(ssa, initial_values, smt_conds):
   
   for iop in initial_values:
     
-    if ":" in iop.name:
-      smt_conds.add(eq.getEq(iop,initial_values[iop]))
-    elif (iop |iss| RegOp):
+    #if ":" in iop.name:
+    #  smt_conds.add(eq.getEq(iop,initial_values[iop]))
+    if (iop |iss| RegOp):
       #assert(0)
-      
+      #print eq.getEq(ssa_map[iop.name],initial_values[iop]), "-"
       smt_conds.add(eq.getEq(ssa_map[iop.name],initial_values[iop]))
     elif (iop.isMem()):
       smt_conds.add(eq.getEq(iop,initial_values[iop]))

@@ -103,10 +103,10 @@ class Gets_Func(Function):
 
       self.read_operands = [op]
  
-"""
+
 class Strlen_Func(Function):
   parameter_typs = [(Type("Ptr32",None), "DWORD", 0, True)]
-  return_type    = "int"
+  return_type    = Type("Num32",None)
   
   def __init__(self, pbase = None, pars = None):
     
@@ -124,8 +124,7 @@ class Strlen_Func(Function):
       self.read_operands.append(self.parameter_locs[0])
         
       # return value
-      self.write_operands.append(Operand("eax", "DWORD"))  
-"""
+      self.write_operands.append(RegOp("eax", "DWORD")) 
 
 class Strcpy_Func(Function):
   parameter_typs = [(Type("Ptr32",None), "DWORD", 0, True), (Type("Ptr32",None), "DWORD", 4, True)]
@@ -143,7 +142,7 @@ class Strcpy_Func(Function):
       self.__loadParameters__(pars)
       
       # populate read operands
-      ptype,offset = self.parameter_vals[1]
+      ptype,offset = self.parameter_vals[0]
       op = MemOp(getMemInfo(ptype), 1, offset)
       op.size_in_bytes = self.internal_size
       op.setType(ptype)
@@ -151,7 +150,7 @@ class Strcpy_Func(Function):
       # populate write operands
       self.write_operands = [op]
 
-      ptype,offset = self.parameter_vals[0]
+      ptype,offset = self.parameter_vals[1]
       op = MemOp(getMemInfo(ptype), 1, offset)
       op.size_in_bytes = self.internal_size
       op.setType(ptype)
@@ -222,5 +221,5 @@ funcs = {
     "malloc" : Alloc_Func,
     "free"   : Free_Func,
     "strcpy" : Strcpy_Func,
-#    "strlen" : Strlen_Func,
+    "strlen" : Strlen_Func,
 }

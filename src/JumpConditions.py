@@ -17,6 +17,8 @@
     Copyright 2013 by neuromancer
 """
 
+from sys         import exit
+
 from core        import *
 from Common      import getPathConditions
 
@@ -27,16 +29,17 @@ def getJumpConditions(trace, addr):
   addr = int(addr, 16)
   pos = trace["code"].last - 1
   
-  if (last_ins.isJmp()):
+  if (last_ins.isCJmp()):
     jmp_op = last_ins.operands[2]
     
     if (jmp_op.isVar()):
       
       #print addr  
-      trace["final_conditions"] = dict([( jmp_op , Operand(str(addr), "DWORD"))])
-      sol = getPathConditions(trace)
+      trace["final_conditions"] = dict([( jmp_op , ImmOp(str(addr), "DWORD"))])
+      (fvars, sol) = getPathConditions(trace, False)
       
-      return sol
+      #print sol 
+      return (fvars, sol)
 
       #if (sol <> None):
       #  print "SAT conditions found!"
@@ -48,8 +51,7 @@ def getJumpConditions(trace, addr):
       #  print "Impossible to jump to", hex(addr), "from", last_ins.instruction, "at", pos
     else:
       print "Jump operand (", jmp_op ,") in last instruction (", last_ins.instruction, ") is not variable!" 
-      return None
+      return (set(), None)
     
   else:
-    print "Last instructions (", last_ins, ") is not a jmp" 
-    return None
+    exit("Last instruction ( "+ str(last_ins)+ " ) is not a jmp")

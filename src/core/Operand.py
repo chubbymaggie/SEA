@@ -82,17 +82,19 @@ class Operand:
     return self.size_in_bits
     
   def getOffset(self):
-    """ The offset of an operand """
+    """ The offset of where an operand starts"""
     return self.offset
 
   def getType(self):
+    """ The type of an operand """
     return self.type
  
   def setType(self, t):
+    """ Sets the type of an operand """
     self.type = t
     
   def getLocations(self):
-    assert(0)
+    """ Returns the list of locations of an operand """
     sys.exit("ERROR: getLocations not implemented!")
     
   def getTypedLocations(self, type):
@@ -105,18 +107,17 @@ class Operand:
     sys.exit("ERROR: getValue not implemented!")
   
   def isVar(self):
+    """ True if the operand is variable, otherwise, False """
     print self.name, self.__class__
-    assert(0)
     sys.exit("ERROR: isVar not implemented!")
     
   def isMem(self):
+    """ True if the operand is m"""
     print self.name, self.__class__
-    assert(0)
     sys.exit("ERROR: isMem not implemented!")
     
   def isStackMem(self):
     print self.name, self.__class__
-    assert(0)
     sys.exit("ERROR: isStackMem not implemented!")
   
   def __str__(self):
@@ -137,6 +138,7 @@ class Operand:
     return copy(self)
     
 class ImmOp(Operand):
+  """ A value coded in the instruction itself """
   def getLocations(self):
     
     r = []
@@ -177,6 +179,7 @@ class ImmOp(Operand):
       
 
 class AddrOp(Operand): # same as immediate
+  """ A value coded in the instruction itself which is known to be an address """
   def __str__(self):
     return str(self.name)
       
@@ -220,7 +223,7 @@ class pAddrOp(Operand):
     return True
 
 class MemOp(Operand):
-
+  """ """
   def isVar(self):
     return True
     
@@ -256,7 +259,7 @@ class MemOp(Operand):
     return self.value
     
 class RegOp(Operand):
-
+  """ An abstract register"""
   def isVar(self):
     return True
     
@@ -306,7 +309,7 @@ class NoOp(Operand):
     sys.exit("Oh no!")
 
 class InputOp(Operand):
-
+  """ A operand flagged as input"""
   def isVar(self):
     return True
     

@@ -17,8 +17,6 @@
     Copyright 2013 by neuromancer
 """
 
-
-
 from core        import *
 
 from SSA         import SSA
@@ -29,23 +27,6 @@ from Typing      import *
 
 concatSet = lambda l: reduce(set.union, l, set())
 
-def setInitialConditions(ssa, initial_values, smt_conds):
-  ssa_map = ssa.getMap(set(), set(), set(initial_values.keys()))
-  eq = Eq(None, None)
-  
-  for iop in initial_values:
-    
-    if (iop.isReg()):
-      if ":" in iop.name:
-        smt_conds.add(eq.getEq(iop,initial_values[iop]))
-      else:
-        smt_conds.add(eq.getEq(ssa_map[iop.name],initial_values[iop]))
-    elif (iop.isMem()):
-      smt_conds.add(eq.getEq(iop,initial_values[iop]))
-    else:
-      assert(False)
-      
-      
 def getValueFromCode(inss, callstack, initial_values, memory, op, debug = False):
   
   # Initialization
@@ -133,9 +114,6 @@ def getValueFromCode(inss, callstack, initial_values, memory, op, debug = False)
     
   callstack.index = last_index  # TODO: create a better interface
   return smt_conds.getValue(renamed_op)
-  
-def getTypedValueFromCode(inss, callstack, initial_values, memory, op, debug = False):
-  assert(0)
 
       
 def getPathConditions(trace, debug = False):
@@ -162,7 +140,7 @@ def getPathConditions(trace, debug = False):
   
   mvars = set()
   mlocs = set()
- 
+
   for op in trace["final_conditions"]:
     mvars.add(op)
     mlocs = mlocs.union(op.getLocations())
@@ -171,6 +149,11 @@ def getPathConditions(trace, debug = False):
   fvars = set()
   
   ssa.getMap(mvars, set(), set())
+  setInitialConditions(ssa, trace["final_conditions"],smt_conds)
+  
+  #for c in smt_conds:
+  #  print c
+  #assert(0)   
 
   for ins in inss:
     
@@ -187,7 +170,7 @@ def getPathConditions(trace, debug = False):
     if debug:
       print "(%.4d)" % counter, ins
       for v in mvars:
-        print v, "--",
+        print v, v.getSizeInBytes(), "--",
       print ""
      
       for l in mlocs:
@@ -254,6 +237,8 @@ def getPathConditions(trace, debug = False):
     callstack.prevInstruction(ins) 
   
   fvars = set()
+  ssa_map = ssa.getMap(set(), set(), mvars)
+
   for var in mvars:
     #print v, "--",
     #if not (v in initial_values):
@@ -262,10 +247,17 @@ def getPathConditions(trace, debug = False):
     if (var |iss| InputOp):
       fvars.add(var)
     elif var |iss| MemOp:
-      fvars.add(MemOp(Memvars.read(var), var.getSizeInBits(), var.getOffset())) 
+      f_op = var.copy()
+      f_op.name = Memvars.read(var)
+      fvars.add(f_op) 
     else:
+      f_op = var.copy()
+      f_op.name = f_op.name+"_0"
+      fvars.add(f_op)
+    #else:
+      #fvars.add(ssa_map[str(var)])
       # perform SSA
-      assert(0)
+      #assert(0)
   
   #setInitialConditions(ssa, initial_values, smt_conds)
   #smt_conds.solve(debug)
@@ -280,129 +272,3 @@ def getPathConditions(trace, debug = False):
     return (fvars, Solution(smt_conds.m))
   else: # unsat :(
     return (set(), None)
-
-  #renamed_name = op.getName()+"_0"
-  #renamed_size = op.getSizeInBits()
-  #renamed_offset = op.getOffset()
-  #renamed_op = op.__class__(renamed_name, renamed_size, renamed_offset)
-    
-    #return smt_conds.getValue(renamed_op)
- 
-
-  
-#def getPathConditions(trace):
-#  assert(0)
-
-#def getPathConditions(trace):
-  
-  #inss = trace["code"]
-  #callstack = trace["callstack"]
-  
-  #initial_values = trace["initial_conditions"]
-  #final_values = trace["final_conditions"]
-  #memory = trace["mem_access"]
-  #parameters = trace["func_parameters"]
-  
-  ## we reverse the code order
-  #inss.reverse()
-  
-  ## we reset the used memory variables
-  #Memvars.reset()
-  
-  ## we set the instruction counter
-  #counter = len(inss)-1
-  
-  ## ssa and smt objects
-  #ssa = SSA()
-  #smt_conds  = SMT()
-  
-  ## auxiliary eq condition
-  
-  #eq = Eq(None, None)
-  #mvars = set()
-  
-  ## final conditions:
-  
-  #for (op, _) in final_values.items():
-    #mvars.add(op)
-  
-  #ssa.getMap(mvars, set(), set())
-  #setInitialConditions(ssa, final_values, smt_conds)
-  
-   
-  ## we start without free variables
-  #fvars = set()
-
-  #for ins in inss:
-    
-    #if memory.getAccess(counter) <> None:
-      #ins.fixMemoryAccess(memory.getAccess(counter))
-  
-    #ins_write_vars = set(ins.getWriteVarOperands())
-    #ins_read_vars = set(ins.getReadVarOperands())
- 
-    #if ins.instruction == "jcc" or len(ins_write_vars.intersection(mvars)) > 0:
-      
-      #ssa_map = ssa.getMap(ins_read_vars.difference(mvars), ins_write_vars, ins_read_vars.intersection(mvars))
-
-      #cons = conds.get(ins.instruction, Condition)
-      #condition = cons(ins, ssa_map)
-     
-      #mvars = mvars.difference(ins_write_vars) 
-      #mvars = ins_read_vars.union(mvars)
-   
-      #smt_conds.add(condition.getEq())
-      
-    #elif (ins.isCall() and ins.called_function <> None):
-      
-      #func_cons = funcs.get(ins.called_function, Function)
-      #func = func_cons(None, parameters.getParameters(counter))
-      
-      #func_write_vars = set(func.getWriteVarOperands())
-      #func_read_vars = set(func.getReadVarOperands())
-      
-      #if len(func_write_vars.intersection(mvars)) > 0:
-        #ssa_map = ssa.getMap(func_read_vars.difference(mvars), func_write_vars, func_read_vars.intersection(mvars))
-        
-        
-        #cons = conds.get(ins.called_function, Condition)
-        #condition = cons(func, None)
-        
-        #c = condition.getEq(func_write_vars.intersection(mvars))
-        
-        #mvars = mvars.difference(func_write_vars) 
-        #mvars = func_read_vars.union(mvars)
-        
-        #smt_conds.add(c)
-    
-    ## additional conditions
-    
-    #mvars = addAditionalConditions(mvars, ins, ssa, callstack, smt_conds)
-    
-
-    ## no more things to do
-    ## we update the counter 
-    #counter = counter - 1    
-    ## we update the current call for next instruction
-    #callstack.prevInstruction(ins) 
-  
-  ##for v in mvars:
-  ##  print v
-  
-  #fvars = filter(lambda v: not (v in initial_values.keys()), mvars)
-  #for v in fvars:
-  ##  print v,n
-    #if not (v in initial_values) and not (":" in v.name):
-      #print "#Warning", str(v), "is free!" 
-  
-  #setInitialConditions(ssa, initial_values, smt_conds)
-  
-  #if (smt_conds.is_sat()):
-    #smt_conds.solve()
-  
-    #smt_conds.write_smtlib_file("exp.smt2")  
-    #smt_conds.write_sol_file("exp.sol")
-  
-    #return Solution(smt_conds.m, fvars)
-  #else: # unsat :(
-    #return None

@@ -77,7 +77,15 @@ if (mode == "jump"):
   if (address == None):
     print "An address to jump to should be specified!"
   else:
-    getJumpConditions(trace, address)
+    (fvars, sol) = getJumpConditions(trace, address)
+
+    if sol <> None:
+      print "SAT!"
+      for var in fvars:
+        print "sol["+str(var)+"] =", sol[var]
+    else:
+      print "UNSAT!"
+
 
 elif (mode == 'path'): 
 
