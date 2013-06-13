@@ -1,5 +1,3 @@
-### Description
-
 "Symbolic Exploit Assistant" ( **SEA** ) is a small tool designed to assist the
 discovery and construction of exploits in binary programs. SEA is free software 
 (GPL3) and includes a minimal toolkit (BSD) to quickly develop binary analisys 
@@ -9,21 +7,46 @@ This project is developed in colaboration between the research institutes
 [VERIMAG](http://www-verimag.imag.fr) (Grenoble, France) in an effort to improve
 security in binary programs.
 
-Documentation, examples and more can be found in the [wiki](https://github.com/neuromancer/SEA/wiki). 
-The [issue tracker](https://github.com/neuromancer/SEA/issues) is available.
+## Using SEA
+
+We can use SEA to deduce exploitability conditions of binary programs without
+executing code. For example, if we have the following assembly code 
+(expressed in a simple intermediate language):
+
+```python
+1: call
+2: t0 := eax xor 42
+3: eax := t0
+4: ebx := eax + t0
+5: if not (t0 == 0) then jump ebx
+```
+
+SEA allows us to enforce this particular sequence of instructions in 
+order to jump to address 0xdeadc0de. The tool will track and propagate backwards 
+all the constraints required. In this case, SEA detects eax as the only free operand
+and returns its initial condition:
+
+```python
+eax := 0x6f56e06f
+```
+
+SEA also performs pointer detection (stack, heap and globals) in traces. These pointers 
+can be used to enforce particular memory conditions, even if they require to overflow
+buffers. The current implementation can be used to "solve", some of the examples of
+Gera's Insecure Programming:
+
+* The [first example of simple buffer overflow on stack](http://community.corest.com/~gera/InsecureProgramming/stack1.html):
+  * Compiled with gcc 4.8.0 (default parameters), SEA says it is solvable if the user inputs data using standard input.
+  * Compiled with Visual Studio 2005 (default parameters), SEA says it is solvable if the user 
+    controls the initial value of a local variable (which is not usualy possible)
+
+* The [third example of advanced buffer overflow](http://community.corest.com/~gera/InsecureProgramming/abo3.html):
+  * Compiled with gcc 4.8.0 (default parameters), SEA says it is solvable if the user inputs 
+    data using command line arguments (allowing to execute a call to system).
+
+Documentation, examples and the complete list of features can be found in the 
+[wiki](https://github.com/neuromancer/SEA/wiki). The [issue tracker](https://github.com/neuromancer/SEA/issues) is available.
 Discusson for support or collaboration is available in #sea-tool @ irc.freenode.net
-
-### Features
-
-* Fully symbolic analysis
-* Simple type detection
-  * Memory reads/writes (stack, global and heap)
-  * Parameters (argc, argv)
-* Assisted exploitation of stack overflow
-* Assisted exploitation of dangling pointers
-* Detection of unfeasible executions
-* Detection of heap overflow, memory leaks and use-after-free
-* Intra-procedual support (partial)
 
 ### Quick Start
 
@@ -31,19 +54,7 @@ To get started, you should have **Python 2.7**. To prepare the tool, the
 official Z3 Python binding ([z3py](http://research.microsoft.com/en-us/um/redmond/projects/z3/)) 
 should be installed. Fortunately, just executing **boostrap.sh** will download
 and compile z3py.
-
-After it finishes compiling, SEA is ready to be used. You can test SEA analyzing
-the converted code of the [first example](http://community.corest.com/~gera/InsecureProgramming/stack1.html) 
-of Gera's Insecure Programming:
-
-    ./SEA.py tests/reil/stack1_gcc.reil
-    
-The **complete analysis** of this example can be found [here](https://github.com/neuromancer/SEA/wiki/Warming-up-on-stack---1).
-Another interesting example to test detection of memory use is:
-
-    ./SEA.py tests/reil/uaf_1.reil
-
-An **explained analysis** of it is [here](https://github.com/neuromancer/SEA/wiki/Use-after-free-1).
+After it finishes compiling, SEA is ready to be used. 
 
 **NOTE**: Right now, SEA uses REIL code as input, to analyze a path. 
 Unfortunately, REIL can be **only** generated from an executable file using
