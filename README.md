@@ -1,8 +1,8 @@
 "Symbolic Exploit Assistant" ( **SEA** ) is a small tool designed to assist the
 discovery and construction of exploits in binary programs. SEA is free software 
-(GPL3) and includes a minimal toolkit (BSD) to quickly develop binary analisys 
+(GPL3) and includes a minimal toolkit (BSD) to quickly develop binary analysis 
 tools in Python.
-This project is developed in colaboration between the research institutes
+This project is developed in collaboration between the research institutes
 [CIFASIS](http://www.cifasis-conicet.gov.ar/) (Rosario, Argentina) and
 [VERIMAG](http://www-verimag.imag.fr) (Grenoble, France) in an effort to improve
 security in binary programs.
@@ -36,17 +36,17 @@ buffers. The current implementation can be used to "solve", some of the examples
 Gera's Insecure Programming:
 
 * The [first example of simple buffer overflow on stack](http://community.corest.com/~gera/InsecureProgramming/stack1.html):
-  * Compiled with gcc 4.8.0 (default parameters), SEA says it is solvable if the user inputs data using standard input.
-  * Compiled with Visual Studio 2005 (default parameters), SEA says it is solvable if the user 
-    controls the initial value of a local variable (which is not usualy possible)
+  * Compiled with gcc 4.8.0 (default parameters). The tool founds it is solvable if the user inputs data using standard input.
+  * Compiled with Visual Studio 2005 (default parameters), The tool founds it is solvable if the user 
+    controls the initial value of a local variable (which is not usually possible)
 
 * The [third example of advanced buffer overflow](http://community.corest.com/~gera/InsecureProgramming/abo3.html):
-  * Compiled with gcc 4.8.0 (default parameters), SEA says it is solvable if the user inputs 
+  * Compiled with gcc 4.8.0 (default parameters), The tool founds it is solvable if the user inputs 
     data using command line arguments (allowing to execute a call to system).
 
 Documentation, examples and the complete list of features can be found in the 
 [wiki](https://github.com/neuromancer/SEA/wiki). The [issue tracker](https://github.com/neuromancer/SEA/issues) is available.
-Discusson for support or collaboration is available in #sea-tool @ irc.freenode.net
+Discussion for support or collaboration is available in #sea-tool @ irc.freenode.net
 
 ### Quick Start
 
