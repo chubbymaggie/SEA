@@ -88,7 +88,7 @@ class SMT:
           
         var.append(byte)
         
-      #var.reverse()
+      var.reverse()
       
       if (len(var) > 1):  
         return z3.simplify(z3.Concat(var)).as_signed_long()

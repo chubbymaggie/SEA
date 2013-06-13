@@ -255,10 +255,10 @@ class REILInstruction(Instruction):
     return r
   
   def isJmp(self):
-    return self.instruction == "jcc" and self.read_operands[0] |iss| ImmOp
+    return self.instruction == "jcc" and (self.read_operands[0] |iss| ImmOp)
     
   def isCJmp(self):
-    return self.instruction == "jcc" and not(self.read_operands[0] |iss| ImmOp)
+    return self.instruction == "jcc" and not (self.read_operands[0] |iss| ImmOp)
  
 def ReilParser(filename):
     openf = open(filename)

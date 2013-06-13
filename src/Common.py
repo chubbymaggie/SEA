@@ -190,9 +190,9 @@ def getPathConditions(trace, debug = False):
     func_read_locs  = concatSet(map(lambda op: set(op.getLocations()), func.getReadVarOperands()))
     
     #if (func_write_vars <> set()):
-      #x =  func_write_vars.pop()
-      #print x, x.getLocations()
-      #assert(0)
+    #  x =  func_write_vars.pop()
+    #  print x, x.getLocations()
+    #  assert(0)
     #print func, parameters.getParameters(counter), func_write_vars, func_write_locs 
 
     if (not ins.isCall()) and (ins.isJmp() or ins.isCJmp() or len(ins_write_locs.intersection(mlocs)) > 0): 

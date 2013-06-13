@@ -158,25 +158,6 @@ class Strcpy_Func(Function):
       # populate write operands
       self.read_operands = [op]
 
-      #self.read_operands.append(self.parameter_locs[0])
-      #self.read_operands.append(self.parameter_locs[1])
-      
-      #for i in range(self.internal_size):
-      #  msrc = self.parameter_vals[1].mem_source
-      #  if ("arg[" in msrc): #it's an argument!
-      #    self.read_operands.append(Operand(msrc+":"+str(i), "BYTE"))
-      #  else:
-      #    assert(0)
-      #  #self.read_operands.append(Operand("i:"+str(i), "BYTE"))
-        
-      # populate write operands
-      
-      #for i in range(self.internal_size):
-      #  mem_source = self.parameter_vals[0].mem_source
-      #  mem_offset = self.parameter_vals[0].mem_offset + i
-      #  name = mem_source + "@" + str(mem_offset)
-      #  self.write_operands.append(Operand(name, "BYTE", mem_source, mem_offset))
-
 class Alloc_Func(Function):
   parameter_typs = [(Type("Num32",None), "DWORD", 0, True)]
   return_type    = "void *"

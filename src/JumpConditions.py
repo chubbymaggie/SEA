@@ -22,14 +22,14 @@ from sys         import exit
 from core        import *
 from Common      import getPathConditions
 
-input_vars = ["stdin:", "arg[0]@0:", "arg[1]@0:", "arg[2]@0:"]
+#input_vars = ["stdin:", "arg[0]@0:", "arg[1]@0:", "arg[2]@0:"]
 
 def getJumpConditions(trace, addr):
   last_ins = (trace["code"][-1])
   addr = int(addr, 16)
   pos = trace["code"].last - 1
   
-  if (last_ins.isCJmp()):
+  if (last_ins.isJmp() or last_ins.isCJmp()):
     jmp_op = last_ins.operands[2]
     
     if (jmp_op.isVar()):
@@ -41,14 +41,6 @@ def getJumpConditions(trace, addr):
       #print sol 
       return (fvars, sol)
 
-      #if (sol <> None):
-      #  print "SAT conditions found!"
-      #  filename = last_ins.instruction + "[" + str(pos)  +"]"
-      #  dumped = sol.dump(filename,input_vars)
-      #  for filename in dumped:
-      #    print filename, "dumped!"
-      #else:
-      #  print "Impossible to jump to", hex(addr), "from", last_ins.instruction, "at", pos
     else:
       print "Jump operand (", jmp_op ,") in last instruction (", last_ins.instruction, ") is not variable!" 
       return (set(), None)

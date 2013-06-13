@@ -103,25 +103,8 @@ elif (mode == 'path'):
       print "sol["+str(var)+"] =", sol[var]
   else:
     print "UNSAT!"
-
-  
-  #assert(0)
-  
-  # TODO: move to PathConditions.py?
-  #sol = getPathConditions(trace)
-  #if (sol <> None):
-  #  print "SAT conditions found!"
-  #  input_vars = ["stdin:", "arg[0]@0:", "arg[1]@0:", "arg[2]@0:"]
-  #  pos = trace["code"].last - 1
-    
-  #  filename = "path." + "[" + str(pos)  +"]"
-    
-  #  dumped = sol.dump(filename,input_vars)
-  #  for filename in dumped:
-  #    print filename, "dumped."
       
 elif (mode == 'generation'):
-  
   program = mkProgram(args.trace_filename) 
   generatePaths(program,args.first, args.last, 2000)
     

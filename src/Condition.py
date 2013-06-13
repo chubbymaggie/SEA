@@ -243,6 +243,9 @@ class  Ldm_Cond(Condition):
     else:
       dsts = mkByteListConst(dst)
     
+    #endianness
+    dsts.reverse()
+
     for (src,dst) in zip(srcs, dsts):
       sname = Memvars.read(src)
       array = mkArray(sname)
@@ -259,7 +262,10 @@ class  Stm_Cond(Condition):
       srcs = mkByteListVar(src)    
     else:
       srcs = mkByteListConst(src)
-       
+    
+    #endianness
+    srcs.reverse()
+
     dst = self.write_operands[0]
     dsts = dst.getLocations()
     
@@ -320,6 +326,9 @@ class  Eq(Condition):
       #assert(0)
       srcs = x.getLocations()
       dsts = mkByteListConst(y)
+
+      #endiannes
+      dsts.reverse()
     
       for (src,dst) in zip(srcs, dsts):
         #print str(x)

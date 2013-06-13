@@ -26,6 +26,7 @@ from Lifting import *
 from Prelude import *
 from Common import getPathConditions
 
+"""
 class PathInfo:
   def __init__(self, ilabels):
     self.E_viw = dict()
@@ -161,45 +162,20 @@ class EXISTPathGenerator(PathGenerator):
     
     return seq
     #return branches_taken
-        
-#def detectFeasible(path):
-  
-#  x,y,z = (0,0,0)
-  
-#  for l in path:
-#    if l == "nocjmp7":
-#      z = z + 1
-#    if l == "0x8048423":
-#      x = x + 1
-#    if l == "0x804845d":
-#      y = y + 1
-#  return (x,y,z)      
-#  #return (x > 0 and 2*x == y and z == 1)
-  
+"""
+
 
 def generatePaths(program, start, end, n):
 
-  #assert(0)
-  random_paths = RandomPathGenerator(program, start, set([end]))
+  random_paths = ManualPathGenerator(program, start, set([end]))
   epsilon = dict()#list()
   rand_count = 0
   gen_count = 0
   path_set = set()
-  csv_writer = csv.writer(open('loop_bad_impos.csv', 'wb'))
+  #csv_writer = csv.writer(open('loop_bad_impos.csv', 'wb'))
 
   for (i,(path, labels)) in enumerate(random_paths):
-    #print "hola" 
-    #for label in labels:
-    #  print label,
-    #print "end"
-    #(x,y,z) = detectFeasible(path)
     
-    
-    #if (x > 0 and 2*x == y and z == 1):
-    #  epsilon[(x,y,z)] = (path, True)
-    #  rand_count = rand_count + 1
-    #epsilon.append((path, detectFeasible(path)))
-    #print len(path)
     path.reset()
     trace = mkTrace(path, [], False)
     path.reset()
@@ -207,18 +183,18 @@ def generatePaths(program, start, end, n):
 
     if sol <> None:
       print "SAT!"
-      #for var in fvars:
-      #  print "sol["+str(var)+"] =", sol[var]
+      for var in fvars:
+        print "sol["+str(var)+"] =", sol[var]
     else:
       print "UNSAT!"
-      if not (str(labels) in path_set):
-        path_set.add(str(labels))
-        csv_writer.writerow(labels)
-        print labels
+      #if not (str(labels) in path_set):
+      #  path_set.add(str(labels))
+      #  csv_writer.writerow(labels)
+      #  print labels
         
-    if (i==1000):
-      break
- 
+    #if (i==1000):
+    #  break
+  """
   assert(0) 
   print float(rand_count)/10000
   
@@ -251,6 +227,6 @@ def generatePaths(program, start, end, n):
   
   #print paths
   print float(gen_count)/10000
-
+  """
       
 
