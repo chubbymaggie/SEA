@@ -25,7 +25,6 @@ import argparse
 from src.Prelude            import mkTrace
 from src.Common             import getPathConditions
 from src.JumpConditions     import getJumpConditions
-from src.PathSelection      import selectPath
 from src.PathGeneration     import generatePaths
 from src.Lifting            import mkPath, mkProgram
 
