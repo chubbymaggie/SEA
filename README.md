@@ -7,7 +7,7 @@ This project is developed in collaboration between the research institutes
 [VERIMAG](http://www-verimag.imag.fr) (Grenoble, France) in an effort to improve
 security in binary programs.
 
-## Using SEA
+### Using SEA
 
 We can use SEA to deduce exploitability conditions of binary programs without
 executing code. For example, if we have the following assembly code 
@@ -22,8 +22,8 @@ executing code. For example, if we have the following assembly code
 ```
 
 SEA allows us to enforce this particular sequence of instructions in 
-order to jump to address 0xdeadc0de. The tool will track and propagate backwards 
-all the constraints required. In this case, SEA detects eax as the only free operand
+order to jump to address **0xdeadc0de**. The tool will track and propagate backwards 
+all the constraints required. In this case, SEA detects **EAX** register as the only free operand
 and returns its initial condition:
 
 ```python
