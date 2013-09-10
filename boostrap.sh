@@ -5,8 +5,8 @@ cd z3py
 unzip src.zip
 
 autoconf
-./configure --with-python=/usr/bin/python2
-python2 scripts/mk_make.py --nodotnet
+./configure --with-python=/usr/bin/python2.7
+python2.7 scripts/mk_make.py --nodotnet
 
 cd build
 
