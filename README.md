@@ -23,7 +23,7 @@ executing code. For example, if we have the following assembly code
 
 SEA allows us to enforce this particular sequence of instructions in 
 order to jump to address **0xdeadc0de**. The tool will track and propagate backwards 
-all the constraints required. In this case, SEA detects **EAX** register as the only free operand
+all the constraints required. In this case, SEA detects the **EAX** register as the only free operand
 and returns its initial condition:
 
 ```python
@@ -33,15 +33,15 @@ eax := 0x6f56e06f
 SEA also performs pointer detection (stack, heap and globals) in traces. These pointers 
 can be used to enforce particular memory conditions, even if they require to overflow
 buffers. The current implementation can be used to "solve", some of the examples of
-[Gera's Insecure Programming](http://community.corest.com/~gera/InsecureProgramming/):
+[Gera's Insecure Programming](http://community.coresecurity.com/~gera/InsecureProgramming/):
 
-* The [first example of simple buffer overflow on stack](http://community.corest.com/~gera/InsecureProgramming/stack1.html):
-  * Compiled with gcc 4.8.0 (default parameters). The complete analysis is [here](https://github.com/neuromancer/SEA/wiki/Warming-up-on-stack-1-gcc). The tool founds it 
-    is solvable if the user inputs data using standard input.
+* The [first example of simple buffer overflow on stack](http://community.coresecurity.com/~gera/InsecureProgramming/stack1.html):
+  * Compiled with gcc 4.8.0 (default parameters). The complete analysis is [here](https://github.com/neuromancer/SEA/wiki/Warming-up-on-stack-1-gcc). The tool found it 
+    solvable if the user inputs data using standard input.
   * Compiled with Visual Studio 2005 (default parameters), The complete analysis is [here](https://github.com/neuromancer/SEA/wiki/Warming-up-the-stack-1-vs2005). The tool founds it is solvable if the user 
     controls the initial value of a local variable (which is usually not possible)
 
-* The [third example of advanced buffer overflow](http://community.corest.com/~gera/InsecureProgramming/abo3.html):
+* The [third example of advanced buffer overflow](http://community.coresecurity.com/~gera/InsecureProgramming/abo3.html):
   * Compiled with gcc 4.8.0 (default parameters), The tool founds it is solvable if the user inputs 
     data using command line arguments (allowing to execute a call to system).
 
